@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1011123534149",
+    "project_id": "upstock-trade",
+    "storage_bucket": "upstock-trade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011123534149:android:513ecb6f984aff6096e62c",
+        "android_client_info": {
+          "package_name": "com.visionxstudio.upstock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011123534149-vpg57dkbmmen1onb2q8kmp7v0381aneg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLIDQYATJOv4Zijz4fYEVkCJ8dpzj3ydc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011123534149-vpg57dkbmmen1onb2q8kmp7v0381aneg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

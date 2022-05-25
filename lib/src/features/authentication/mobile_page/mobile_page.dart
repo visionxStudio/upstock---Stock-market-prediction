@@ -82,9 +82,7 @@ class MobileNumberPage extends StatelessWidget {
                 children: [
                   CustomRoundedButton(
                     text: "mobile_number_page.continue".tr(context),
-                    onTap: () {
-                      context.router.push(const OtpPageRoute());
-                    },
+                    onTap: () {},
                     borderRadius: 8.0,
                     backgroundColor: kBottonColor,
                     fontWeight: FontWeight.w400,

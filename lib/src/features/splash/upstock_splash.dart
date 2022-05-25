@@ -62,8 +62,8 @@ class _UpStockSplashState extends ConsumerState<UpStockSplash>
   }
 
   Future<void> completeSplashScreen() async {
-    await _completer.future
-        .then((value) => AutoRouter.of(context).replace(const LoginRoute()));
+    await _completer.future.then(
+        (value) => AutoRouter.of(context).replace(const WelcomeScreenRoute()));
   }
 
   @override

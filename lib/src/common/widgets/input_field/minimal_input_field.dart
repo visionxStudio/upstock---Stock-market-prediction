@@ -49,7 +49,7 @@ class _MinimalInputFieldState extends State<MinimalInputField> {
           enabledBorder: outlineInputBorder,
           focusedBorder: outlineInputBorder,
           border: outlineInputBorder,
-          fillColor: kWhiteColor,
+          fillColor: minimalInputField,
           filled: true,
         ),
         onChanged: widget.onChanged,

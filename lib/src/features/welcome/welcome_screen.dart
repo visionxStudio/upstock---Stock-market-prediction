@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/button/custom_elevated_button.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
+import 'package:upstock/src/routes/router.dart';
 
 import '../../common/utils/app_size_utils.dart';
 
@@ -82,27 +84,32 @@ class WelcomeScreen extends StatelessWidget {
                 const Spacer(),
                 Column(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.all(16.0),
-                      height: 50.0,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Color(0xFF00FFF0),
-                            Color(0xFF318193),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        context.router.push(const LoginRoute());
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(16.0),
+                        height: 50.0,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          gradient: const LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [
+                              Color(0xFF00FFF0),
+                              Color(0xFF318193),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: const Center(
-                        child: NormalText(
-                          "Get Started",
-                          fontSize: kDefaultFontSize + 8,
-                          color: kWhiteColor,
-                          fontWeight: FontWeight.w500,
+                        child: const Center(
+                          child: NormalText(
+                            "Get Started",
+                            fontSize: kDefaultFontSize + 8,
+                            color: kWhiteColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),

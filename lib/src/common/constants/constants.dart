@@ -26,6 +26,7 @@ const Color kLightBlueTextColor = Color(0xff707EAE);
 const Color kBlueVioletColor = Color(0xFF6236FF);
 const Color kDialogBoxSuccess = Color(0xFF5B64CB);
 const Color kDialogBoxFailure = Color(0xFFCB5B5B);
+const Color minimalInputField = Color(0xFFF1F5F9);
 
 // Colors for chips
 const Color kChipColor = Color(0xFFE9EDF7);

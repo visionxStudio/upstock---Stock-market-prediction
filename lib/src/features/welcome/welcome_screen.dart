@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:upstock/src/common/constants/constants.dart';
-import 'package:upstock/src/common/widgets/button/custom_elevated_button.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/routes/router.dart';
@@ -86,7 +85,7 @@ class WelcomeScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        context.router.push(const LoginRoute());
+                        context.router.replace(const LoginRoute());
                       },
                       child: Container(
                         margin: const EdgeInsets.all(16.0),
@@ -127,7 +126,9 @@ class WelcomeScreen extends StatelessWidget {
                             ),
                             // const Spacer(),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                context.router.replace(const LoginRoute());
+                              },
                               child: const NormalText(
                                 "Log In",
                                 color: Color(0xFF48E3FF),

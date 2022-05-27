@@ -36,9 +36,9 @@ class AppRouter extends _i5.RootStackRouter {
       return _i5.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i3.Login());
     },
-    SignupPageRoute.name: (routeData) {
+    SignupRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.SignupPage());
+          routeData: routeData, child: const _i4.Signup());
     }
   };
 
@@ -47,7 +47,7 @@ class AppRouter extends _i5.RootStackRouter {
         _i5.RouteConfig(UpStockSplashRoute.name, path: '/'),
         _i5.RouteConfig(WelcomeScreenRoute.name, path: '/welcome-screen'),
         _i5.RouteConfig(LoginRoute.name, path: '/Login'),
-        _i5.RouteConfig(SignupPageRoute.name, path: '/signup-page')
+        _i5.RouteConfig(SignupRoute.name, path: '/Signup')
       ];
 }
 
@@ -77,9 +77,9 @@ class LoginRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.SignupPage]
-class SignupPageRoute extends _i5.PageRouteInfo<void> {
-  const SignupPageRoute() : super(SignupPageRoute.name, path: '/signup-page');
+/// [_i4.Signup]
+class SignupRoute extends _i5.PageRouteInfo<void> {
+  const SignupRoute() : super(SignupRoute.name, path: '/Signup');
 
-  static const String name = 'SignupPageRoute';
+  static const String name = 'SignupRoute';
 }

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
@@ -7,6 +8,7 @@ import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 
 import '../../../common/custom_shape/auth_shape.dart';
+import '../../../routes/app_router.gr.dart';
 
 class Login extends StatefulWidget {
   const Login({
@@ -111,16 +113,23 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                     const HeightWidget(16.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        NormalText(
+                      children: [
+                        const NormalText(
                           "Don't have account?",
                           color: Color(0xFF828282),
                         ),
-                        WidthWidget(4.0),
-                        NormalText(
-                          "Create now",
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF000113),
+                        const WidthWidget(4.0),
+                        GestureDetector(
+                          onTap: () {
+                            context.router.push(
+                              const SignupRoute(),
+                            );
+                          },
+                          child: const NormalText(
+                            "Create now",
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF000113),
+                          ),
                         ),
                       ],
                     ),

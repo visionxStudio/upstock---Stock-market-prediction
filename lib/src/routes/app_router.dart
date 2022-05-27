@@ -10,7 +10,7 @@ import 'package:upstock/src/features/welcome/welcome_screen.dart';
     AutoRoute(page: UpStockSplash, initial: true),
     AutoRoute(page: WelcomeScreen),
     AutoRoute(page: Login),
-    AutoRoute(page: SignupPage),
+    AutoRoute(page: Signup),
   ],
 )
 class $AppRouter {}

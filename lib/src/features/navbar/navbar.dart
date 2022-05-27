@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_remix/flutter_remix.dart';
@@ -61,24 +62,26 @@ class NavBar extends ConsumerStatefulWidget {
 
 class _NavBarState extends ConsumerState<NavBar> {
   late NavBarPage activeNavPage;
-  // late bool isCoach;
   @override
   void initState() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.white, // status bar
+      statusBarIconBrightness: Brightness.dark,
+    ));
     activeNavPage = NavBarPage.home;
-    // isCoach = SharedPrefProvider.instance.getBool("isCoach")!;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // ref.read(profileProvider).fetchStudentProfile();
     return Consumer(
       builder: (ctx, ref, child) {
         var edgeInsets = Platform.isIOS
             ? const EdgeInsets.only(bottom: 30, top: 0)
             : const EdgeInsets.only(bottom: 0, top: 0);
 
-        var kNavBarHeight = Platform.isIOS ? 73 : 75;
+        var kNavBarHeight = Platform.isIOS ? 73 : 60;
 
         return WillPopScope(
           onWillPop: () {

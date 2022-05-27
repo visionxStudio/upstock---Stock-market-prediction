@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:upstock/src/features/authentication/login/login.dart';
 import 'package:upstock/src/features/authentication/signup/signup_page.dart';
+import 'package:upstock/src/features/navbar/navbar.dart';
 import 'package:upstock/src/features/splash/upstock_splash.dart';
 import 'package:upstock/src/features/welcome/welcome_screen.dart';
 
@@ -11,6 +12,7 @@ import 'package:upstock/src/features/welcome/welcome_screen.dart';
     AutoRoute(page: WelcomeScreen),
     AutoRoute(page: Login),
     AutoRoute(page: Signup),
+    AutoRoute(page: NavBar),
   ],
 )
 class $AppRouter {}

@@ -7,7 +7,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
-import 'package:upstock/src/features/navbar/navbar.dart';
 import 'package:upstock/src/routes/app_router.gr.dart';
 // import 'package:loading_animation_widget/loading_animation_widget.dart';
 

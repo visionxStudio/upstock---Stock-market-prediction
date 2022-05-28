@@ -31,8 +31,10 @@ const Color minimalInputField = Color(0xFFF1F5F9);
 // Colors for chips
 const Color kChipColor = Color(0xFFE9EDF7);
 const Color kCoursesTextColor = Color(0xFF47548C);
+const Color kProfitColor = Color(0xFF21BF73);
 
 const Color kPrimaryColor = Color(0xFF1B2559);
+const Color kPrimaryColor2 = Color(0xFF0063F5);
 const Color kSecondaryColor = Color(0xFFE0F3FF);
 const Color kPrimaryColorDark = Color(0xFF0B2B40);
 const Color kWhiteColor = Color(0xFFFFFFFF);

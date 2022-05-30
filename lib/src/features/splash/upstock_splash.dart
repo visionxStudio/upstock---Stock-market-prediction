@@ -7,6 +7,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
+import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
 import 'package:upstock/src/routes/app_router.gr.dart';
 // import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -36,6 +37,7 @@ class _UpStockSplashState extends ConsumerState<UpStockSplash>
 
   @override
   void initState() {
+    ref.read(nepseProvider).getNepseStockData();
     super.initState();
     // start animating the splash
     _controller.animateTo(1.0);

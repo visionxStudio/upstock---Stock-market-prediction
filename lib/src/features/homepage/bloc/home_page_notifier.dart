@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/features/homepage/repo/home_repository.dart';
-
+import 'package:intl/intl.dart';
 import '../models/chart_data/chart_data.dart';
 import '../models/nepse_stock_model.dart';
 
@@ -17,8 +17,11 @@ class NepseHomePageNotifier extends ChangeNotifier {
   bool isLoadingNepseData = false;
   List<double> closingPrice = [];
 
-  DateTime convertToDateTime(int timestamp) {
-    return DateTime.fromMicrosecondsSinceEpoch(timestamp);
+  String convertToDateTime(int timestamp) {
+    DateFormat dateFormat = DateFormat("MMMd");
+    String date = dateFormat
+        .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
+    return date;
   }
 
   final List<ChartData> chartData = [];
@@ -47,11 +50,13 @@ class NepseHomePageNotifier extends ChangeNotifier {
     for (int i = data.time.length - daysPlot; i < data.time.length; i++) {
       chartData.add(ChartData(
         y: closingPrice[secondIndex],
-        x: data.time[i],
+        x: convertToDateTime(data.time[i]),
+        // x: data.time[i].toString(),
       ));
       notifyListeners();
 
       secondIndex += 1;
     }
+    print(chartData);
   }
 }

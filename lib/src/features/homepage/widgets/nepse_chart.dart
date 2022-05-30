@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
-
 import '../models/chart_data/chart_data.dart';
 
 class NEPSEChart extends ConsumerStatefulWidget {
@@ -30,19 +29,22 @@ class _NEPSEChartState extends ConsumerState<NEPSEChart> {
     return Scaffold(
       body: Center(
         child: SfCartesianChart(
+          enableAxisAnimation: true,
           tooltipBehavior: _tooltipBehavior,
           enableMultiSelection: true,
           plotAreaBorderWidth: 0,
           margin: EdgeInsets.zero,
           backgroundColor: kWhiteColor,
-          primaryXAxis: NumericAxis(
-            labelFormat: "sdfe",
+          primaryXAxis: CategoryAxis(
+            labelStyle: const TextStyle(
+              fontSize: kDefaultFontSize - 8,
+            ),
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             majorGridLines: const MajorGridLines(width: 0),
             axisLine: const AxisLine(width: 0),
             majorTickLines: const MajorTickLines(
-              size: 6,
-              width: 2,
+              size: 8,
+              width: 1,
               color: Color(0xFFDFE2E4),
             ),
           ),
@@ -52,7 +54,7 @@ class _NEPSEChartState extends ConsumerState<NEPSEChart> {
             axisLine: const AxisLine(width: 0),
           ),
           series: <ChartSeries>[
-            SplineSeries<ChartData, int>(
+            FastLineSeries<ChartData, String>(
               color: kPrimaryColor2,
               dataSource: ref.watch(nepseProvider).chartData,
               enableTooltip: true,

@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ChartDataTearOff {
   const _$ChartDataTearOff();
 
-  _ChartData call({int? x, required double y}) {
+  _ChartData call({required String x, required double y}) {
     return _ChartData(
       x: x,
       y: y,
@@ -30,7 +30,7 @@ const $ChartData = _$ChartDataTearOff();
 
 /// @nodoc
 mixin _$ChartData {
-  int? get x => throw _privateConstructorUsedError;
+  String get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -42,7 +42,7 @@ mixin _$ChartData {
 abstract class $ChartDataCopyWith<$Res> {
   factory $ChartDataCopyWith(ChartData value, $Res Function(ChartData) then) =
       _$ChartDataCopyWithImpl<$Res>;
-  $Res call({int? x, double y});
+  $Res call({String x, double y});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$ChartDataCopyWithImpl<$Res> implements $ChartDataCopyWith<$Res> {
       x: x == freezed
           ? _value.x
           : x // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String,
       y: y == freezed
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,7 @@ abstract class _$ChartDataCopyWith<$Res> implements $ChartDataCopyWith<$Res> {
           _ChartData value, $Res Function(_ChartData) then) =
       __$ChartDataCopyWithImpl<$Res>;
   @override
-  $Res call({int? x, double y});
+  $Res call({String x, double y});
 }
 
 /// @nodoc
@@ -98,7 +98,7 @@ class __$ChartDataCopyWithImpl<$Res> extends _$ChartDataCopyWithImpl<$Res>
       x: x == freezed
           ? _value.x
           : x // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String,
       y: y == freezed
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
@@ -110,10 +110,10 @@ class __$ChartDataCopyWithImpl<$Res> extends _$ChartDataCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ChartData implements _ChartData {
-  const _$_ChartData({this.x, required this.y});
+  const _$_ChartData({required this.x, required this.y});
 
   @override
-  final int? x;
+  final String x;
   @override
   final double y;
 
@@ -141,10 +141,11 @@ class _$_ChartData implements _ChartData {
 }
 
 abstract class _ChartData implements ChartData {
-  const factory _ChartData({int? x, required double y}) = _$_ChartData;
+  const factory _ChartData({required String x, required double y}) =
+      _$_ChartData;
 
   @override
-  int? get x;
+  String get x;
   @override
   double get y;
   @override

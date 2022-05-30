@@ -10,7 +10,7 @@ part 'chart_data.freezed.dart';
 @freezed
 class ChartData with _$ChartData {
   const factory ChartData({
-    int? x,
+    required String x,
     required double y,
   }) = _ChartData;
 }

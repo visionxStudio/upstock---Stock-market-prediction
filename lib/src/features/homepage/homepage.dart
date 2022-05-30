@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
-import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_chart.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -16,7 +15,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    ref.read(nepseProvider).getNepseStockData();
+    // ref.read(nepseProvider).getNepseStockData();
     super.initState();
   }
 
@@ -100,9 +99,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 250.0,
-            child: NEPSEChart(),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.0),
+            child: SizedBox(
+              height: 200.0,
+              child: NEPSEChart(),
+            ),
           ),
           Row(
             children: const [],

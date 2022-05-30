@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:upstock/src/common/constants/constants.dart';
+import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
 
-class NEPSEChart extends StatefulWidget {
+import '../models/chart_data/chart_data.dart';
+
+class NEPSEChart extends ConsumerStatefulWidget {
   const NEPSEChart({Key? key}) : super(key: key);
 
   @override
-  State<NEPSEChart> createState() => _NEPSEChartState();
+  _NEPSEChartState createState() => _NEPSEChartState();
 }
 
-class _NEPSEChartState extends State<NEPSEChart> {
+class _NEPSEChartState extends ConsumerState<NEPSEChart> {
   late TooltipBehavior _tooltipBehavior;
   @override
   void initState() {
@@ -23,18 +27,6 @@ class _NEPSEChartState extends State<NEPSEChart> {
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData(2010, 2200.88),
-      ChartData(2011, 2265.52),
-      ChartData(2012, 2274.42),
-      ChartData(2013, 2250.91),
-      ChartData(2014, 2235.09),
-      ChartData(2015, 2200.88),
-      ChartData(2016, 2217.19),
-      ChartData(2017, 2231.57),
-      ChartData(2018, 2239.6),
-      ChartData(2019, 2223.7)
-    ];
     return Scaffold(
       body: Center(
         child: SfCartesianChart(
@@ -44,11 +36,15 @@ class _NEPSEChartState extends State<NEPSEChart> {
           margin: EdgeInsets.zero,
           backgroundColor: kWhiteColor,
           primaryXAxis: NumericAxis(
+            labelFormat: "sdfe",
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             majorGridLines: const MajorGridLines(width: 0),
             axisLine: const AxisLine(width: 0),
             majorTickLines: const MajorTickLines(
-                size: 6, width: 2, color: Color(0xFFDFE2E4)),
+              size: 6,
+              width: 2,
+              color: Color(0xFFDFE2E4),
+            ),
           ),
           primaryYAxis: NumericAxis(
             isVisible: false,
@@ -58,7 +54,7 @@ class _NEPSEChartState extends State<NEPSEChart> {
           series: <ChartSeries>[
             SplineSeries<ChartData, int>(
               color: kPrimaryColor2,
-              dataSource: chartData,
+              dataSource: ref.watch(nepseProvider).chartData,
               enableTooltip: true,
               xValueMapper: (ChartData data, _) => data.x,
               yValueMapper: (ChartData data, _) => data.y,
@@ -68,10 +64,4 @@ class _NEPSEChartState extends State<NEPSEChart> {
       ),
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y);
-  final int x;
-  final double? y;
 }

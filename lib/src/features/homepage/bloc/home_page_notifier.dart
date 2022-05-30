@@ -16,6 +16,7 @@ class NepseHomePageNotifier extends ChangeNotifier {
   final NepseRepository _nepseRepo;
   bool isLoadingNepseData = false;
   List<double> closingPrice = [];
+  List<String> nepseDataInterval = ["1 W", "1 M", "6 M", "1 Y", "2 Y", "All"];
 
   String convertToDateTime(int timestamp) {
     DateFormat dateFormat = DateFormat("MMMd");

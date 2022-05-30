@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
+import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_chart.dart';
+
+import '../../common/utils/app_size_utils.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -106,9 +109,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: NEPSEChart(),
             ),
           ),
-          Row(
-            children: const [],
-          )
+          SizedBox(
+            width: double.infinity,
+            height: 45.0,
+            child: Center(
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: ref.read(nepseProvider).nepseDataInterval.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final String interval =
+                      ref.read(nepseProvider).nepseDataInterval[index];
+                  return GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                        width: width(50),
+                        margin: const EdgeInsets.all(kDefaultmargin / 2 - 4),
+                        padding: const EdgeInsets.all(kDefaultPadding / 2),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFFDFE2E4)),
+                          color: const Color(0xFFF8F9FA),
+                        ),
+                        child: NormalText(
+                          interval,
+                          fontSize: kDefaultFontSize - 4,
+                        )),
+                  );
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

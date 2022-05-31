@@ -28,10 +28,31 @@ class NepseHomePageNotifier extends ChangeNotifier {
   List<double> closingPrice = [];
   bool isLoading = false;
   List<String> nepseDataInterval = ["1 W", "1 M", "6 M", "1 Y", "2 Y", "All"];
-
+  List<int> intervalList = [7, 30, 180, 365, 730, -1];
+  int selectedIntervalIndex = 1;
   final List<ChartData> chartData = [];
   NepseStockModel? nepseStockData;
   int daysPlot = 30;
+
+  void changeSelectedIntervalIndex(int index) {
+    selectedIntervalIndex = index;
+    notifyListeners();
+    changeDaysPlot(index);
+  }
+
+  void changeDaysPlot(int index) {
+    daysPlot = intervalList[index];
+    setChartData(
+      const NepseStockModel(
+        time: [0],
+        closingPrice: [""],
+        oopeningPrice: [""],
+        dayHighPrice: [""],
+        dayLowPrice: [""],
+        volumeTraded: [""],
+      ),
+    );
+  }
 
   String convertToDateTime(int timestamp) {
     DateFormat dateFormat = DateFormat("MMMd");
@@ -59,6 +80,7 @@ class NepseHomePageNotifier extends ChangeNotifier {
   void refreshChartData() {}
 
   void setChartData(NepseStockModel data) {
+    chartData.clear();
     if (NepseStockModel.fromStorage() == null) {
       int secondIndex = 0;
 
@@ -72,6 +94,7 @@ class NepseHomePageNotifier extends ChangeNotifier {
         chartData.add(ChartData(
           y: closingPrice[secondIndex],
           x: convertToDateTime(data.time[i]),
+          // x: i.toString(),
           // x: data.time[i].toString(),
         ));
         notifyListeners();
@@ -94,6 +117,7 @@ class NepseHomePageNotifier extends ChangeNotifier {
         chartData.add(ChartData(
           y: closingPrice[secondIndex],
           x: convertToDateTime(NepseStockModel.fromStorage()!.time[i]),
+          // x: i.toString(),
           // x: data.time[i].toString(),
         ));
         notifyListeners();

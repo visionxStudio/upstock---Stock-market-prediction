@@ -124,7 +124,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ref.read(nepseProvider).nepseDataInterval[index];
                   return GestureDetector(
                     onTap: () {
-                      print(ChartDataList.fromStorage());
+                      ref
+                          .read(nepseProvider)
+                          .changeSelectedIntervalIndex(index);
                     },
                     child: Container(
                       width: width(50),
@@ -133,8 +135,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFFDFE2E4)),
-                        color: const Color(0xFFF8F9FA),
+                        border: Border.all(
+                            color: ref
+                                        .watch(nepseProvider)
+                                        .selectedIntervalIndex ==
+                                    index
+                                ? const Color(0xFF0063F5)
+                                : const Color(0xFFDFE2E4)),
+                        color: ref.watch(nepseProvider).selectedIntervalIndex ==
+                                index
+                            ? const Color(0xFFECF4FF)
+                            : const Color(0xFFF8F9FA),
                       ),
                       child: NormalText(
                         interval,

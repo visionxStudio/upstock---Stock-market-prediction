@@ -40,6 +40,7 @@ class _NEPSEChartState extends ConsumerState<NEPSEChart> {
                   margin: EdgeInsets.zero,
                   backgroundColor: kWhiteColor,
                   primaryXAxis: CategoryAxis(
+                    isVisible: true,
                     labelStyle: const TextStyle(
                       fontSize: kDefaultFontSize - 8,
                     ),

@@ -33,6 +33,15 @@ class NepseHomePageNotifier extends ChangeNotifier {
   final List<ChartData> chartData = [];
   NepseStockModel? nepseStockData;
   int daysPlot = 30;
+  String nepseShortDescription =
+      "Nepal Stock Exchange, in short NEPSE, is established under the Companies Act- 2006, operating under Securities Act- 2007. The basic objective of NEPSE is to impart free .....";
+  String nepseLongDescription =
+      "Nepal Stock Exchange, in short NEPSE, is established under the Companies Act- 2006, operating under Securities Act- 2007. The basic objective of NEPSE is to impart free marketability and liquidity to the government and corporate securities by facilitating transactions in its trading floor through member, market intermediaries, such as broker, market makers etc. NEPSE opened its trading floor on13th January 1994.";
+  bool readMore = false;
+  void readMoreToggled() {
+    readMore = !readMore;
+    notifyListeners();
+  }
 
   void changeSelectedIntervalIndex(int index) {
     selectedIntervalIndex = index;

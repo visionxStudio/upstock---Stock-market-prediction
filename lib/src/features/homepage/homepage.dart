@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
   }
 
-  String k_m_b_generator(String num) {
+  String kmbGenerator(String num) {
     int num1 = double.parse(num).toInt();
     if (num1 > 999 && num1 < 99999) {
       return "${(num1 / 1000).toStringAsFixed(1)} K";
@@ -161,6 +162,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ],
                       ),
+                      const HeightWidget(kDefaultFontSize * 2),
                       NepseStockModel.fromStorage() == null
                           ? const NormalText("")
                           : NormalText(
@@ -198,7 +200,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       NepseStockModel.fromStorage() == null
                           ? const NormalText("")
                           : NormalText(
-                              k_m_b_generator(NepseStockModel.fromStorage()!
+                              kmbGenerator(NepseStockModel.fromStorage()!
                                           .volumeTraded[
                                       NepseStockModel.fromStorage()!
                                               .volumeTraded
@@ -210,6 +212,42 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             )
                     ],
                   ),
+                  const HeightWidget(kDefaultFontSize),
+                  const NormalText(
+                    "About",
+                    fontSize: kDefaultFontSize + 6,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const HeightWidget(16.0),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final readMore = ref.watch(nepseProvider).readMore;
+                      final descriptionProvider = ref.watch(nepseProvider);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          NormalText(
+                            readMore
+                                ? descriptionProvider.nepseLongDescription
+                                : descriptionProvider.nepseShortDescription,
+                            color: kgreyTextColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          const HeightWidget(8.0),
+                          GestureDetector(
+                            onTap: () {
+                              ref.read(nepseProvider).readMoreToggled();
+                            },
+                            child: NormalText(
+                              readMore ? "Read Less" : "Read More",
+                              color: kbluePrimaryColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  )
                 ],
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
@@ -22,6 +23,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     // ref.read(nepseProvider).getNepseStockData();
     super.initState();
+  }
+
+  String k_m_b_generator(String num) {
+    int num1 = double.parse(num).toInt();
+    if (num1 > 999 && num1 < 99999) {
+      return "${(num1 / 1000).toStringAsFixed(1)} K";
+    } else if (num1 > 99999 && num1 < 999999) {
+      return "${(num1 / 1000).toStringAsFixed(0)} K";
+    } else if (num1 > 999999 && num1 < 999999999) {
+      return "${(num1 / 1000000).toStringAsFixed(1)} M";
+    } else if (num1 > 999999999) {
+      return "${(num1 / 1000000000).toStringAsFixed(1)} B";
+    } else {
+      return num1.toString();
+    }
   }
 
   @override
@@ -111,54 +127,149 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: NEPSEChart(),
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            height: 45.0,
-            child: Center(
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: ref.read(nepseProvider).nepseDataInterval.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final String interval =
-                      ref.read(nepseProvider).nepseDataInterval[index];
-                  return GestureDetector(
-                    onTap: () {
-                      ref
-                          .read(nepseProvider)
-                          .changeSelectedIntervalIndex(index);
-                    },
-                    child: Container(
-                      width: width(50),
-                      margin: const EdgeInsets.all(kDefaultmargin / 2 - 4),
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                            color: ref
-                                        .watch(nepseProvider)
-                                        .selectedIntervalIndex ==
-                                    index
-                                ? const Color(0xFF0063F5)
-                                : const Color(0xFFDFE2E4)),
-                        color: ref.watch(nepseProvider).selectedIntervalIndex ==
-                                index
-                            ? const Color(0xFFECF4FF)
-                            : const Color(0xFFF8F9FA),
+          const NepseTimeIntervalWidget(),
+          const HeightWidget(16.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const NormalText(
+                    "Market Stats",
+                    fontSize: kDefaultFontSize + 6,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const HeightWidget(8.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FlutterRemix.funds_box_line,
+                            color: kbluePrimaryColor,
+                          ),
+                          WidthWidget(8.0),
+                          NormalText(
+                            'Nepse Index ',
+                            fontSize: kDefaultFontSize + 2,
+                            fontWeight: FontWeight.bold,
+                            color: kgreyTextColor,
+                          ),
+                        ],
                       ),
-                      child: NormalText(
-                        interval,
-                        fontSize: kDefaultFontSize - 4,
+                      NepseStockModel.fromStorage() == null
+                          ? const NormalText("")
+                          : NormalText(
+                              NepseStockModel.fromStorage()!
+                                  .closingPrice[NepseStockModel.fromStorage()!
+                                          .closingPrice
+                                          .length -
+                                      1]
+                                  .toString(),
+                              fontSize: kDefaultFontSize + 2,
+                              fontWeight: FontWeight.bold,
+                            )
+                    ],
+                  ),
+                  const HeightWidget(8.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FlutterRemix.bar_chart_2_line,
+                            color: kbluePrimaryColor,
+                          ),
+                          WidthWidget(8.0),
+                          NormalText(
+                            'Volume ',
+                            fontSize: kDefaultFontSize + 2,
+                            fontWeight: FontWeight.bold,
+                            color: kgreyTextColor,
+                          ),
+                        ],
                       ),
-                    ),
-                  );
-                },
+                      NepseStockModel.fromStorage() == null
+                          ? const NormalText("")
+                          : NormalText(
+                              k_m_b_generator(NepseStockModel.fromStorage()!
+                                          .volumeTraded[
+                                      NepseStockModel.fromStorage()!
+                                              .volumeTraded
+                                              .length -
+                                          1])
+                                  .toString(),
+                              fontSize: kDefaultFontSize + 2,
+                              fontWeight: FontWeight.bold,
+                            )
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+class NepseTimeIntervalWidget extends StatelessWidget {
+  const NepseTimeIntervalWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (context, ref, child) {
+      return SizedBox(
+        width: double.infinity,
+        height: 45.0,
+        child: Center(
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: ref.read(nepseProvider).nepseDataInterval.length,
+            itemBuilder: (BuildContext context, int index) {
+              final String interval =
+                  ref.read(nepseProvider).nepseDataInterval[index];
+              return GestureDetector(
+                onTap: () {
+                  ref.read(nepseProvider).changeSelectedIntervalIndex(index);
+                },
+                child: Container(
+                  width: width(50),
+                  margin: const EdgeInsets.all(kDefaultmargin / 2 - 4),
+                  padding: const EdgeInsets.all(kDefaultPadding / 2),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                        color: ref.watch(nepseProvider).selectedIntervalIndex ==
+                                index
+                            ? const Color(0xFF0063F5)
+                            : const Color(0xFFDFE2E4)),
+                    color:
+                        ref.watch(nepseProvider).selectedIntervalIndex == index
+                            ? const Color(0xFFECF4FF)
+                            : const Color(0xFFF8F9FA),
+                  ),
+                  child: NormalText(
+                    interval,
+                    fontSize: kDefaultFontSize - 4,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+    });
   }
 }

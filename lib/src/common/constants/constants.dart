@@ -101,3 +101,6 @@ const Color kmasterCardColor = Color(0xFFFFF1DC);
 const Color kIconGradientColor1 = Color(0xFF10A9F3);
 const Color kIconGradientColor2 = Color(0xFF2F00FF);
 const Color kBlackText = Color(0xFF363B46);
+
+const Color kbluePrimaryColor = Color(0xFF0063F5);
+const Color kgreyTextColor = Color(0xFF6C757D);

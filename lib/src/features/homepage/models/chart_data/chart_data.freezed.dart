@@ -13,6 +13,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+ChartData _$ChartDataFromJson(Map<String, dynamic> json) {
+  return _ChartData.fromJson(json);
+}
+
 /// @nodoc
 class _$ChartDataTearOff {
   const _$ChartDataTearOff();
@@ -22,6 +26,10 @@ class _$ChartDataTearOff {
       x: x,
       y: y,
     );
+  }
+
+  ChartData fromJson(Map<String, Object?> json) {
+    return ChartData.fromJson(json);
   }
 }
 
@@ -33,6 +41,7 @@ mixin _$ChartData {
   String get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ChartDataCopyWith<ChartData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -108,9 +117,12 @@ class __$ChartDataCopyWithImpl<$Res> extends _$ChartDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_ChartData implements _ChartData {
   const _$_ChartData({required this.x, required this.y});
+
+  factory _$_ChartData.fromJson(Map<String, dynamic> json) =>
+      _$$_ChartDataFromJson(json);
 
   @override
   final String x;
@@ -138,11 +150,19 @@ class _$_ChartData implements _ChartData {
   @override
   _$ChartDataCopyWith<_ChartData> get copyWith =>
       __$ChartDataCopyWithImpl<_ChartData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ChartDataToJson(this);
+  }
 }
 
 abstract class _ChartData implements ChartData {
   const factory _ChartData({required String x, required double y}) =
       _$_ChartData;
+
+  factory _ChartData.fromJson(Map<String, dynamic> json) =
+      _$_ChartData.fromJson;
 
   @override
   String get x;

@@ -26,44 +26,49 @@ class _NEPSEChartState extends ConsumerState<NEPSEChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SfCartesianChart(
-          enableAxisAnimation: true,
-          tooltipBehavior: _tooltipBehavior,
-          enableMultiSelection: true,
-          plotAreaBorderWidth: 0,
-          margin: EdgeInsets.zero,
-          backgroundColor: kWhiteColor,
-          primaryXAxis: CategoryAxis(
-            labelStyle: const TextStyle(
-              fontSize: kDefaultFontSize - 8,
-            ),
-            edgeLabelPlacement: EdgeLabelPlacement.shift,
-            majorGridLines: const MajorGridLines(width: 0),
-            axisLine: const AxisLine(width: 0),
-            majorTickLines: const MajorTickLines(
-              size: 8,
-              width: 1,
-              color: Color(0xFFDFE2E4),
-            ),
-          ),
-          primaryYAxis: NumericAxis(
-            isVisible: false,
-            majorGridLines: const MajorGridLines(width: 0),
-            axisLine: const AxisLine(width: 0),
-          ),
-          series: <ChartSeries>[
-            FastLineSeries<ChartData, String>(
-              color: kPrimaryColor2,
-              dataSource: ref.watch(nepseProvider).chartData,
-              enableTooltip: true,
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y,
-            )
-          ],
-        ),
-      ),
-    );
+    return Consumer(builder: (context, ref, child) {
+      final isLoading = ref.watch(nepseProvider).isLoading;
+      return Scaffold(
+        body: isLoading
+            ? const SizedBox()
+            : Center(
+                child: SfCartesianChart(
+                  enableAxisAnimation: true,
+                  tooltipBehavior: _tooltipBehavior,
+                  enableMultiSelection: true,
+                  plotAreaBorderWidth: 0,
+                  margin: EdgeInsets.zero,
+                  backgroundColor: kWhiteColor,
+                  primaryXAxis: CategoryAxis(
+                    labelStyle: const TextStyle(
+                      fontSize: kDefaultFontSize - 8,
+                    ),
+                    edgeLabelPlacement: EdgeLabelPlacement.shift,
+                    majorGridLines: const MajorGridLines(width: 0),
+                    axisLine: const AxisLine(width: 0),
+                    majorTickLines: const MajorTickLines(
+                      size: 8,
+                      width: 1,
+                      color: Color(0xFFDFE2E4),
+                    ),
+                  ),
+                  primaryYAxis: NumericAxis(
+                    isVisible: false,
+                    majorGridLines: const MajorGridLines(width: 0),
+                    axisLine: const AxisLine(width: 0),
+                  ),
+                  series: <ChartSeries>[
+                    FastLineSeries<ChartData, String>(
+                      color: kPrimaryColor2,
+                      dataSource: ref.watch(nepseProvider).chartData,
+                      enableTooltip: true,
+                      xValueMapper: (ChartData data, _) => data.x,
+                      yValueMapper: (ChartData data, _) => data.y,
+                    )
+                  ],
+                ),
+              ),
+      );
+    });
   }
 }

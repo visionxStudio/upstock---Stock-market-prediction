@@ -4,6 +4,8 @@ import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
+import 'package:upstock/src/features/homepage/models/chart_data/chart_data_list/chart_data_list.dart';
+import 'package:upstock/src/features/homepage/models/nepse_stock_model.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_chart.dart';
 
 import '../../common/utils/app_size_utils.dart';
@@ -121,21 +123,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   final String interval =
                       ref.read(nepseProvider).nepseDataInterval[index];
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      print(ChartDataList.fromStorage());
+                    },
                     child: Container(
-                        width: width(50),
-                        margin: const EdgeInsets.all(kDefaultmargin / 2 - 4),
-                        padding: const EdgeInsets.all(kDefaultPadding / 2),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: const Color(0xFFDFE2E4)),
-                          color: const Color(0xFFF8F9FA),
-                        ),
-                        child: NormalText(
-                          interval,
-                          fontSize: kDefaultFontSize - 4,
-                        )),
+                      width: width(50),
+                      margin: const EdgeInsets.all(kDefaultmargin / 2 - 4),
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFDFE2E4)),
+                        color: const Color(0xFFF8F9FA),
+                      ),
+                      child: NormalText(
+                        interval,
+                        fontSize: kDefaultFontSize - 4,
+                      ),
+                    ),
                   );
                 },
               ),

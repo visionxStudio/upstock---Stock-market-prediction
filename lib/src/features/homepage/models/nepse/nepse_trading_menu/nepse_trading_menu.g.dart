@@ -9,11 +9,15 @@ part of 'nepse_trading_menu.dart';
 _$_NepseTradingMenuModel _$$_NepseTradingMenuModelFromJson(
         Map<String, dynamic> json) =>
     _$_NepseTradingMenuModel(
-      data: json['data'] as int,
+      price: NepsePriceModel.fromJson(json['price'] as Map<String, dynamic>),
+      news: (json['news'] as List<dynamic>)
+          .map((e) => NepseNewsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_NepseTradingMenuModelToJson(
         _$_NepseTradingMenuModel instance) =>
     <String, dynamic>{
-      'data': instance.data,
+      'price': instance.price.toJson(),
+      'news': instance.news.map((e) => e.toJson()).toList(),
     };

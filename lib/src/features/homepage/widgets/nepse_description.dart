@@ -128,12 +128,17 @@ class _NepseDescriptionState extends State<NepseDescription> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    NormalText(
-                      readMore
-                          ? descriptionProvider.nepseLongDescription
-                          : descriptionProvider.nepseShortDescription,
-                      color: kgreyTextColor,
-                      fontWeight: FontWeight.w500,
+                    GestureDetector(
+                      onTap: () {
+                        ref.read(nepseProvider).readMoreToggled();
+                      },
+                      child: NormalText(
+                        readMore
+                            ? descriptionProvider.nepseLongDescription
+                            : descriptionProvider.nepseShortDescription,
+                        color: kgreyTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     const HeightWidget(8.0),
                     GestureDetector(

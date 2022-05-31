@@ -1,11 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:upstock/src/features/homepage/models/nepse/nepse_news/nepse_news_mode.dart';
+import 'package:upstock/src/features/homepage/models/nepse/nepse_price_model/nepse_price_mode.dart';
 part 'nepse_trading_menu.freezed.dart';
 part 'nepse_trading_menu.g.dart';
 
 @freezed
 class NepseTradingMenuModel with _$NepseTradingMenuModel {
   const factory NepseTradingMenuModel({
-    required int data,
+    required NepsePriceModel price,
+    required List<NepseNewsModel> news,
   }) = _NepseTradingMenuModel;
 
   factory NepseTradingMenuModel.fromJson(Map<String, dynamic> json) =>

@@ -22,9 +22,11 @@ NepseTradingMenuModel _$NepseTradingMenuModelFromJson(
 class _$NepseTradingMenuModelTearOff {
   const _$NepseTradingMenuModelTearOff();
 
-  _NepseTradingMenuModel call({required int data}) {
+  _NepseTradingMenuModel call(
+      {required NepsePriceModel price, required List<NepseNewsModel> news}) {
     return _NepseTradingMenuModel(
-      data: data,
+      price: price,
+      news: news,
     );
   }
 
@@ -38,7 +40,8 @@ const $NepseTradingMenuModel = _$NepseTradingMenuModelTearOff();
 
 /// @nodoc
 mixin _$NepseTradingMenuModel {
-  int get data => throw _privateConstructorUsedError;
+  NepsePriceModel get price => throw _privateConstructorUsedError;
+  List<NepseNewsModel> get news => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +54,9 @@ abstract class $NepseTradingMenuModelCopyWith<$Res> {
   factory $NepseTradingMenuModelCopyWith(NepseTradingMenuModel value,
           $Res Function(NepseTradingMenuModel) then) =
       _$NepseTradingMenuModelCopyWithImpl<$Res>;
-  $Res call({int data});
+  $Res call({NepsePriceModel price, List<NepseNewsModel> news});
+
+  $NepsePriceModelCopyWith<$Res> get price;
 }
 
 /// @nodoc
@@ -65,14 +70,26 @@ class _$NepseTradingMenuModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? data = freezed,
+    Object? price = freezed,
+    Object? news = freezed,
   }) {
     return _then(_value.copyWith(
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as int,
+      price: price == freezed
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as NepsePriceModel,
+      news: news == freezed
+          ? _value.news
+          : news // ignore: cast_nullable_to_non_nullable
+              as List<NepseNewsModel>,
     ));
+  }
+
+  @override
+  $NepsePriceModelCopyWith<$Res> get price {
+    return $NepsePriceModelCopyWith<$Res>(_value.price, (value) {
+      return _then(_value.copyWith(price: value));
+    });
   }
 }
 
@@ -83,7 +100,10 @@ abstract class _$NepseTradingMenuModelCopyWith<$Res>
           $Res Function(_NepseTradingMenuModel) then) =
       __$NepseTradingMenuModelCopyWithImpl<$Res>;
   @override
-  $Res call({int data});
+  $Res call({NepsePriceModel price, List<NepseNewsModel> news});
+
+  @override
+  $NepsePriceModelCopyWith<$Res> get price;
 }
 
 /// @nodoc
@@ -99,13 +119,18 @@ class __$NepseTradingMenuModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? data = freezed,
+    Object? price = freezed,
+    Object? news = freezed,
   }) {
     return _then(_NepseTradingMenuModel(
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as int,
+      price: price == freezed
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as NepsePriceModel,
+      news: news == freezed
+          ? _value.news
+          : news // ignore: cast_nullable_to_non_nullable
+              as List<NepseNewsModel>,
     ));
   }
 }
@@ -113,17 +138,19 @@ class __$NepseTradingMenuModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_NepseTradingMenuModel implements _NepseTradingMenuModel {
-  const _$_NepseTradingMenuModel({required this.data});
+  const _$_NepseTradingMenuModel({required this.price, required this.news});
 
   factory _$_NepseTradingMenuModel.fromJson(Map<String, dynamic> json) =>
       _$$_NepseTradingMenuModelFromJson(json);
 
   @override
-  final int data;
+  final NepsePriceModel price;
+  @override
+  final List<NepseNewsModel> news;
 
   @override
   String toString() {
-    return 'NepseTradingMenuModel(data: $data)';
+    return 'NepseTradingMenuModel(price: $price, news: $news)';
   }
 
   @override
@@ -131,11 +158,13 @@ class _$_NepseTradingMenuModel implements _NepseTradingMenuModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _NepseTradingMenuModel &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.price, price) || other.price == price) &&
+            const DeepCollectionEquality().equals(other.news, news));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, data);
+  int get hashCode => Object.hash(
+      runtimeType, price, const DeepCollectionEquality().hash(news));
 
   @JsonKey(ignore: true)
   @override
@@ -150,14 +179,17 @@ class _$_NepseTradingMenuModel implements _NepseTradingMenuModel {
 }
 
 abstract class _NepseTradingMenuModel implements NepseTradingMenuModel {
-  const factory _NepseTradingMenuModel({required int data}) =
-      _$_NepseTradingMenuModel;
+  const factory _NepseTradingMenuModel(
+      {required NepsePriceModel price,
+      required List<NepseNewsModel> news}) = _$_NepseTradingMenuModel;
 
   factory _NepseTradingMenuModel.fromJson(Map<String, dynamic> json) =
       _$_NepseTradingMenuModel.fromJson;
 
   @override
-  int get data;
+  NepsePriceModel get price;
+  @override
+  List<NepseNewsModel> get news;
   @override
   @JsonKey(ignore: true)
   _$NepseTradingMenuModelCopyWith<_NepseTradingMenuModel> get copyWith =>

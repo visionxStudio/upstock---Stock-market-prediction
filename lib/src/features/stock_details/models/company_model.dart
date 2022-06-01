@@ -7,7 +7,7 @@ class CompanyModel with _$CompanyModel {
   const factory CompanyModel({
     required String symbol,
     @JsonKey(name: "full_name") required String fullName,
-    String? description,
+    required String description,
     required String exchange,
     required String type,
   }) = _CompanyModel;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 
-import '../homepage/homepage.dart';
+import '../../common/appbar/appbar.dart';
 
 class WatchListScreen extends StatelessWidget {
   const WatchListScreen({Key? key}) : super(key: key);
@@ -12,18 +12,14 @@ class WatchListScreen extends StatelessWidget {
       backgroundColor: kWhiteColor,
       appBar: const PreferredSize(
         preferredSize: Size(double.infinity, kToolbarHeight * 2),
-        child: Appbar(),
+        child: Appbar(
+          showStockLearning: false,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print("floating action button pressed ");
-        },
       ),
     );
   }

@@ -87,15 +87,16 @@ class NepseHomePageNotifier extends ChangeNotifier {
     if (NepseStockModel.fromStorage() == null) {
       int secondIndex = 0;
 
-      for (int i = data.closingPrice.length - daysPlot;
-          i < data.closingPrice.length;
-          i++) {
-        closingPrice.add(double.parse(data.closingPrice[i]));
-      }
+      // for (int i = data.closingPrice.length - daysPlot;
+      //     i < data.closingPrice.length;
+      //     i++) {
+      //   closingPrice.add(double.parse(data.closingPrice[i]));
+      // }
 
       for (int i = data.time.length - daysPlot; i < data.time.length; i++) {
         chartData.add(ChartData(
-          y: closingPrice[secondIndex],
+          // y: closingPrice[secondIndex],
+          y: double.parse(data.closingPrice[i]),
           x: convertToDateTime(data.time[i]),
           // x: i.toString(),
           // x: data.time[i].toString(),
@@ -106,19 +107,21 @@ class NepseHomePageNotifier extends ChangeNotifier {
     } else {
       int secondIndex = 0;
 
-      for (int i =
-              NepseStockModel.fromStorage()!.closingPrice.length - daysPlot;
-          i < NepseStockModel.fromStorage()!.closingPrice.length;
-          i++) {
-        closingPrice
-            .add(double.parse(NepseStockModel.fromStorage()!.closingPrice[i]));
-      }
+      // for (int i =
+      //         NepseStockModel.fromStorage()!.closingPrice.length - daysPlot;
+      //     i < NepseStockModel.fromStorage()!.closingPrice.length;
+      //     i++) {
+      //   closingPrice
+      //       .add(double.parse(NepseStockModel.fromStorage()!.closingPrice[i]));
+      // }
 
       for (int i = NepseStockModel.fromStorage()!.time.length - daysPlot;
           i < NepseStockModel.fromStorage()!.time.length;
           i++) {
         chartData.add(ChartData(
-          y: closingPrice[secondIndex],
+          // y: closingPrice[secondIndex],
+          y: double.parse(NepseStockModel.fromStorage()!.closingPrice[i]),
+
           x: convertToDateTime(NepseStockModel.fromStorage()!.time[i]),
           // x: i.toString(),
           // x: data.time[i].toString(),

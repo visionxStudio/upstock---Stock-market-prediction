@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 
 import '../constants/constants.dart';
+import '../utils/app_size_utils.dart';
 import '../widgets/size/custom_size_widget.dart';
 import '../widgets/text/custom_normal_text_widget.dart';
 
-class Appbar extends StatefulWidget {
+class Appbar extends ConsumerStatefulWidget {
   const Appbar({
     Key? key,
     this.showStockLearning = true,
@@ -14,10 +17,10 @@ class Appbar extends StatefulWidget {
   final bool showStockLearning;
 
   @override
-  State<Appbar> createState() => _AppbarState();
+  _AppbarState createState() => _AppbarState();
 }
 
-class _AppbarState extends State<Appbar> {
+class _AppbarState extends ConsumerState<Appbar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -60,7 +63,28 @@ class _AppbarState extends State<Appbar> {
                           child: IconButton(
                             icon: const Icon(FlutterRemix.add_line),
                             onPressed: () {
-                              // TODO show bottomsheet in here
+                              showModalBottomSheet(
+                                enableDrag: true,
+                                isScrollControlled: true,
+                                barrierColor: kLightGrey.withOpacity(0.6),
+                                backgroundColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(32.0),
+                                ),
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                    height: SizeConfig.screenHeight * 0.4,
+                                    decoration: const BoxDecoration(
+                                      color: kWhiteColor,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(16.0),
+                                        topRight: Radius.circular(16.0),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
                             },
                           ),
                         )

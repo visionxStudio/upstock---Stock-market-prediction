@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'company_model.g.dart';
@@ -9,7 +8,7 @@ class CompanyModel with _$CompanyModel{
     required String symbol,
     @JsonKey(name: "full_name") required  String  fullName,
     required String description,
-    required String exchange,
+    String? exchange,
     required String type,
 
   }) = _CompanyModel;

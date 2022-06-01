@@ -25,7 +25,7 @@ class _$CompanyModelTearOff {
       {required String symbol,
       @JsonKey(name: "full_name") required String fullName,
       required String description,
-      required String exchange,
+      String? exchange,
       required String type}) {
     return _CompanyModel(
       symbol: symbol,
@@ -50,7 +50,7 @@ mixin _$CompanyModel {
   @JsonKey(name: "full_name")
   String get fullName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get exchange => throw _privateConstructorUsedError;
+  String? get exchange => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -68,7 +68,7 @@ abstract class $CompanyModelCopyWith<$Res> {
       {String symbol,
       @JsonKey(name: "full_name") String fullName,
       String description,
-      String exchange,
+      String? exchange,
       String type});
 }
 
@@ -104,7 +104,7 @@ class _$CompanyModelCopyWithImpl<$Res> implements $CompanyModelCopyWith<$Res> {
       exchange: exchange == freezed
           ? _value.exchange
           : exchange // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -124,7 +124,7 @@ abstract class _$CompanyModelCopyWith<$Res>
       {String symbol,
       @JsonKey(name: "full_name") String fullName,
       String description,
-      String exchange,
+      String? exchange,
       String type});
 }
 
@@ -162,7 +162,7 @@ class __$CompanyModelCopyWithImpl<$Res> extends _$CompanyModelCopyWithImpl<$Res>
       exchange: exchange == freezed
           ? _value.exchange
           : exchange // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -178,7 +178,7 @@ class _$_CompanyModel implements _CompanyModel {
       {required this.symbol,
       @JsonKey(name: "full_name") required this.fullName,
       required this.description,
-      required this.exchange,
+      this.exchange,
       required this.type});
 
   factory _$_CompanyModel.fromJson(Map<String, dynamic> json) =>
@@ -192,7 +192,7 @@ class _$_CompanyModel implements _CompanyModel {
   @override
   final String description;
   @override
-  final String exchange;
+  final String? exchange;
   @override
   final String type;
 
@@ -236,7 +236,7 @@ abstract class _CompanyModel implements CompanyModel {
       {required String symbol,
       @JsonKey(name: "full_name") required String fullName,
       required String description,
-      required String exchange,
+      String? exchange,
       required String type}) = _$_CompanyModel;
 
   factory _CompanyModel.fromJson(Map<String, dynamic> json) =
@@ -250,7 +250,7 @@ abstract class _CompanyModel implements CompanyModel {
   @override
   String get description;
   @override
-  String get exchange;
+  String? get exchange;
   @override
   String get type;
   @override

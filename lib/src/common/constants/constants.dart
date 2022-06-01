@@ -91,6 +91,7 @@ const Color kLikebackgroundColor = Color(0xFFD8FFE8);
 const Color kLikeButtonColor = Color(0xFF6FCF97);
 const Color krelationColor1 = Color(0xFF9CECFB);
 const Color krelationColor2 = Color(0xFF65C7F7);
+const Color knewsTextColor = Color(0xFF343A40);
 const Color krelationColor3 = Color(0xFF0052D4);
 
 const Color ktextColor = Color(0xFF575758);

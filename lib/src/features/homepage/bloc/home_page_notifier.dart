@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:upstock/src/features/homepage/models/nepse/nepse_trading_menu/nepse_trading_menu.dart';
 import 'package:upstock/src/features/homepage/repo/home_repository.dart';
 import 'package:intl/intl.dart';
 import '../models/chart_data/chart_data.dart';
@@ -11,6 +12,7 @@ final nepseProvider = ChangeNotifierProvider(
 
 class NepseHomePageNotifier extends ChangeNotifier {
   NepseHomePageNotifier(this._nepseRepo) {
+    scheduleMicrotask(() => getNepseTradingData());
     setChartData(
       const NepseStockModel(
         time: [0],
@@ -38,6 +40,8 @@ class NepseHomePageNotifier extends ChangeNotifier {
   String nepseLongDescription =
       "Nepal Stock Exchange, in short NEPSE, is established under the Companies Act- 2006, operating under Securities Act- 2007. The basic objective of NEPSE is to impart free marketability and liquidity to the government and corporate securities by facilitating transactions in its trading floor through member, market intermediaries, such as broker, market makers etc. NEPSE opened its trading floor on13th January 1994.";
   bool readMore = false;
+  AsyncValue<NepseTradingMenuModel> asyncNews = const AsyncLoading();
+
   void readMoreToggled() {
     readMore = !readMore;
     notifyListeners();
@@ -132,6 +136,18 @@ class NepseHomePageNotifier extends ChangeNotifier {
         notifyListeners();
         secondIndex += 1;
       }
+    }
+  }
+
+  Future<void> getNepseTradingData() async {
+    try {
+      await _nepseRepo.getNepseTradingData().then((NepseTradingMenuModel data) {
+        asyncNews = AsyncData(data);
+
+        notifyListeners();
+      });
+    } catch (err) {
+      rethrow;
     }
   }
 }

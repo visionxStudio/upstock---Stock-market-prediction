@@ -1,13 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
-import 'package:upstock/src/features/homepage/models/chart_data/chart_data_list/chart_data_list.dart';
-import 'package:upstock/src/features/homepage/models/nepse_stock_model.dart';
+import 'package:upstock/src/features/homepage/data/image_list.dart';
+import 'package:upstock/src/features/homepage/models/nepse/nepse_news/nepse_news_mode.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_chart.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_description.dart';
 
@@ -105,36 +104,84 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.0),
-            child: SizedBox(
-              height: 200.0,
-              child: NEPSEChart(),
-            ),
-          ),
-          const NepseTimeIntervalWidget(),
-          const HeightWidget(16.0),
-          const NepseDescription(),
-          const HeightWidget(16.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  NormalText(
-                    "Top Stories",
-                    fontSize: kDefaultFontSize + 6,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.0),
+              child: SizedBox(
+                height: 200.0,
+                child: NEPSEChart(),
               ),
             ),
-          ),
-        ],
+            const NepseTimeIntervalWidget(),
+            const HeightWidget(16.0),
+            const NepseDescription(),
+            const HeightWidget(16.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const NormalText(
+                      "Top Stories",
+                      fontSize: kDefaultFontSize + 6,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    ref.watch(nepseProvider).asyncNews.when(
+                      data: ((data) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: data.news.length,
+                          itemBuilder: (context, index) {
+                            final NepseNewsModel news = data.news[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: SizeConfig.screenWidth * 0.5,
+                                    child: NormalText(
+                                      news.title,
+                                      maxline: 3,
+                                      fontSize: kDefaultFontSize + 2,
+                                      fontWeight: FontWeight.w500,
+                                      color: knewsTextColor,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    height: 100.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        imageList[0],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                      error: (err, stackTrace) {
+                        return ErrorWidget(err);
+                      },
+                      loading: () {
+                        return const SizedBox();
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

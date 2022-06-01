@@ -56,14 +56,6 @@ class MyAppState extends ConsumerState<MyApp> {
       title: "UPSTOCK",
       debugShowCheckedModeBanner: false,
       theme: Themes.light,
-      // locale: ref.watch(localeProvider),
-      // supportedLocales: supportedLocale.map((e) => Locale(e)).toList(),
-      // localizationsDelegates: const [
-      //   AppLocalizations.delegate,
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
     );
   }
 }

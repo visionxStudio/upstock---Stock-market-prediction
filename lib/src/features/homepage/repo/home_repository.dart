@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:upstock/src/features/homepage/models/nepse/nepse_trading_menu/nepse_trading_menu.dart';
 import 'package:upstock/src/features/homepage/models/nepse_stock_model.dart';
 
 import '../../../common/service/repo.dart';
@@ -7,6 +8,7 @@ final nepseHomepageProvider = Provider((ref) => NepseRepository());
 
 abstract class INepseRepository {
   Future<NepseStockModel> getNepseStockData();
+  Future<NepseTradingMenuModel> getNepseTradingData();
 }
 
 class NepseRepository extends Repo implements INepseRepository {
@@ -18,6 +20,19 @@ class NepseRepository extends Repo implements INepseRepository {
       final NepseStockModel nepseData = NepseStockModel.fromJson(response);
 
       NepseStockModel.toStorage(nepseData);
+      return nepseData;
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<NepseTradingMenuModel> getNepseTradingData() async {
+    try {
+      final response = await client
+          .get("https://www.nepsealpha.com/trading-menu/top-stocks/NEPSE");
+      final NepseTradingMenuModel nepseData =
+          NepseTradingMenuModel.fromJson(response);
       return nepseData;
     } catch (err) {
       rethrow;

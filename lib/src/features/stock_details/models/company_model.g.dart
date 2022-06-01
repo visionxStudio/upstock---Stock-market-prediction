@@ -10,7 +10,7 @@ _$_CompanyModel _$$_CompanyModelFromJson(Map<String, dynamic> json) =>
     _$_CompanyModel(
       symbol: json['symbol'] as String,
       fullName: json['full_name'] as String,
-      description: json['description'] as String,
+      description: json['description'] as String?,
       exchange: json['exchange'] as String,
       type: json['type'] as String,
     );

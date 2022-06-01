@@ -24,7 +24,7 @@ class _$CompanyModelTearOff {
   _CompanyModel call(
       {required String symbol,
       @JsonKey(name: "full_name") required String fullName,
-      required String description,
+      String? description,
       required String exchange,
       required String type}) {
     return _CompanyModel(
@@ -49,7 +49,7 @@ mixin _$CompanyModel {
   String get symbol => throw _privateConstructorUsedError;
   @JsonKey(name: "full_name")
   String get fullName => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   String get exchange => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
 
@@ -67,7 +67,7 @@ abstract class $CompanyModelCopyWith<$Res> {
   $Res call(
       {String symbol,
       @JsonKey(name: "full_name") String fullName,
-      String description,
+      String? description,
       String exchange,
       String type});
 }
@@ -100,7 +100,7 @@ class _$CompanyModelCopyWithImpl<$Res> implements $CompanyModelCopyWith<$Res> {
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       exchange: exchange == freezed
           ? _value.exchange
           : exchange // ignore: cast_nullable_to_non_nullable
@@ -123,7 +123,7 @@ abstract class _$CompanyModelCopyWith<$Res>
   $Res call(
       {String symbol,
       @JsonKey(name: "full_name") String fullName,
-      String description,
+      String? description,
       String exchange,
       String type});
 }
@@ -158,7 +158,7 @@ class __$CompanyModelCopyWithImpl<$Res> extends _$CompanyModelCopyWithImpl<$Res>
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       exchange: exchange == freezed
           ? _value.exchange
           : exchange // ignore: cast_nullable_to_non_nullable
@@ -177,7 +177,7 @@ class _$_CompanyModel implements _CompanyModel {
   const _$_CompanyModel(
       {required this.symbol,
       @JsonKey(name: "full_name") required this.fullName,
-      required this.description,
+      this.description,
       required this.exchange,
       required this.type});
 
@@ -190,7 +190,7 @@ class _$_CompanyModel implements _CompanyModel {
   @JsonKey(name: "full_name")
   final String fullName;
   @override
-  final String description;
+  final String? description;
   @override
   final String exchange;
   @override
@@ -235,7 +235,7 @@ abstract class _CompanyModel implements CompanyModel {
   const factory _CompanyModel(
       {required String symbol,
       @JsonKey(name: "full_name") required String fullName,
-      required String description,
+      String? description,
       required String exchange,
       required String type}) = _$_CompanyModel;
 
@@ -248,7 +248,7 @@ abstract class _CompanyModel implements CompanyModel {
   @JsonKey(name: "full_name")
   String get fullName;
   @override
-  String get description;
+  String? get description;
   @override
   String get exchange;
   @override

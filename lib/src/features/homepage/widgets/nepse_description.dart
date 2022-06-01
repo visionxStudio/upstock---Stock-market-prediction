@@ -138,6 +138,7 @@ class _NepseDescriptionState extends State<NepseDescription> {
                             : descriptionProvider.nepseShortDescription,
                         color: kgreyTextColor,
                         fontWeight: FontWeight.w500,
+                        fontSize: kDefaultFontSize - 2,
                       ),
                     ),
                     const HeightWidget(8.0),

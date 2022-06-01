@@ -13,16 +13,6 @@ final nepseProvider = ChangeNotifierProvider(
 class NepseHomePageNotifier extends ChangeNotifier {
   NepseHomePageNotifier(this._nepseRepo) {
     scheduleMicrotask(() => getNepseTradingData());
-    setChartData(
-      const NepseStockModel(
-        time: [0],
-        closingPrice: [""],
-        oopeningPrice: [""],
-        dayHighPrice: [""],
-        dayLowPrice: [""],
-        volumeTraded: [""],
-      ),
-    );
   }
 
   final NepseRepository _nepseRepo;

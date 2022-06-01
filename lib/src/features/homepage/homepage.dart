@@ -144,13 +144,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Row(
                                 children: [
                                   SizedBox(
-                                    width: SizeConfig.screenWidth * 0.5,
-                                    child: NormalText(
-                                      news.title,
-                                      maxline: 3,
-                                      fontSize: kDefaultFontSize + 2,
-                                      fontWeight: FontWeight.w500,
-                                      color: knewsTextColor,
+                                    width: SizeConfig.screenWidth * 0.55,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        NormalText(
+                                          news.title,
+                                          maxline: 3,
+                                          fontSize: kDefaultFontSize + 2,
+                                          fontWeight: FontWeight.w600,
+                                          color: knewsTextColor,
+                                        ),
+                                        const HeightWidget(8.0),
+                                        Row(
+                                          children: [
+                                            NormalText(
+                                              news.source
+                                                  .replaceAll(".com", ""),
+                                              fontSize: kDefaultFontSize - 4,
+                                              fontWeight: FontWeight.bold,
+                                              color: kgreyTextColor,
+                                            ),
+                                            const WidthWidget(8.0),
+                                            NormalText(
+                                              news.published,
+                                              fontSize: kDefaultFontSize - 4,
+                                              fontWeight: FontWeight.bold,
+                                              color: kgreyTextColor,
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   const Spacer(),
@@ -180,6 +205,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
             ),
+            const HeightWidget(kDefaultFontSize * 6)
           ],
         ),
       ),

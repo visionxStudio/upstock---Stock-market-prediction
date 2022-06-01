@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
@@ -20,12 +20,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  @override
-  void initState() {
-    // ref.read(nepseProvider).getNepseStockData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,94 +112,130 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const HeightWidget(16.0),
             const NepseDescription(),
             const HeightWidget(16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const NormalText(
-                      "Top Stories",
-                      fontSize: kDefaultFontSize + 6,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    ref.watch(nepseProvider).asyncNews.when(
-                      data: ((data) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: data.news.length,
-                          itemBuilder: (context, index) {
-                            final NepseNewsModel news = data.news[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: SizeConfig.screenWidth * 0.55,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        NormalText(
-                                          news.title,
-                                          maxline: 3,
-                                          fontSize: kDefaultFontSize + 2,
-                                          fontWeight: FontWeight.w600,
-                                          color: knewsTextColor,
-                                        ),
-                                        const HeightWidget(8.0),
-                                        Row(
-                                          children: [
-                                            NormalText(
-                                              news.source
-                                                  .replaceAll(".com", ""),
-                                              fontSize: kDefaultFontSize - 4,
-                                              fontWeight: FontWeight.bold,
-                                              color: kgreyTextColor,
-                                            ),
-                                            const WidthWidget(8.0),
-                                            NormalText(
-                                              news.published,
-                                              fontSize: kDefaultFontSize - 4,
-                                              fontWeight: FontWeight.bold,
-                                              color: kgreyTextColor,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  SizedBox(
-                                    height: 100.0,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        imageList[0],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      }),
-                      error: (err, stackTrace) {
-                        return ErrorWidget(err);
-                      },
-                      loading: () {
-                        return const SizedBox();
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
+            NepseTopStoriesWidget(ref: ref),
             const HeightWidget(kDefaultFontSize * 6)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NepseTopStoriesWidget extends StatefulWidget {
+  const NepseTopStoriesWidget({
+    Key? key,
+    required this.ref,
+  }) : super(key: key);
+
+  final WidgetRef ref;
+
+  @override
+  State<NepseTopStoriesWidget> createState() => _NepseTopStoriesWidgetState();
+}
+
+class _NepseTopStoriesWidgetState extends State<NepseTopStoriesWidget> {
+  List<int> randomNumbers = [];
+  Random random = Random();
+
+  void addToRandomNumebers() {
+    for (int i = 0; i < 4; i++) {
+      int randomNumber = Random().nextInt(4) + 1;
+      randomNumbers.add(randomNumber);
+    }
+  }
+
+  @override
+  void initState() {
+    addToRandomNumebers();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const NormalText(
+              "Top Stories",
+              fontSize: kDefaultFontSize + 6,
+              fontWeight: FontWeight.bold,
+            ),
+            widget.ref.watch(nepseProvider).asyncNews.when(
+              data: ((data) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: data.news.length,
+                  itemBuilder: (context, index) {
+                    final NepseNewsModel news = data.news[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: SizeConfig.screenWidth * 0.55,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                NormalText(
+                                  news.title,
+                                  maxline: 3,
+                                  fontSize: kDefaultFontSize + 2,
+                                  fontWeight: FontWeight.w600,
+                                  color: knewsTextColor,
+                                ),
+                                const HeightWidget(8.0),
+                                Row(
+                                  children: [
+                                    NormalText(
+                                      news.source.replaceAll(".com", ""),
+                                      fontSize: kDefaultFontSize - 4,
+                                      fontWeight: FontWeight.bold,
+                                      color: kgreyTextColor,
+                                    ),
+                                    const WidthWidget(8.0),
+                                    NormalText(
+                                      news.published,
+                                      fontSize: kDefaultFontSize - 4,
+                                      fontWeight: FontWeight.bold,
+                                      color: kgreyTextColor,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          Expanded(
+                            // height: 100.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                imageList[index],
+                                height: 80.0,
+                                width: 120.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }),
+              error: (err, stackTrace) {
+                return ErrorWidget(err);
+              },
+              loading: () {
+                return const SizedBox();
+              },
+            )
           ],
         ),
       ),

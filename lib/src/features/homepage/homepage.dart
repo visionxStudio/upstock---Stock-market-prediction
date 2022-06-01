@@ -9,6 +9,7 @@ import 'package:upstock/src/features/homepage/data/image_list.dart';
 import 'package:upstock/src/features/homepage/models/nepse/nepse_news/nepse_news_mode.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_chart.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_description.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/utils/app_size_utils.dart';
 
@@ -144,6 +145,11 @@ class _NepseTopStoriesWidgetState extends State<NepseTopStoriesWidget> {
     }
   }
 
+  Future<void> _launchURL(String url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) throw 'Could not launch $url';
+  }
+
   @override
   void initState() {
     addToRandomNumebers();
@@ -173,57 +179,62 @@ class _NepseTopStoriesWidgetState extends State<NepseTopStoriesWidget> {
                   itemCount: data.news.length,
                   itemBuilder: (context, index) {
                     final NepseNewsModel news = data.news[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: SizeConfig.screenWidth * 0.55,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                NormalText(
-                                  news.title,
-                                  maxline: 3,
-                                  fontSize: kDefaultFontSize + 2,
-                                  fontWeight: FontWeight.w600,
-                                  color: knewsTextColor,
-                                ),
-                                const HeightWidget(8.0),
-                                Row(
-                                  children: [
-                                    NormalText(
-                                      news.source.replaceAll(".com", ""),
-                                      fontSize: kDefaultFontSize - 4,
-                                      fontWeight: FontWeight.bold,
-                                      color: kgreyTextColor,
-                                    ),
-                                    const WidthWidget(8.0),
-                                    NormalText(
-                                      news.published,
-                                      fontSize: kDefaultFontSize - 4,
-                                      fontWeight: FontWeight.bold,
-                                      color: kgreyTextColor,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Spacer(),
-                          Expanded(
-                            // height: 100.0,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                imageList[index],
-                                height: 80.0,
-                                width: 120.0,
-                                fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: () {
+                        _launchURL(news.link);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: SizeConfig.screenWidth * 0.55,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  NormalText(
+                                    news.title,
+                                    maxline: 3,
+                                    fontSize: kDefaultFontSize + 2,
+                                    fontWeight: FontWeight.w600,
+                                    color: knewsTextColor,
+                                  ),
+                                  const HeightWidget(8.0),
+                                  Row(
+                                    children: [
+                                      NormalText(
+                                        news.source.replaceAll(".com", ""),
+                                        fontSize: kDefaultFontSize - 4,
+                                        fontWeight: FontWeight.bold,
+                                        color: kgreyTextColor,
+                                      ),
+                                      const WidthWidget(8.0),
+                                      NormalText(
+                                        news.published,
+                                        fontSize: kDefaultFontSize - 4,
+                                        fontWeight: FontWeight.bold,
+                                        color: kgreyTextColor,
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
+                            const Spacer(),
+                            Expanded(
+                              // height: 100.0,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  imageList[index],
+                                  height: 80.0,
+                                  width: 120.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },

@@ -31,23 +31,28 @@ class WatchlistNotifier extends ChangeNotifier {
     }
   }
 
-  // void refreshWatchlistData() {
-  //   if (WatchListCollectionModel.fromStorage() != null) {
-  //     for (WatchlistModel element
-  //         in WatchListCollectionModel.fromStorage()!.data) {
-  //       getCompanyDetails(
-  //         stock: CompanyModel(
-  //           symbol: element.symbol,
-  //           fullName: element.fullName,
-  //           description: element.fullName,
-  //           exchange: "exchange",
-  //           type: "Stock",
-  //         ),
-  //         isRefresh: true,
-  //       );
-  //     }
-  //   }
-  // }
+  void refreshWatchlistData() {
+    if (WatchListCollectionModel.fromStorage() != null) {
+      for (WatchlistModel element
+          in WatchListCollectionModel.fromStorage()!.data) {
+        getCompanyDetails(
+          stock: CompanyModel(
+            symbol: element.symbol,
+            fullName: element.fullName,
+            description: element.fullName,
+            exchange: "exchange",
+            type: "Stock",
+          ),
+          isRefresh: true,
+        );
+      }
+    }
+  }
+
+  void removeFromWatchList(int index) {
+    if (WatchListCollectionModel.fromStorage() != null) {}
+    getWatchlistCollection();
+  }
 
   Future<void> getCompanyData() async {
     try {
@@ -69,6 +74,10 @@ class WatchlistNotifier extends ChangeNotifier {
     return chartData;
   }
 
+  double calculatePercentageChange(double current, double previous) {
+    return ((current - previous) / previous) * 100;
+  }
+
   Future<void> addTowatchList(
       {required CompanyModel stock,
       required NepseStockModel data,
@@ -77,7 +86,11 @@ class WatchlistNotifier extends ChangeNotifier {
       final WatchlistModel watchListStock = WatchlistModel(
           symbol: stock.symbol,
           fullName: stock.description,
-          chartData: getCompanyChartData(data));
+          chartData: getCompanyChartData(data),
+          percentChange: calculatePercentageChange(
+              double.parse(data.closingPrice[data.closingPrice.length - 1]),
+              double.parse(data.closingPrice[data.closingPrice.length - 2])));
+
       WatchListCollectionModel.toStorage(
           WatchListCollectionModel(data: [watchListStock]));
     } else {
@@ -88,9 +101,14 @@ class WatchlistNotifier extends ChangeNotifier {
       }
 
       final WatchlistModel watchListStock = WatchlistModel(
-          symbol: stock.symbol,
-          fullName: stock.description,
-          chartData: getCompanyChartData(data));
+        symbol: stock.symbol,
+        fullName: stock.description,
+        chartData: getCompanyChartData(data),
+        percentChange: calculatePercentageChange(
+          double.parse(data.closingPrice[data.closingPrice.length - 1]),
+          double.parse(data.closingPrice[data.closingPrice.length - 2]),
+        ),
+      );
       tempWatchlist.add(watchListStock);
       WatchListCollectionModel.toStorage(
           WatchListCollectionModel(data: tempWatchlist));

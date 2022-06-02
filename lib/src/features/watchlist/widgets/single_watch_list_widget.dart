@@ -67,10 +67,10 @@ class _SingleWatchListWidgetState extends State<SingleWatchListWidget> {
                 ),
                 const HeightWidget(4.0),
                 NormalText(
-                  "(+9.77%)",
-                  color: widget.isDecreasing
-                      ? Colors.red
-                      : const Color(0xFF21BF73),
+                  !widget.isDecreasing
+                      ? "(+${widget.watchlist.percentChange.toStringAsFixed(2)}%)"
+                      : "(${widget.watchlist.percentChange.toStringAsFixed(2)}%)",
+                  color: widget.isDecreasing ? Colors.red : Colors.green,
                   fontSize: kDefaultFontSize,
                   fontWeight: FontWeight.bold,
                 ),

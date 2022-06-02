@@ -10,6 +10,7 @@ class WatchlistModel with _$WatchlistModel {
     required String symbol,
     required String fullName,
     required List<ChartData> chartData,
+    required double percentChange,
   }) = _WatchlistModel;
   factory WatchlistModel.fromJson(Map<String, dynamic> json) =>
       _$WatchlistModelFromJson(json);

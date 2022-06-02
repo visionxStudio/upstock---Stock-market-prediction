@@ -13,6 +13,7 @@ _$_WatchlistModel _$$_WatchlistModelFromJson(Map<String, dynamic> json) =>
       chartData: (json['chartData'] as List<dynamic>)
           .map((e) => ChartData.fromJson(e as Map<String, dynamic>))
           .toList(),
+      percentChange: (json['percentChange'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$_WatchlistModelToJson(_$_WatchlistModel instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$_WatchlistModelToJson(_$_WatchlistModel instance) =>
       'symbol': instance.symbol,
       'fullName': instance.fullName,
       'chartData': instance.chartData.map((e) => e.toJson()).toList(),
+      'percentChange': instance.percentChange,
     };

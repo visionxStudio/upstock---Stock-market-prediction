@@ -24,11 +24,13 @@ class _$WatchlistModelTearOff {
   _WatchlistModel call(
       {required String symbol,
       required String fullName,
-      required List<ChartData> chartData}) {
+      required List<ChartData> chartData,
+      required double percentChange}) {
     return _WatchlistModel(
       symbol: symbol,
       fullName: fullName,
       chartData: chartData,
+      percentChange: percentChange,
     );
   }
 
@@ -45,6 +47,7 @@ mixin _$WatchlistModel {
   String get symbol => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   List<ChartData> get chartData => throw _privateConstructorUsedError;
+  double get percentChange => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +60,11 @@ abstract class $WatchlistModelCopyWith<$Res> {
   factory $WatchlistModelCopyWith(
           WatchlistModel value, $Res Function(WatchlistModel) then) =
       _$WatchlistModelCopyWithImpl<$Res>;
-  $Res call({String symbol, String fullName, List<ChartData> chartData});
+  $Res call(
+      {String symbol,
+      String fullName,
+      List<ChartData> chartData,
+      double percentChange});
 }
 
 /// @nodoc
@@ -74,6 +81,7 @@ class _$WatchlistModelCopyWithImpl<$Res>
     Object? symbol = freezed,
     Object? fullName = freezed,
     Object? chartData = freezed,
+    Object? percentChange = freezed,
   }) {
     return _then(_value.copyWith(
       symbol: symbol == freezed
@@ -88,6 +96,10 @@ class _$WatchlistModelCopyWithImpl<$Res>
           ? _value.chartData
           : chartData // ignore: cast_nullable_to_non_nullable
               as List<ChartData>,
+      percentChange: percentChange == freezed
+          ? _value.percentChange
+          : percentChange // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -99,7 +111,11 @@ abstract class _$WatchlistModelCopyWith<$Res>
           _WatchlistModel value, $Res Function(_WatchlistModel) then) =
       __$WatchlistModelCopyWithImpl<$Res>;
   @override
-  $Res call({String symbol, String fullName, List<ChartData> chartData});
+  $Res call(
+      {String symbol,
+      String fullName,
+      List<ChartData> chartData,
+      double percentChange});
 }
 
 /// @nodoc
@@ -118,6 +134,7 @@ class __$WatchlistModelCopyWithImpl<$Res>
     Object? symbol = freezed,
     Object? fullName = freezed,
     Object? chartData = freezed,
+    Object? percentChange = freezed,
   }) {
     return _then(_WatchlistModel(
       symbol: symbol == freezed
@@ -132,6 +149,10 @@ class __$WatchlistModelCopyWithImpl<$Res>
           ? _value.chartData
           : chartData // ignore: cast_nullable_to_non_nullable
               as List<ChartData>,
+      percentChange: percentChange == freezed
+          ? _value.percentChange
+          : percentChange // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -140,7 +161,10 @@ class __$WatchlistModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_WatchlistModel implements _WatchlistModel {
   const _$_WatchlistModel(
-      {required this.symbol, required this.fullName, required this.chartData});
+      {required this.symbol,
+      required this.fullName,
+      required this.chartData,
+      required this.percentChange});
 
   factory _$_WatchlistModel.fromJson(Map<String, dynamic> json) =>
       _$$_WatchlistModelFromJson(json);
@@ -151,10 +175,12 @@ class _$_WatchlistModel implements _WatchlistModel {
   final String fullName;
   @override
   final List<ChartData> chartData;
+  @override
+  final double percentChange;
 
   @override
   String toString() {
-    return 'WatchlistModel(symbol: $symbol, fullName: $fullName, chartData: $chartData)';
+    return 'WatchlistModel(symbol: $symbol, fullName: $fullName, chartData: $chartData, percentChange: $percentChange)';
   }
 
   @override
@@ -165,12 +191,14 @@ class _$_WatchlistModel implements _WatchlistModel {
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
-            const DeepCollectionEquality().equals(other.chartData, chartData));
+            const DeepCollectionEquality().equals(other.chartData, chartData) &&
+            (identical(other.percentChange, percentChange) ||
+                other.percentChange == percentChange));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, symbol, fullName,
-      const DeepCollectionEquality().hash(chartData));
+      const DeepCollectionEquality().hash(chartData), percentChange);
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +215,8 @@ abstract class _WatchlistModel implements WatchlistModel {
   const factory _WatchlistModel(
       {required String symbol,
       required String fullName,
-      required List<ChartData> chartData}) = _$_WatchlistModel;
+      required List<ChartData> chartData,
+      required double percentChange}) = _$_WatchlistModel;
 
   factory _WatchlistModel.fromJson(Map<String, dynamic> json) =
       _$_WatchlistModel.fromJson;
@@ -198,6 +227,8 @@ abstract class _WatchlistModel implements WatchlistModel {
   String get fullName;
   @override
   List<ChartData> get chartData;
+  @override
+  double get percentChange;
   @override
   @JsonKey(ignore: true)
   _$WatchlistModelCopyWith<_WatchlistModel> get copyWith =>

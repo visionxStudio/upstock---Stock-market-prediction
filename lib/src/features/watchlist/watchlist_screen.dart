@@ -65,9 +65,18 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
                             .watchLists!
                             .data[index];
 
-                        return SingleWatchListWidget(
-                          watchlist: watchList,
-                          isDecreasing: true,
+                        return GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(watchlistNotifierProvider)
+                                .removeFromWatchList(index);
+                          },
+                          child: SingleWatchListWidget(
+                            watchlist: watchList,
+                            isDecreasing: watchList.percentChange
+                                .toString()
+                                .contains("-"),
+                          ),
                         );
                       },
                     )

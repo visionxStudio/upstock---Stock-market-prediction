@@ -13,16 +13,6 @@ final nepseProvider = ChangeNotifierProvider(
 class NepseHomePageNotifier extends ChangeNotifier {
   NepseHomePageNotifier(this._nepseRepo) {
     scheduleMicrotask(() => getNepseTradingData());
-    setChartData(
-      const NepseStockModel(
-        time: [0],
-        closingPrice: [""],
-        oopeningPrice: [""],
-        dayHighPrice: [""],
-        dayLowPrice: [""],
-        volumeTraded: [""],
-      ),
-    );
   }
 
   final NepseRepository _nepseRepo;
@@ -95,46 +85,49 @@ class NepseHomePageNotifier extends ChangeNotifier {
   void setChartData(NepseStockModel data) {
     chartData.clear();
     if (NepseStockModel.fromStorage() == null) {
-      int secondIndex = 0;
+      // int secondIndex = 0;
 
-      for (int i = data.closingPrice.length - daysPlot;
-          i < data.closingPrice.length;
-          i++) {
-        closingPrice.add(double.parse(data.closingPrice[i]));
-      }
+      // for (int i = data.closingPrice.length - daysPlot;
+      //     i < data.closingPrice.length;
+      //     i++) {
+      //   closingPrice.add(double.parse(data.closingPrice[i]));
+      // }
 
       for (int i = data.time.length - daysPlot; i < data.time.length; i++) {
         chartData.add(ChartData(
-          y: closingPrice[secondIndex],
+          // y: closingPrice[secondIndex],
+          y: double.parse(data.closingPrice[i]),
           x: convertToDateTime(data.time[i]),
           // x: i.toString(),
           // x: data.time[i].toString(),
         ));
         notifyListeners();
-        secondIndex += 1;
+        // secondIndex += 1;
       }
     } else {
-      int secondIndex = 0;
+      // int secondIndex = 0;
 
-      for (int i =
-              NepseStockModel.fromStorage()!.closingPrice.length - daysPlot;
-          i < NepseStockModel.fromStorage()!.closingPrice.length;
-          i++) {
-        closingPrice
-            .add(double.parse(NepseStockModel.fromStorage()!.closingPrice[i]));
-      }
+      // for (int i =
+      //         NepseStockModel.fromStorage()!.closingPrice.length - daysPlot;
+      //     i < NepseStockModel.fromStorage()!.closingPrice.length;
+      //     i++) {
+      //   closingPrice
+      //       .add(double.parse(NepseStockModel.fromStorage()!.closingPrice[i]));
+      // }
 
       for (int i = NepseStockModel.fromStorage()!.time.length - daysPlot;
           i < NepseStockModel.fromStorage()!.time.length;
           i++) {
         chartData.add(ChartData(
-          y: closingPrice[secondIndex],
+          // y: closingPrice[secondIndex],
+          y: double.parse(NepseStockModel.fromStorage()!.closingPrice[i]),
+
           x: convertToDateTime(NepseStockModel.fromStorage()!.time[i]),
           // x: i.toString(),
           // x: data.time[i].toString(),
         ));
         notifyListeners();
-        secondIndex += 1;
+        // secondIndex += 1;
       }
     }
   }

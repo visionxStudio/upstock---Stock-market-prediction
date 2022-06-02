@@ -26,7 +26,11 @@ class NepseStockModel with _$NepseStockModel {
 
   static NepseStockModel? fromStorage() {
     final nepseData = SharedPrefProvider.instance.getString("nepseData");
-    return NepseStockModel.fromJson(
-        jsonDecode(nepseData!) as Map<String, dynamic>);
+    if (nepseData != null) {
+      return NepseStockModel.fromJson(
+          jsonDecode(nepseData) as Map<String, dynamic>);
+    } else {
+      return null;
+    }
   }
 }

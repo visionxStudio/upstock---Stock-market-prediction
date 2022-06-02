@@ -11,6 +11,7 @@ import 'package:upstock/src/features/homepage/widgets/nepse_chart.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_description.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../common/appbar/appbar.dart';
 import '../../common/utils/app_size_utils.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -25,79 +26,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhiteColor,
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, kToolbarHeight * 2),
-        child: SafeArea(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset(
-                        "assets/images/logo.png",
-                        color: kBlackColor,
-                      ),
-                      const WidthWidget(4.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          NormalText(
-                            "UPSTOCK",
-                            fontSize: kDefaultFontSize + 6,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          NormalText(
-                            "Learn, Invest & Grow",
-                            fontSize: kDefaultFontSize - 2,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Container(
-                        height: 45.0,
-                        width: 45.0,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFBFDBFE),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/images/placeholder.png",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: const [
-                      NormalText(
-                        "₹98,509.75",
-                        fontSize: kDefaultFontSize + 8,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      WidthWidget(16.0),
-                      NormalText(
-                        "+ 1700.254 (9.77%)",
-                        color: kProfitColor,
-                        fontSize: kDefaultFontSize + 2,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+      appBar: const PreferredSize(
+        preferredSize: Size(double.infinity, kToolbarHeight * 2),
+        child: Appbar(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -113,6 +44,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const HeightWidget(16.0),
             const NepseDescription(),
             const HeightWidget(16.0),
+            const Divider(),
+            const HeightWidget(8.0),
             NepseTopStoriesWidget(ref: ref),
             const HeightWidget(kDefaultFontSize * 6)
           ],
@@ -183,58 +116,64 @@ class _NepseTopStoriesWidgetState extends State<NepseTopStoriesWidget> {
                       onTap: () {
                         _launchURL(news.link);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: SizeConfig.screenWidth * 0.55,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  NormalText(
-                                    news.title,
-                                    maxline: 3,
-                                    fontSize: kDefaultFontSize + 2,
-                                    fontWeight: FontWeight.w600,
-                                    color: knewsTextColor,
-                                  ),
-                                  const HeightWidget(8.0),
-                                  Row(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: SizeConfig.screenWidth * 0.55,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       NormalText(
-                                        news.source.replaceAll(".com", ""),
-                                        fontSize: kDefaultFontSize - 4,
-                                        fontWeight: FontWeight.bold,
-                                        color: kgreyTextColor,
+                                        news.title,
+                                        maxline: 3,
+                                        fontSize: kDefaultFontSize,
+                                        fontWeight: FontWeight.w600,
+                                        color: knewsTextColor,
                                       ),
-                                      const WidthWidget(8.0),
-                                      NormalText(
-                                        news.published,
-                                        fontSize: kDefaultFontSize - 4,
-                                        fontWeight: FontWeight.bold,
-                                        color: kgreyTextColor,
-                                      )
+                                      const HeightWidget(8.0),
+                                      Row(
+                                        children: [
+                                          NormalText(
+                                            news.source.replaceAll(".com", ""),
+                                            fontSize: kDefaultFontSize - 6,
+                                            fontWeight: FontWeight.bold,
+                                            color: kgreyTextColor,
+                                          ),
+                                          const WidthWidget(8.0),
+                                          NormalText(
+                                            news.published,
+                                            fontSize: kDefaultFontSize - 6,
+                                            fontWeight: FontWeight.bold,
+                                            color: kgreyTextColor,
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            Expanded(
-                              // height: 100.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  imageList[index],
-                                  height: 80.0,
-                                  width: 120.0,
-                                  fit: BoxFit.cover,
                                 ),
-                              ),
+                                const Spacer(),
+                                Expanded(
+                                  // height: 100.0,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      imageList[index],
+                                      height: 80.0,
+                                      width: 120.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const Divider(),
+                        ],
                       ),
                     );
                   },

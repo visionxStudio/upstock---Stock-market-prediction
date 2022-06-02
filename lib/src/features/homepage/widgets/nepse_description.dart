@@ -6,6 +6,7 @@ import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
 import '../../../common/constants/constants.dart';
 import '../../../common/widgets/size/custom_size_widget.dart';
 import '../../../common/widgets/text/custom_normal_text_widget.dart';
+import '../models/nepse/nepse_trading_menu/nepse_trading_menu.dart';
 import '../models/nepse_stock_model.dart';
 
 class NepseDescription extends StatefulWidget {
@@ -68,15 +69,30 @@ class _NepseDescriptionState extends State<NepseDescription> {
                 const HeightWidget(kDefaultFontSize * 2),
                 NepseStockModel.fromStorage() == null
                     ? const NormalText("")
-                    : NormalText(
-                        NepseStockModel.fromStorage()!
-                            .closingPrice[NepseStockModel.fromStorage()!
-                                    .closingPrice
-                                    .length -
-                                1]
-                            .toString(),
-                        fontSize: kDefaultFontSize + 2,
-                        fontWeight: FontWeight.bold,
+                    : Row(
+                        children: [
+                          NormalText(
+                            NepseStockModel.fromStorage()!
+                                .closingPrice[NepseStockModel.fromStorage()!
+                                        .closingPrice
+                                        .length -
+                                    1]
+                                .toString(),
+                            fontSize: kDefaultFontSize + 2,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          NormalText(
+                            " (${NepseTradingMenuModel.fromStorage()!.price.percentageChange}%)",
+                            fontSize: kDefaultFontSize + 2,
+                            color: NepseTradingMenuModel.fromStorage()!
+                                    .price
+                                    .percentageChange
+                                    .contains("-")
+                                ? Colors.red
+                                : Colors.green,
+                            fontWeight: FontWeight.bold,
+                          )
+                        ],
                       )
               ],
             ),

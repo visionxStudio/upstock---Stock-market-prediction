@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/features/stock_details/models/company_list_model.dart';
-import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 
 import '../../features/watchlist/widgets/company_search_list_widget.dart';
 import '../constants/constants.dart';
@@ -108,27 +107,25 @@ class _AppbarState extends ConsumerState<Appbar> {
                 ],
               ),
             ),
-            !widget.showStockLearning
-                ? const SizedBox()
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: const [
-                        NormalText(
-                          "₹98,509.75",
-                          fontSize: kDefaultFontSize + 8,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        WidthWidget(16.0),
-                        NormalText(
-                          "+ 1700.254 (9.77%)",
-                          color: kProfitColor,
-                          fontSize: kDefaultFontSize + 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                  )
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: const [
+                  NormalText(
+                    "₹98,509.75",
+                    fontSize: kDefaultFontSize + 8,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  WidthWidget(16.0),
+                  NormalText(
+                    "+ 1700.254 (9.77%)",
+                    color: kProfitColor,
+                    fontSize: kDefaultFontSize + 2,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

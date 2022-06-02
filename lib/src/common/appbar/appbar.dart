@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:upstock/src/features/stock_details/models/company_list_model.dart';
 import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 
+import '../../features/watchlist/widgets/company_search_list_widget.dart';
 import '../constants/constants.dart';
 import '../utils/app_size_utils.dart';
 import '../widgets/size/custom_size_widget.dart';
@@ -64,25 +66,27 @@ class _AppbarState extends ConsumerState<Appbar> {
                             icon: const Icon(FlutterRemix.add_line),
                             onPressed: () {
                               showModalBottomSheet(
-                                enableDrag: true,
+                                clipBehavior: Clip.hardEdge,
                                 isScrollControlled: true,
                                 barrierColor: kLightGrey.withOpacity(0.6),
                                 backgroundColor: Colors.transparent,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(32.0),
+                                  borderRadius: BorderRadius.circular(16.0),
                                 ),
                                 context: context,
                                 builder: (context) {
-                                  return Container(
-                                    height: SizeConfig.screenHeight * 0.4,
-                                    decoration: const BoxDecoration(
+                                  return StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return Container(
+                                      height: SizeConfig.screenHeight * 0.6,
+                                      padding: const EdgeInsets.all(16.0),
                                       color: kWhiteColor,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(16.0),
-                                        topRight: Radius.circular(16.0),
+                                      child: CompanySearchListWidget(
+                                        CompanyListModel.fromStorage()!.data,
                                       ),
-                                    ),
-                                  );
+                                    );
+                                  });
                                 },
                               );
                             },

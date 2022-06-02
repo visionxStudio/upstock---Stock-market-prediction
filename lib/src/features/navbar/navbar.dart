@@ -242,8 +242,7 @@ class _NavBarButton extends StatelessWidget {
                     children: [
                       Icon(
                         active ? activeIcon[index] : asset,
-                        color:
-                            active ? kNavBackgroundColor : knavbarInactiveColor,
+                        color: active ? kPrimaryColor2 : knavbarInactiveColor,
                       )
                       // Image.asset(
                       //   asset,

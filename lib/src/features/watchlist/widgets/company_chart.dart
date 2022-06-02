@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -7,22 +5,18 @@ import '../../../common/constants/constants.dart';
 import '../../homepage/models/chart_data/chart_data.dart';
 
 class CompanyChartWidget extends StatefulWidget {
-  const CompanyChartWidget({Key? key}) : super(key: key);
+  const CompanyChartWidget(
+      {required this.data, required this.isDecreasing, Key? key})
+      : super(key: key);
+
+  final List<ChartData> data;
+  final bool isDecreasing;
 
   @override
   State<CompanyChartWidget> createState() => _CompanyChartWidgetState();
 }
 
 class _CompanyChartWidgetState extends State<CompanyChartWidget> {
-  List<ChartData> data = [
-    const ChartData(x: "1", y: 10.0),
-    const ChartData(x: "12", y: 7.0),
-    const ChartData(x: "13", y: 11.0),
-    const ChartData(x: "14", y: 8.0),
-    const ChartData(x: "15", y: 12.0),
-    const ChartData(x: "16", y: 13.0),
-    const ChartData(x: "17", y: 14.0),
-  ];
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -55,8 +49,8 @@ class _CompanyChartWidgetState extends State<CompanyChartWidget> {
         ),
         series: <ChartSeries>[
           FastLineSeries<ChartData, String>(
-            color: Colors.green,
-            dataSource: data,
+            color: widget.isDecreasing ? Colors.red : Colors.green,
+            dataSource: widget.data,
             enableTooltip: true,
             xValueMapper: (ChartData data, _) => data.x,
             yValueMapper: (ChartData data, _) => data.y,

@@ -3,18 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
-import 'package:upstock/src/common/widgets/button/custom_elevated_button.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
-import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
 import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
-import 'package:upstock/src/features/watchlist/widgets/company_chart.dart';
+import 'package:upstock/src/features/watchlist/models/watch_list_model/watchlist_collection_model.dart';
+import 'package:upstock/src/features/watchlist/models/watchlist_model/watchlist_model.dart';
+import 'package:upstock/src/features/watchlist/widgets/single_watch_list_widget.dart';
 
 import '../../common/appbar/appbar.dart';
-import '../homepage/models/chart_data/chart_data.dart';
 
 class WatchListScreen extends ConsumerStatefulWidget {
   const WatchListScreen({Key? key}) : super(key: key);
@@ -53,55 +51,28 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
                 fontSize: kDefaultFontSize + 6,
                 fontWeight: FontWeight.bold,
               ),
-              Column(
-                children: [
-                  Card(
-                    elevation: 2.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              NormalText(
-                                "Samriddhi Finance Company ",
-                                fontSize: kDefaultFontSize,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              HeightWidget(4.0),
-                              NormalText(
-                                "SFCL ",
-                                fontSize: kDefaultFontSize,
-                                color: kgreyTextColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                          const CompanyChartWidget(),
-                          Column(
-                            children: const [
-                              NormalText(
-                                "₹ 263.55",
-                                fontSize: kDefaultFontSize,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              HeightWidget(4.0),
-                              NormalText(
-                                "(+9.77%)",
-                                color: Color(0xFF21BF73),
-                                fontSize: kDefaultFontSize,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              ref.watch(watchlistNotifierProvider).watchLists != null
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: ref
+                          .watch(watchlistNotifierProvider)
+                          .watchLists!
+                          .data
+                          .length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final WatchlistModel watchList = ref
+                            .watch(watchlistNotifierProvider)
+                            .watchLists!
+                            .data[index];
+
+                        return SingleWatchListWidget(
+                          watchlist: watchList,
+                          isDecreasing: true,
+                        );
+                      },
+                    )
+                  : const NoWatchlistWidget(),
+
               // const NoWatchlistWidget()
             ],
           ),

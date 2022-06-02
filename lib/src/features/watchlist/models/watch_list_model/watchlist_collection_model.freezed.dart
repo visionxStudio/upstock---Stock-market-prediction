@@ -22,8 +22,10 @@ WatchListCollectionModel _$WatchListCollectionModelFromJson(
 class _$WatchListCollectionModelTearOff {
   const _$WatchListCollectionModelTearOff();
 
-  _WatchListCollectionModel call() {
-    return const _WatchListCollectionModel();
+  _WatchListCollectionModel call({required List<WatchlistModel> data}) {
+    return _WatchListCollectionModel(
+      data: data,
+    );
   }
 
   WatchListCollectionModel fromJson(Map<String, Object?> json) {
@@ -36,7 +38,12 @@ const $WatchListCollectionModel = _$WatchListCollectionModelTearOff();
 
 /// @nodoc
 mixin _$WatchListCollectionModel {
+  List<WatchlistModel> get data => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $WatchListCollectionModelCopyWith<WatchListCollectionModel> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -44,6 +51,7 @@ abstract class $WatchListCollectionModelCopyWith<$Res> {
   factory $WatchListCollectionModelCopyWith(WatchListCollectionModel value,
           $Res Function(WatchListCollectionModel) then) =
       _$WatchListCollectionModelCopyWithImpl<$Res>;
+  $Res call({List<WatchlistModel> data});
 }
 
 /// @nodoc
@@ -54,13 +62,28 @@ class _$WatchListCollectionModelCopyWithImpl<$Res>
   final WatchListCollectionModel _value;
   // ignore: unused_field
   final $Res Function(WatchListCollectionModel) _then;
+
+  @override
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(_value.copyWith(
+      data: data == freezed
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<WatchlistModel>,
+    ));
+  }
 }
 
 /// @nodoc
-abstract class _$WatchListCollectionModelCopyWith<$Res> {
+abstract class _$WatchListCollectionModelCopyWith<$Res>
+    implements $WatchListCollectionModelCopyWith<$Res> {
   factory _$WatchListCollectionModelCopyWith(_WatchListCollectionModel value,
           $Res Function(_WatchListCollectionModel) then) =
       __$WatchListCollectionModelCopyWithImpl<$Res>;
+  @override
+  $Res call({List<WatchlistModel> data});
 }
 
 /// @nodoc
@@ -74,30 +97,53 @@ class __$WatchListCollectionModelCopyWithImpl<$Res>
   @override
   _WatchListCollectionModel get _value =>
       super._value as _WatchListCollectionModel;
+
+  @override
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(_WatchListCollectionModel(
+      data: data == freezed
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<WatchlistModel>,
+    ));
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$_WatchListCollectionModel implements _WatchListCollectionModel {
-  const _$_WatchListCollectionModel();
+  const _$_WatchListCollectionModel({required this.data});
 
   factory _$_WatchListCollectionModel.fromJson(Map<String, dynamic> json) =>
       _$$_WatchListCollectionModelFromJson(json);
 
   @override
+  final List<WatchlistModel> data;
+
+  @override
   String toString() {
-    return 'WatchListCollectionModel()';
+    return 'WatchListCollectionModel(data: $data)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _WatchListCollectionModel);
+            other is _WatchListCollectionModel &&
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+
+  @JsonKey(ignore: true)
+  @override
+  _$WatchListCollectionModelCopyWith<_WatchListCollectionModel> get copyWith =>
+      __$WatchListCollectionModelCopyWithImpl<_WatchListCollectionModel>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -106,8 +152,16 @@ class _$_WatchListCollectionModel implements _WatchListCollectionModel {
 }
 
 abstract class _WatchListCollectionModel implements WatchListCollectionModel {
-  const factory _WatchListCollectionModel() = _$_WatchListCollectionModel;
+  const factory _WatchListCollectionModel(
+      {required List<WatchlistModel> data}) = _$_WatchListCollectionModel;
 
   factory _WatchListCollectionModel.fromJson(Map<String, dynamic> json) =
       _$_WatchListCollectionModel.fromJson;
+
+  @override
+  List<WatchlistModel> get data;
+  @override
+  @JsonKey(ignore: true)
+  _$WatchListCollectionModelCopyWith<_WatchListCollectionModel> get copyWith =>
+      throw _privateConstructorUsedError;
 }

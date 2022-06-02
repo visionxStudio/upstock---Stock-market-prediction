@@ -113,7 +113,7 @@ class _CompanySearchListWidgetState extends State<CompanySearchListWidget> {
                   onTap: () {
                     ref
                         .read(watchlistNotifierProvider)
-                        .getCompanyDetails(stockName: stock.symbol);
+                        .getCompanyDetails(stock: stock, isRefresh: false);
 
                     context.router.pop();
                   },

@@ -85,7 +85,7 @@ class NepseHomePageNotifier extends ChangeNotifier {
   void setChartData(NepseStockModel data) {
     chartData.clear();
     if (NepseStockModel.fromStorage() == null) {
-      int secondIndex = 0;
+      // int secondIndex = 0;
 
       // for (int i = data.closingPrice.length - daysPlot;
       //     i < data.closingPrice.length;
@@ -102,10 +102,10 @@ class NepseHomePageNotifier extends ChangeNotifier {
           // x: data.time[i].toString(),
         ));
         notifyListeners();
-        secondIndex += 1;
+        // secondIndex += 1;
       }
     } else {
-      int secondIndex = 0;
+      // int secondIndex = 0;
 
       // for (int i =
       //         NepseStockModel.fromStorage()!.closingPrice.length - daysPlot;
@@ -127,7 +127,7 @@ class NepseHomePageNotifier extends ChangeNotifier {
           // x: data.time[i].toString(),
         ));
         notifyListeners();
-        secondIndex += 1;
+        // secondIndex += 1;
       }
     }
   }

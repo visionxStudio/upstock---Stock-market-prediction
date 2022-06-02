@@ -44,6 +44,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const HeightWidget(16.0),
             const NepseDescription(),
             const HeightWidget(16.0),
+            const Divider(),
+            const HeightWidget(8.0),
             NepseTopStoriesWidget(ref: ref),
             const HeightWidget(kDefaultFontSize * 6)
           ],
@@ -114,58 +116,64 @@ class _NepseTopStoriesWidgetState extends State<NepseTopStoriesWidget> {
                       onTap: () {
                         _launchURL(news.link);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: SizeConfig.screenWidth * 0.55,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  NormalText(
-                                    news.title,
-                                    maxline: 3,
-                                    fontSize: kDefaultFontSize,
-                                    fontWeight: FontWeight.w600,
-                                    color: knewsTextColor,
-                                  ),
-                                  const HeightWidget(8.0),
-                                  Row(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: SizeConfig.screenWidth * 0.55,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       NormalText(
-                                        news.source.replaceAll(".com", ""),
-                                        fontSize: kDefaultFontSize - 6,
-                                        fontWeight: FontWeight.bold,
-                                        color: kgreyTextColor,
+                                        news.title,
+                                        maxline: 3,
+                                        fontSize: kDefaultFontSize,
+                                        fontWeight: FontWeight.w600,
+                                        color: knewsTextColor,
                                       ),
-                                      const WidthWidget(8.0),
-                                      NormalText(
-                                        news.published,
-                                        fontSize: kDefaultFontSize - 6,
-                                        fontWeight: FontWeight.bold,
-                                        color: kgreyTextColor,
-                                      )
+                                      const HeightWidget(8.0),
+                                      Row(
+                                        children: [
+                                          NormalText(
+                                            news.source.replaceAll(".com", ""),
+                                            fontSize: kDefaultFontSize - 6,
+                                            fontWeight: FontWeight.bold,
+                                            color: kgreyTextColor,
+                                          ),
+                                          const WidthWidget(8.0),
+                                          NormalText(
+                                            news.published,
+                                            fontSize: kDefaultFontSize - 6,
+                                            fontWeight: FontWeight.bold,
+                                            color: kgreyTextColor,
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            Expanded(
-                              // height: 100.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  imageList[index],
-                                  height: 80.0,
-                                  width: 120.0,
-                                  fit: BoxFit.cover,
                                 ),
-                              ),
+                                const Spacer(),
+                                Expanded(
+                                  // height: 100.0,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      imageList[index],
+                                      height: 80.0,
+                                      width: 120.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const Divider(),
+                        ],
                       ),
                     );
                   },

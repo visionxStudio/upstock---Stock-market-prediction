@@ -56,6 +56,7 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
               Column(
                 children: [
                   Card(
+                    elevation: 2.0,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
@@ -86,8 +87,9 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
                                 fontSize: kDefaultFontSize,
                                 fontWeight: FontWeight.bold,
                               ),
+                              HeightWidget(4.0),
                               NormalText(
-                                "+9.77%",
+                                "(+9.77%)",
                                 color: Color(0xFF21BF73),
                                 fontSize: kDefaultFontSize,
                                 fontWeight: FontWeight.bold,

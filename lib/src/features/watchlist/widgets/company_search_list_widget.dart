@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:upstock/src/features/stock_details/models/company_model.dart';
+import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 
 import '../../../common/constants/constants.dart';
 import '../../../common/widgets/input_field/minimal_input_field.dart';
@@ -110,7 +111,9 @@ class _CompanySearchListWidgetState extends State<CompanySearchListWidget> {
               return Consumer(builder: (context, ref, child) {
                 return InkWell(
                   onTap: () {
-                    // TODO change the stock name in controller in here
+                    ref
+                        .read(watchlistNotifierProvider)
+                        .getCompanyDetails(stockName: stock.symbol);
 
                     context.router.pop();
                   },

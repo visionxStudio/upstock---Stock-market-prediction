@@ -5,6 +5,7 @@ import 'dart:io' show Platform;
 import 'package:flutter_remix/flutter_remix.dart';
 
 import 'package:upstock/src/features/homepage/homepage.dart';
+import 'package:upstock/src/features/profile/profile_screen.dart';
 import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
 import 'package:upstock/src/features/watchlist/watchlist_screen.dart';
 
@@ -105,7 +106,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   case NavBarPage.portfolio:
                     return const MyPortfolioScreen();
                   case NavBarPage.profile:
-                    return const HomeScreen();
+                    return const ProfilePage();
                 }
               },
             ),
@@ -154,6 +155,7 @@ class _NavBarButton extends StatelessWidget {
     required this.onTap,
     required this.active,
     required this.asset,
+    // ignore: unused_element
     this.center = false,
   }) : super(key: key);
 

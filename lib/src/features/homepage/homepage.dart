@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/common/constants/constants.dart';
+import 'package:upstock/src/common/show_up_animations.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/homepage/bloc/home_page_notifier.dart';
@@ -36,9 +37,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhiteColor,
-      appBar: const PreferredSize(
-        preferredSize: Size(double.infinity, kToolbarHeight * 2),
-        child: Appbar(),
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, kToolbarHeight * 2),
+        child: Appbar(
+          onTap: () {},
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,16 +50,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               padding: EdgeInsets.symmetric(horizontal: 4.0),
               child: SizedBox(
                 height: 200.0,
-                child: NEPSEChart(),
+                child: ShowUpTransition(
+                  duration: Duration(milliseconds: 300),
+                  forward: true,
+                  slideSide: SlideFromSlide.BOTTOM,
+                  child: NEPSEChart(),
+                ),
               ),
             ),
-            const NepseTimeIntervalWidget(),
+            const ShowUpTransition(
+              duration: Duration(milliseconds: 900),
+              forward: true,
+              slideSide: SlideFromSlide.RIGHT,
+              child: NepseTimeIntervalWidget(),
+            ),
             const HeightWidget(16.0),
-            const NepseDescription(),
+            const ShowUpTransition(
+                duration: Duration(milliseconds: 900),
+                forward: true,
+                slideSide: SlideFromSlide.BOTTOM,
+                child: NepseDescription()),
             const HeightWidget(16.0),
             const Divider(),
             const HeightWidget(8.0),
-            NepseTopStoriesWidget(ref: ref),
+            ShowUpTransition(
+                duration: const Duration(milliseconds: 900),
+                forward: true,
+                slideSide: SlideFromSlide.TOP,
+                child: NepseTopStoriesWidget(ref: ref)),
             const HeightWidget(kDefaultFontSize * 6)
           ],
         ),

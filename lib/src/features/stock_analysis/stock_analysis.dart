@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:upstock/src/common/appbar/appbar.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
-import 'package:upstock/src/features/homepage/models/nepse_stock_model.dart';
 
 import '../../common/constants/constants.dart';
 

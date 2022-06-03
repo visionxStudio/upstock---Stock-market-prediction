@@ -59,18 +59,18 @@ class _NEPSEChartState extends ConsumerState<NEPSEChart> {
                     axisLine: const AxisLine(width: 0),
                   ),
                   series: <ChartSeries>[
-                    FastLineSeries<ChartData, dynamic>(
+                    SplineAreaSeries<ChartData, dynamic>(
                       color: kPrimaryColor2,
-                      // gradient: LinearGradient(
-                      //   colors: [
-                      //     kPrimaryColor2,
-                      //     kPrimaryColor2.withOpacity(0.4),
-                      //     kWhiteColor.withOpacity(0.1),
-                      //   ],
-                      //   stops: const [0.0, 0.5, 1.0],
-                      //   end: Alignment.bottomCenter,
-                      //   begin: Alignment.topCenter,
-                      // ),
+                      gradient: LinearGradient(
+                        colors: [
+                          kPrimaryColor2,
+                          kPrimaryColor2.withOpacity(0.4),
+                          kWhiteColor.withOpacity(0.1),
+                        ],
+                        stops: const [0.0, 0.5, 1.0],
+                        end: Alignment.bottomCenter,
+                        begin: Alignment.topCenter,
+                      ),
                       dataSource: ref.watch(nepseProvider).chartData,
                       enableTooltip: true,
                       xValueMapper: (ChartData data, _) => data.x,

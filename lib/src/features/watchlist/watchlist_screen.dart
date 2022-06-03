@@ -10,9 +10,11 @@ import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 import 'package:upstock/src/features/watchlist/models/watchlist_model/watchlist_model.dart';
+import 'package:upstock/src/features/watchlist/widgets/company_search_list_widget.dart';
 import 'package:upstock/src/features/watchlist/widgets/single_watch_list_widget.dart';
 
 import '../../common/appbar/appbar.dart';
+import '../stock_details/models/company_list_model.dart';
 
 class WatchListScreen extends ConsumerStatefulWidget {
   const WatchListScreen({Key? key}) : super(key: key);
@@ -37,10 +39,35 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kWhiteColor,
-      appBar: const PreferredSize(
-        preferredSize: Size(double.infinity, kToolbarHeight * 2),
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, kToolbarHeight * 2),
         child: Appbar(
           showProfileImage: false,
+          onTap: () {
+            showModalBottomSheet(
+              clipBehavior: Clip.hardEdge,
+              isScrollControlled: true,
+              barrierColor: kLightGrey.withOpacity(0.6),
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              context: context,
+              builder: (context) {
+                return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  return Container(
+                    height: SizeConfig.screenHeight * 0.6,
+                    padding: const EdgeInsets.all(16.0),
+                    color: kWhiteColor,
+                    child: CompanySearchListWidget(
+                      CompanyListModel.fromStorage()!.data,
+                    ),
+                  );
+                });
+              },
+            );
+          },
         ),
       ),
       body: SingleChildScrollView(

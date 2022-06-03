@@ -14,10 +14,12 @@ class Appbar extends ConsumerStatefulWidget {
     Key? key,
     this.showProfileImage = true,
     this.showPrice = true,
+    required this.onTap,
   }) : super(key: key);
 
   final bool showProfileImage;
   final bool showPrice;
+  final VoidCallback onTap;
 
   @override
   _AppbarState createState() => _AppbarState();
@@ -65,32 +67,7 @@ class _AppbarState extends ConsumerState<Appbar> {
                           ),
                           child: IconButton(
                             icon: const Icon(FlutterRemix.add_line),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                clipBehavior: Clip.hardEdge,
-                                isScrollControlled: true,
-                                barrierColor: kLightGrey.withOpacity(0.6),
-                                backgroundColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                context: context,
-                                builder: (context) {
-                                  return StatefulBuilder(builder:
-                                      (BuildContext context,
-                                          StateSetter setState) {
-                                    return Container(
-                                      height: SizeConfig.screenHeight * 0.6,
-                                      padding: const EdgeInsets.all(16.0),
-                                      color: kWhiteColor,
-                                      child: CompanySearchListWidget(
-                                        CompanyListModel.fromStorage()!.data,
-                                      ),
-                                    );
-                                  });
-                                },
-                              );
-                            },
+                            onPressed: widget.onTap,
                           ),
                         )
                       : Container(

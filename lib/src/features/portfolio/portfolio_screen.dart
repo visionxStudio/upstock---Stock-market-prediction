@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:upstock/src/common/constants/constants.dart';
+import 'package:upstock/src/common/show_up_animations.dart';
 import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
@@ -31,11 +32,12 @@ class _MyPortfolioScreenState extends State<MyPortfolioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kScafoldColor,
-      appBar: const PreferredSize(
-        preferredSize: Size(double.infinity, kToolbarHeight * 1.5),
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, kToolbarHeight * 1.5),
         child: Appbar(
           showPrice: false,
           showProfileImage: false,
+          onTap: () {},
         ),
       ),
       body: SingleChildScrollView(
@@ -43,7 +45,12 @@ class _MyPortfolioScreenState extends State<MyPortfolioScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              const PortfolioCardWidget(),
+              const ShowUpTransition(
+                duration: Duration(milliseconds: 1500),
+                forward: true,
+                slideSide: SlideFromSlide.TOP,
+                child: PortfolioCardWidget(),
+              ),
               const HeightWidget(kDefaultFontSize),
               CustomContainer(
                 // backgroundColor: kScafoldColor,

@@ -57,10 +57,11 @@ class NepseHomePageNotifier extends ChangeNotifier {
     );
   }
 
-  String convertToDateTime(int timestamp) {
-    DateFormat dateFormat = DateFormat("MMMd");
-    String date = dateFormat
-        .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
+  DateTime convertToDateTime(int timestamp) {
+    // DateFormat dateFormat = DateFormat("MMMd");
+    // String date = dateFormat
+    //     .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     return date;
   }
 

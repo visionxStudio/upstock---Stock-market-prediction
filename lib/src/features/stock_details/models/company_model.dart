@@ -6,6 +6,7 @@ part 'company_model.freezed.dart';
 class CompanyModel with _$CompanyModel {
   const factory CompanyModel({
     required String symbol,
+    // ignore: invalid_annotation_target
     @JsonKey(name: "full_name") required String fullName,
     required String description,
     required String exchange,

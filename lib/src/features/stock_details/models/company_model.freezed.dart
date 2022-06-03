@@ -46,7 +46,8 @@ const $CompanyModel = _$CompanyModelTearOff();
 
 /// @nodoc
 mixin _$CompanyModel {
-  String get symbol => throw _privateConstructorUsedError;
+  String get symbol =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: "full_name")
   String get fullName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -186,7 +187,7 @@ class _$_CompanyModel implements _CompanyModel {
 
   @override
   final String symbol;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "full_name")
   final String fullName;
   @override
@@ -244,7 +245,7 @@ abstract class _CompanyModel implements CompanyModel {
 
   @override
   String get symbol;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: "full_name")
   String get fullName;
   @override

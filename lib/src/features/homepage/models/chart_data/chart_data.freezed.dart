@@ -21,7 +21,7 @@ ChartData _$ChartDataFromJson(Map<String, dynamic> json) {
 class _$ChartDataTearOff {
   const _$ChartDataTearOff();
 
-  _ChartData call({required String x, required double y}) {
+  _ChartData call({required DateTime x, required double y}) {
     return _ChartData(
       x: x,
       y: y,
@@ -38,7 +38,7 @@ const $ChartData = _$ChartDataTearOff();
 
 /// @nodoc
 mixin _$ChartData {
-  String get x => throw _privateConstructorUsedError;
+  DateTime get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +51,7 @@ mixin _$ChartData {
 abstract class $ChartDataCopyWith<$Res> {
   factory $ChartDataCopyWith(ChartData value, $Res Function(ChartData) then) =
       _$ChartDataCopyWithImpl<$Res>;
-  $Res call({String x, double y});
+  $Res call({DateTime x, double y});
 }
 
 /// @nodoc
@@ -71,7 +71,7 @@ class _$ChartDataCopyWithImpl<$Res> implements $ChartDataCopyWith<$Res> {
       x: x == freezed
           ? _value.x
           : x // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       y: y == freezed
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
@@ -86,7 +86,7 @@ abstract class _$ChartDataCopyWith<$Res> implements $ChartDataCopyWith<$Res> {
           _ChartData value, $Res Function(_ChartData) then) =
       __$ChartDataCopyWithImpl<$Res>;
   @override
-  $Res call({String x, double y});
+  $Res call({DateTime x, double y});
 }
 
 /// @nodoc
@@ -107,7 +107,7 @@ class __$ChartDataCopyWithImpl<$Res> extends _$ChartDataCopyWithImpl<$Res>
       x: x == freezed
           ? _value.x
           : x // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       y: y == freezed
           ? _value.y
           : y // ignore: cast_nullable_to_non_nullable
@@ -125,7 +125,7 @@ class _$_ChartData implements _ChartData {
       _$$_ChartDataFromJson(json);
 
   @override
-  final String x;
+  final DateTime x;
   @override
   final double y;
 
@@ -158,14 +158,14 @@ class _$_ChartData implements _ChartData {
 }
 
 abstract class _ChartData implements ChartData {
-  const factory _ChartData({required String x, required double y}) =
+  const factory _ChartData({required DateTime x, required double y}) =
       _$_ChartData;
 
   factory _ChartData.fromJson(Map<String, dynamic> json) =
       _$_ChartData.fromJson;
 
   @override
-  String get x;
+  DateTime get x;
   @override
   double get y;
   @override

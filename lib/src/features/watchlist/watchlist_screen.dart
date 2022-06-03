@@ -8,7 +8,6 @@ import 'package:upstock/src/common/utils/app_size_utils.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
-import 'package:upstock/src/features/watchlist/models/watch_list_model/watchlist_collection_model.dart';
 import 'package:upstock/src/features/watchlist/models/watchlist_model/watchlist_model.dart';
 import 'package:upstock/src/features/watchlist/widgets/single_watch_list_widget.dart';
 
@@ -42,48 +41,51 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const HeightWidget(8.0),
-              const NormalText(
-                "My Watchlist",
-                fontSize: kDefaultFontSize + 6,
-                fontWeight: FontWeight.bold,
-              ),
-              ref.watch(watchlistNotifierProvider).watchLists != null
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: ref
-                          .watch(watchlistNotifierProvider)
-                          .watchLists!
-                          .data
-                          .length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final WatchlistModel watchList = ref
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const HeightWidget(8.0),
+                const NormalText(
+                  "My Watchlist",
+                  fontSize: kDefaultFontSize + 6,
+                  fontWeight: FontWeight.bold,
+                ),
+                ref.watch(watchlistNotifierProvider).watchLists != null
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: ref
                             .watch(watchlistNotifierProvider)
                             .watchLists!
-                            .data[index];
+                            .data
+                            .length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final WatchlistModel watchList = ref
+                              .watch(watchlistNotifierProvider)
+                              .watchLists!
+                              .data[index];
 
-                        return GestureDetector(
-                          onTap: () {
-                            ref
-                                .read(watchlistNotifierProvider)
-                                .removeFromWatchList(index);
-                          },
-                          child: SingleWatchListWidget(
-                            watchlist: watchList,
-                            isDecreasing: watchList.percentChange
-                                .toString()
-                                .contains("-"),
-                          ),
-                        );
-                      },
-                    )
-                  : const NoWatchlistWidget(),
+                          return GestureDetector(
+                            onTap: () {
+                              ref
+                                  .read(watchlistNotifierProvider)
+                                  .removeFromWatchList(index);
+                            },
+                            child: SingleWatchListWidget(
+                              watchlist: watchList,
+                              isDecreasing: watchList.percentChange
+                                  .toString()
+                                  .contains("-"),
+                            ),
+                          );
+                        },
+                      )
+                    : const NoWatchlistWidget(),
 
-              // const NoWatchlistWidget()
-            ],
+                // const NoWatchlistWidget()
+              ],
+            ),
           ),
         ),
       ),

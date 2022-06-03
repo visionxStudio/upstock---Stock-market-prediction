@@ -48,7 +48,7 @@ class _CompanyChartWidgetState extends State<CompanyChartWidget> {
           axisLine: const AxisLine(width: 0),
         ),
         series: <ChartSeries>[
-          FastLineSeries<ChartData, String>(
+          FastLineSeries<ChartData, dynamic>(
             color: widget.isDecreasing ? Colors.red : Colors.green,
             dataSource: widget.data,
             enableTooltip: true,

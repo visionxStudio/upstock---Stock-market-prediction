@@ -5,6 +5,7 @@ import 'dart:io' show Platform;
 import 'package:flutter_remix/flutter_remix.dart';
 
 import 'package:upstock/src/features/homepage/homepage.dart';
+import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
 import 'package:upstock/src/features/watchlist/watchlist_screen.dart';
 
 import '../../common/constants/constants.dart';
@@ -96,7 +97,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   case NavBarPage.watchlist:
                     return const WatchListScreen();
                   case NavBarPage.market:
-                    return const HomeScreen();
+                    return const StockAnalysis();
                   case NavBarPage.home:
                     return const HomeScreen();
                   case NavBarPage.portfolio:

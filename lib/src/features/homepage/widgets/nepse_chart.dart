@@ -39,7 +39,7 @@ class _NEPSEChartState extends ConsumerState<NEPSEChart> {
                   plotAreaBorderWidth: 0,
                   margin: EdgeInsets.zero,
                   backgroundColor: kWhiteColor,
-                  primaryXAxis: CategoryAxis(
+                  primaryXAxis: DateTimeAxis(
                     isVisible: true,
                     labelStyle: const TextStyle(
                       fontSize: kDefaultFontSize - 8,
@@ -59,7 +59,7 @@ class _NEPSEChartState extends ConsumerState<NEPSEChart> {
                     axisLine: const AxisLine(width: 0),
                   ),
                   series: <ChartSeries>[
-                    FastLineSeries<ChartData, String>(
+                    FastLineSeries<ChartData, dynamic>(
                       color: kPrimaryColor2,
                       dataSource: ref.watch(nepseProvider).chartData,
                       enableTooltip: true,

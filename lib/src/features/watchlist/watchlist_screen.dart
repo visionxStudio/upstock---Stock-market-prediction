@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:upstock/src/common/constants/constants.dart';
@@ -23,6 +24,10 @@ class WatchListScreen extends ConsumerStatefulWidget {
 class _WatchListScreenState extends ConsumerState<WatchListScreen> {
   @override
   void initState() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: kWhiteColor, // status bar
+      statusBarIconBrightness: Brightness.dark,
+    ));
     scheduleMicrotask(
         () => ref.read(watchlistNotifierProvider).getCompanyData());
     super.initState();
@@ -35,7 +40,7 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
       appBar: const PreferredSize(
         preferredSize: Size(double.infinity, kToolbarHeight * 2),
         child: Appbar(
-          showStockLearning: false,
+          showProfileImage: false,
         ),
       ),
       body: SingleChildScrollView(

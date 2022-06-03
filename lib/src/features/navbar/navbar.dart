@@ -9,6 +9,7 @@ import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
 import 'package:upstock/src/features/watchlist/watchlist_screen.dart';
 
 import '../../common/constants/constants.dart';
+import '../portfolio/portfolio_screen.dart';
 
 enum NavBarPage {
   /// Home for Coach/Studtent
@@ -101,7 +102,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   case NavBarPage.home:
                     return const HomeScreen();
                   case NavBarPage.portfolio:
-                    return const HomeScreen();
+                    return const MyPortfolioScreen();
                   case NavBarPage.profile:
                     return const HomeScreen();
                 }

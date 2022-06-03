@@ -34,7 +34,7 @@ class _StockAnalysisState extends State<StockAnalysis> {
 
   // void initializeData() {
   //   if (NepseStockModel.fromStorage() != null) {
-  //     for (int i = NepseStockModel.fromStorage()!.time.length - 20;
+  //     for (int i = NepseStockModel.fromStorage()!.time.length - 60;
   //         i < NepseStockModel.fromStorage()!.time.length;
   //         i++) {
   //       data.add(SalesData(
@@ -119,19 +119,19 @@ class _StockAnalysisState extends State<StockAnalysis> {
                   ),
                 ),
                 // indicators: <TechnicalIndicators<SalesData, dynamic>>[
-                //   BollingerBandIndicator<SalesData, dynamic>(
-                //     seriesName: "NEPSE",
-                //     period: 10,
-                //   )
-
-                //   // MacdIndicator(
+                //   // BollingerBandIndicator<SalesData, dynamic>(
                 //   //   seriesName: "NEPSE",
-                //   //   period: 10,
-                //   //   shortPeriod: 10,
-                //   //   macdType: MacdType.both,
-                //   //   longPeriod: 20,
-                //   //   yAxisName: "secondary",
+                //   //   period: 7,
                 //   // )
+
+                //   MacdIndicator(
+                //     seriesName: "NEPSE",
+                //     period: 3,
+                //     shortPeriod: 3,
+                //     macdType: MacdType.both,
+                //     longPeriod: 10,
+                //     yAxisName: "secondary",
+                //   )
                 // ],
                 series: <ChartSeries>[
                   HiloOpenCloseSeries<SalesData, dynamic>(

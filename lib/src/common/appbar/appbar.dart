@@ -12,10 +12,12 @@ import '../widgets/text/custom_normal_text_widget.dart';
 class Appbar extends ConsumerStatefulWidget {
   const Appbar({
     Key? key,
-    this.showStockLearning = true,
+    this.showProfileImage = true,
+    this.showPrice = true,
   }) : super(key: key);
 
-  final bool showStockLearning;
+  final bool showProfileImage;
+  final bool showPrice;
 
   @override
   _AppbarState createState() => _AppbarState();
@@ -55,7 +57,7 @@ class _AppbarState extends ConsumerState<Appbar> {
                     ],
                   ),
                   const Spacer(),
-                  !widget.showStockLearning
+                  !widget.showProfileImage
                       ? Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -107,25 +109,27 @@ class _AppbarState extends ConsumerState<Appbar> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: const [
-                  NormalText(
-                    "₹98,509.75",
-                    fontSize: kDefaultFontSize + 8,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  WidthWidget(16.0),
-                  NormalText(
-                    "+ 1700.254 (9.77%)",
-                    color: kProfitColor,
-                    fontSize: kDefaultFontSize + 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ],
-              ),
-            )
+            !widget.showPrice
+                ? const SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      children: const [
+                        NormalText(
+                          "₹98,509.75",
+                          fontSize: kDefaultFontSize + 8,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        WidthWidget(16.0),
+                        NormalText(
+                          "+ 1700.254 (9.77%)",
+                          color: kProfitColor,
+                          fontSize: kDefaultFontSize + 2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  )
           ],
         ),
       ),

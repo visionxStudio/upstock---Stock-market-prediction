@@ -40,7 +40,7 @@ extension NavBarPageX on NavBarPage {
       case NavBarPage.portfolio:
         return FlutterRemix.pie_chart_line;
       case NavBarPage.profile:
-        return FlutterRemix.a_b;
+        return FlutterRemix.account_circle_line;
     }
   }
 }
@@ -50,6 +50,7 @@ List<IconData> activeIcon = [
   FlutterRemix.stock_fill,
   FlutterRemix.home_3_fill,
   FlutterRemix.pie_chart_fill,
+  FlutterRemix.account_circle_fill,
 ];
 
 class NavBar extends ConsumerStatefulWidget {
@@ -175,86 +176,86 @@ class _NavBarButton extends StatelessWidget {
             color: active ? kNavBarBackgroundColor : kWhiteColor,
             shape: BoxShape.circle,
           ),
-          child: index == 4
-              ? const SizedBox()
-              :
-              // ? Center(
-              //     child: Stack(
-              //       children: [
-              //         Consumer(
-              //           builder: (BuildContext context, WidgetRef ref,
-              //               Widget? child) {
-              //             final userState = ref.watch(userNotifierProvider);
-              //             return userState.userData == null
-              //                 ? const CircleAvatar(
-              //                     radius: 23,
-              //                     backgroundImage: AssetImage(
-              //                       ImageAsset.placeholderimage,
-              //                     ),
-              //                   )
-              //                 : userState.userData!.image != null
-              //                     ? ClipRRect(
-              //                         borderRadius: BorderRadius.circular(50.0),
-              //                         child: CachedNetworkImage(
-              //                           imageUrl: ref
-              //                               .read(userNotifierProvider)
-              //                               .userData!
-              //                               .image!,
-              //                           fit: BoxFit.cover,
-              //                           height: 60.0,
-              //                           width: 60.0,
-              //                           errorWidget: (context, url, error) {
-              //                             return ClipRRect(
-              //                               borderRadius:
-              //                                   BorderRadius.circular(50.0),
-              //                               child: Image.asset(
-              //                                 ImageAsset.placeholderimage,
-              //                                 height: 60.0,
-              //                                 width: 60.0,
-              //                               ),
-              //                             );
-              //                           },
-              //                           placeholder: (context, url) {
-              //                             return ClipRRect(
-              //                               borderRadius:
-              //                                   BorderRadius.circular(50.0),
-              //                               child: Image.asset(
-              //                                 ImageAsset.placeholderimage,
-              //                                 height: 60.0,
-              //                                 width: 60.0,
-              //                               ),
-              //                             );
-              //                           },
-              //                         ),
-              //                       )
-              //                     : const CircleAvatar(
-              //                         radius: 23,
-              //                         backgroundImage: AssetImage(
-              //                           ImageAsset.placeholderimage,
-              //                         ),
-              //                       );
-              //           },
-              //         ),
-              //       ],
-              //     ),
-              //   )
-              // : Center(
-              Center(
-                  child: Stack(
-                    children: [
-                      Icon(
-                        active ? activeIcon[index] : asset,
-                        color: active ? kPrimaryColor2 : knavbarInactiveColor,
-                      )
-                      // Image.asset(
-                      //   asset,
-                      //   height: center ? 50.0 : 35.0,
-                      //   color:
-                      //       active ? kNavBackgroundColor : knavbarInactiveColor,
-                      // ),
-                    ],
-                  ),
-                ),
+          // child: index == 4
+          //     ? const SizedBox()
+          //     :
+          // ? Center(
+          //     child: Stack(
+          //       children: [
+          //         Consumer(
+          //           builder: (BuildContext context, WidgetRef ref,
+          //               Widget? child) {
+          //             final userState = ref.watch(userNotifierProvider);
+          //             return userState.userData == null
+          //                 ? const CircleAvatar(
+          //                     radius: 23,
+          //                     backgroundImage: AssetImage(
+          //                       ImageAsset.placeholderimage,
+          //                     ),
+          //                   )
+          //                 : userState.userData!.image != null
+          //                     ? ClipRRect(
+          //                         borderRadius: BorderRadius.circular(50.0),
+          //                         child: CachedNetworkImage(
+          //                           imageUrl: ref
+          //                               .read(userNotifierProvider)
+          //                               .userData!
+          //                               .image!,
+          //                           fit: BoxFit.cover,
+          //                           height: 60.0,
+          //                           width: 60.0,
+          //                           errorWidget: (context, url, error) {
+          //                             return ClipRRect(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(50.0),
+          //                               child: Image.asset(
+          //                                 ImageAsset.placeholderimage,
+          //                                 height: 60.0,
+          //                                 width: 60.0,
+          //                               ),
+          //                             );
+          //                           },
+          //                           placeholder: (context, url) {
+          //                             return ClipRRect(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(50.0),
+          //                               child: Image.asset(
+          //                                 ImageAsset.placeholderimage,
+          //                                 height: 60.0,
+          //                                 width: 60.0,
+          //                               ),
+          //                             );
+          //                           },
+          //                         ),
+          //                       )
+          //                     : const CircleAvatar(
+          //                         radius: 23,
+          //                         backgroundImage: AssetImage(
+          //                           ImageAsset.placeholderimage,
+          //                         ),
+          //                       );
+          //           },
+          //         ),
+          //       ],
+          //     ),
+          //   )
+          // : Center(
+          child: Center(
+            child: Stack(
+              children: [
+                Icon(
+                  active ? activeIcon[index] : asset,
+                  color: active ? kPrimaryColor2 : knavbarInactiveColor,
+                )
+                // Image.asset(
+                //   asset,
+                //   height: center ? 50.0 : 35.0,
+                //   color:
+                //       active ? kNavBackgroundColor : knavbarInactiveColor,
+                // ),
+              ],
+            ),
+          ),
         ),
       ),
     );

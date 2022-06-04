@@ -23,6 +23,16 @@ class PortfolioStateNotifier extends StateNotifier<PortfolioState> {
   List<BuyPortfolioModel> _tempBuyPortfolioList = [];
   final List<ChartData> chartData = [];
 
+  void getPortfolioList() async {
+    if (BuyPortfolioListModel.fromStorage() != null) {
+      state = state.copyWith(
+          buyPortfolioList: BuyPortfolioListModel.fromStorage()!);
+
+      getTotalInvestment();
+      getTotalProfitOrLoss();
+    }
+  }
+
   void stockSymbolChanged(CompanyModel stock) {
     state = state.copyWith(stock: stock);
   }
@@ -50,6 +60,36 @@ class PortfolioStateNotifier extends StateNotifier<PortfolioState> {
   DateTime convertToDateTime(int timestamp) {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     return date;
+  }
+
+  void getTotalInvestment() {
+    double totalInvestment = 0;
+    if (BuyPortfolioListModel.fromStorage() != null) {
+      for (BuyPortfolioModel element
+          in BuyPortfolioListModel.fromStorage()!.buyPortfolioList) {
+        totalInvestment += element.buyPrice * element.quantity;
+      }
+
+      state = state.copyWith(
+        totalInvestment: totalInvestment,
+      );
+    }
+  }
+
+  void getTotalProfitOrLoss() {
+    double totalProfitOrLoss = 0;
+    double totalInvestment = 0;
+
+    if (BuyPortfolioListModel.fromStorage() != null) {
+      for (BuyPortfolioModel element
+          in BuyPortfolioListModel.fromStorage()!.buyPortfolioList) {
+        totalProfitOrLoss += element.chartData[element.chartData.length - 1].y *
+            element.quantity;
+        totalInvestment += element.buyPrice * element.quantity;
+      }
+
+      state = state.copyWith(profitOrLoss: totalProfitOrLoss - totalInvestment);
+    }
   }
 
   List<ChartData> getCompanyChartData(NepseStockModel data) {
@@ -111,7 +151,6 @@ class PortfolioStateNotifier extends StateNotifier<PortfolioState> {
     ));
 
     state = state.copyWith(status: FormzStatus.submissionSuccess);
-
-    print(BuyPortfolioListModel.fromStorage());
+    getPortfolioList();
   }
 }

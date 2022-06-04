@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
@@ -11,6 +13,7 @@ import 'package:upstock/src/features/homepage/data/image_list.dart';
 import 'package:upstock/src/features/homepage/models/nepse/nepse_news/nepse_news_mode.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_chart.dart';
 import 'package:upstock/src/features/homepage/widgets/nepse_description.dart';
+import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/appbar/appbar.dart';
@@ -30,6 +33,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       statusBarColor: Colors.white, // status bar
       statusBarIconBrightness: Brightness.dark,
     ));
+    scheduleMicrotask(
+        () => ref.read(watchlistNotifierProvider).getCompanyData());
     super.initState();
   }
 

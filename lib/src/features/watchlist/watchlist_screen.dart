@@ -27,7 +27,7 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: kWhiteColor, // status bar
+      statusBarColor: kScafoldColor, // status bar
       statusBarIconBrightness: Brightness.dark,
     ));
     scheduleMicrotask(
@@ -38,7 +38,7 @@ class _WatchListScreenState extends ConsumerState<WatchListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kWhiteColor,
+      backgroundColor: kScafoldColor,
       appBar: PreferredSize(
         preferredSize: const Size(double.infinity, kToolbarHeight * 2),
         child: Appbar(

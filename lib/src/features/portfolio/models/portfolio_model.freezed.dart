@@ -26,7 +26,10 @@ class _$PortfolioStateTearOff {
       DateTime? sellDate,
       double? buyPrice,
       required String ipoType,
-      double? sellPrice}) {
+      BuyPortfolioListModel? buyPortfolioList,
+      double? totalInvestment,
+      double? sellPrice,
+      double? profitOrLoss}) {
     return _PortfolioState(
       status: status,
       stock: stock,
@@ -36,7 +39,10 @@ class _$PortfolioStateTearOff {
       sellDate: sellDate,
       buyPrice: buyPrice,
       ipoType: ipoType,
+      buyPortfolioList: buyPortfolioList,
+      totalInvestment: totalInvestment,
       sellPrice: sellPrice,
+      profitOrLoss: profitOrLoss,
     );
   }
 }
@@ -54,7 +60,11 @@ mixin _$PortfolioState {
   DateTime? get sellDate => throw _privateConstructorUsedError;
   double? get buyPrice => throw _privateConstructorUsedError;
   String get ipoType => throw _privateConstructorUsedError;
+  BuyPortfolioListModel? get buyPortfolioList =>
+      throw _privateConstructorUsedError;
+  double? get totalInvestment => throw _privateConstructorUsedError;
   double? get sellPrice => throw _privateConstructorUsedError;
+  double? get profitOrLoss => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PortfolioStateCopyWith<PortfolioState> get copyWith =>
@@ -75,9 +85,13 @@ abstract class $PortfolioStateCopyWith<$Res> {
       DateTime? sellDate,
       double? buyPrice,
       String ipoType,
-      double? sellPrice});
+      BuyPortfolioListModel? buyPortfolioList,
+      double? totalInvestment,
+      double? sellPrice,
+      double? profitOrLoss});
 
   $CompanyModelCopyWith<$Res>? get stock;
+  $BuyPortfolioListModelCopyWith<$Res>? get buyPortfolioList;
 }
 
 /// @nodoc
@@ -99,7 +113,10 @@ class _$PortfolioStateCopyWithImpl<$Res>
     Object? sellDate = freezed,
     Object? buyPrice = freezed,
     Object? ipoType = freezed,
+    Object? buyPortfolioList = freezed,
+    Object? totalInvestment = freezed,
     Object? sellPrice = freezed,
+    Object? profitOrLoss = freezed,
   }) {
     return _then(_value.copyWith(
       status: status == freezed
@@ -134,9 +151,21 @@ class _$PortfolioStateCopyWithImpl<$Res>
           ? _value.ipoType
           : ipoType // ignore: cast_nullable_to_non_nullable
               as String,
+      buyPortfolioList: buyPortfolioList == freezed
+          ? _value.buyPortfolioList
+          : buyPortfolioList // ignore: cast_nullable_to_non_nullable
+              as BuyPortfolioListModel?,
+      totalInvestment: totalInvestment == freezed
+          ? _value.totalInvestment
+          : totalInvestment // ignore: cast_nullable_to_non_nullable
+              as double?,
       sellPrice: sellPrice == freezed
           ? _value.sellPrice
           : sellPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      profitOrLoss: profitOrLoss == freezed
+          ? _value.profitOrLoss
+          : profitOrLoss // ignore: cast_nullable_to_non_nullable
               as double?,
     ));
   }
@@ -149,6 +178,18 @@ class _$PortfolioStateCopyWithImpl<$Res>
 
     return $CompanyModelCopyWith<$Res>(_value.stock!, (value) {
       return _then(_value.copyWith(stock: value));
+    });
+  }
+
+  @override
+  $BuyPortfolioListModelCopyWith<$Res>? get buyPortfolioList {
+    if (_value.buyPortfolioList == null) {
+      return null;
+    }
+
+    return $BuyPortfolioListModelCopyWith<$Res>(_value.buyPortfolioList!,
+        (value) {
+      return _then(_value.copyWith(buyPortfolioList: value));
     });
   }
 }
@@ -169,10 +210,15 @@ abstract class _$PortfolioStateCopyWith<$Res>
       DateTime? sellDate,
       double? buyPrice,
       String ipoType,
-      double? sellPrice});
+      BuyPortfolioListModel? buyPortfolioList,
+      double? totalInvestment,
+      double? sellPrice,
+      double? profitOrLoss});
 
   @override
   $CompanyModelCopyWith<$Res>? get stock;
+  @override
+  $BuyPortfolioListModelCopyWith<$Res>? get buyPortfolioList;
 }
 
 /// @nodoc
@@ -196,7 +242,10 @@ class __$PortfolioStateCopyWithImpl<$Res>
     Object? sellDate = freezed,
     Object? buyPrice = freezed,
     Object? ipoType = freezed,
+    Object? buyPortfolioList = freezed,
+    Object? totalInvestment = freezed,
     Object? sellPrice = freezed,
+    Object? profitOrLoss = freezed,
   }) {
     return _then(_PortfolioState(
       status: status == freezed
@@ -231,9 +280,21 @@ class __$PortfolioStateCopyWithImpl<$Res>
           ? _value.ipoType
           : ipoType // ignore: cast_nullable_to_non_nullable
               as String,
+      buyPortfolioList: buyPortfolioList == freezed
+          ? _value.buyPortfolioList
+          : buyPortfolioList // ignore: cast_nullable_to_non_nullable
+              as BuyPortfolioListModel?,
+      totalInvestment: totalInvestment == freezed
+          ? _value.totalInvestment
+          : totalInvestment // ignore: cast_nullable_to_non_nullable
+              as double?,
       sellPrice: sellPrice == freezed
           ? _value.sellPrice
           : sellPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      profitOrLoss: profitOrLoss == freezed
+          ? _value.profitOrLoss
+          : profitOrLoss // ignore: cast_nullable_to_non_nullable
               as double?,
     ));
   }
@@ -251,7 +312,10 @@ class _$_PortfolioState implements _PortfolioState {
       this.sellDate,
       this.buyPrice,
       required this.ipoType,
-      this.sellPrice});
+      this.buyPortfolioList,
+      this.totalInvestment,
+      this.sellPrice,
+      this.profitOrLoss});
 
   @override
   final FormzStatus status;
@@ -270,11 +334,17 @@ class _$_PortfolioState implements _PortfolioState {
   @override
   final String ipoType;
   @override
+  final BuyPortfolioListModel? buyPortfolioList;
+  @override
+  final double? totalInvestment;
+  @override
   final double? sellPrice;
+  @override
+  final double? profitOrLoss;
 
   @override
   String toString() {
-    return 'PortfolioState(status: $status, stock: $stock, quantity: $quantity, chartData: $chartData, purchasedDate: $purchasedDate, sellDate: $sellDate, buyPrice: $buyPrice, ipoType: $ipoType, sellPrice: $sellPrice)';
+    return 'PortfolioState(status: $status, stock: $stock, quantity: $quantity, chartData: $chartData, purchasedDate: $purchasedDate, sellDate: $sellDate, buyPrice: $buyPrice, ipoType: $ipoType, buyPortfolioList: $buyPortfolioList, totalInvestment: $totalInvestment, sellPrice: $sellPrice, profitOrLoss: $profitOrLoss)';
   }
 
   @override
@@ -294,8 +364,14 @@ class _$_PortfolioState implements _PortfolioState {
             (identical(other.buyPrice, buyPrice) ||
                 other.buyPrice == buyPrice) &&
             (identical(other.ipoType, ipoType) || other.ipoType == ipoType) &&
+            (identical(other.buyPortfolioList, buyPortfolioList) ||
+                other.buyPortfolioList == buyPortfolioList) &&
+            (identical(other.totalInvestment, totalInvestment) ||
+                other.totalInvestment == totalInvestment) &&
             (identical(other.sellPrice, sellPrice) ||
-                other.sellPrice == sellPrice));
+                other.sellPrice == sellPrice) &&
+            (identical(other.profitOrLoss, profitOrLoss) ||
+                other.profitOrLoss == profitOrLoss));
   }
 
   @override
@@ -309,7 +385,10 @@ class _$_PortfolioState implements _PortfolioState {
       sellDate,
       buyPrice,
       ipoType,
-      sellPrice);
+      buyPortfolioList,
+      totalInvestment,
+      sellPrice,
+      profitOrLoss);
 
   @JsonKey(ignore: true)
   @override
@@ -327,7 +406,10 @@ abstract class _PortfolioState implements PortfolioState {
       DateTime? sellDate,
       double? buyPrice,
       required String ipoType,
-      double? sellPrice}) = _$_PortfolioState;
+      BuyPortfolioListModel? buyPortfolioList,
+      double? totalInvestment,
+      double? sellPrice,
+      double? profitOrLoss}) = _$_PortfolioState;
 
   @override
   FormzStatus get status;
@@ -346,7 +428,13 @@ abstract class _PortfolioState implements PortfolioState {
   @override
   String get ipoType;
   @override
+  BuyPortfolioListModel? get buyPortfolioList;
+  @override
+  double? get totalInvestment;
+  @override
   double? get sellPrice;
+  @override
+  double? get profitOrLoss;
   @override
   @JsonKey(ignore: true)
   _$PortfolioStateCopyWith<_PortfolioState> get copyWith =>

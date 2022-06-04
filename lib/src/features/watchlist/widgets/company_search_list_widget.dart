@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:upstock/src/features/portfolio/bloc/portfolioi_state_notifier.dart';
 import 'package:upstock/src/features/stock_details/models/company_model.dart';
 import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 
@@ -114,6 +115,9 @@ class _CompanySearchListWidgetState extends State<CompanySearchListWidget> {
                 return InkWell(
                   onTap: () {
                     if (widget.isFromPortfolio) {
+                      ref
+                          .read(portfolioStateProvider.notifier)
+                          .stockSymbolChanged(stock);
                     } else {
                       ref
                           .read(watchlistNotifierProvider)

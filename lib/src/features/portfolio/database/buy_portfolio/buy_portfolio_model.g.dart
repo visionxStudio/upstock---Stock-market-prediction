@@ -15,6 +15,9 @@ _$BuyePortfolioModel _$$BuyePortfolioModelFromJson(Map<String, dynamic> json) =>
       purchasedDate: DateTime.parse(json['purchasedDate'] as String),
       buyPrice: (json['buyPrice'] as num).toDouble(),
       ipoType: json['ipoType'] as String,
+      chartData: (json['chartData'] as List<dynamic>)
+          .map((e) => ChartData.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$BuyePortfolioModelToJson(
@@ -25,4 +28,5 @@ Map<String, dynamic> _$$BuyePortfolioModelToJson(
       'purchasedDate': instance.purchasedDate.toIso8601String(),
       'buyPrice': instance.buyPrice,
       'ipoType': instance.ipoType,
+      'chartData': instance.chartData.map((e) => e.toJson()).toList(),
     };

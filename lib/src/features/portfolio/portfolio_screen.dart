@@ -6,6 +6,8 @@ import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/homepage/models/chart_data/chart_data.dart';
+import 'package:upstock/src/features/portfolio/database/buy_portfolio/buy_portfolio_model.dart';
+import 'package:upstock/src/features/portfolio/database/buy_portfolio_list_model/buy_portfolio_list_model.dart';
 import 'package:upstock/src/features/portfolio/widgets/portfolio_add_widget.dart';
 import 'package:upstock/src/features/portfolio/widgets/portfolio_card_widget.dart';
 
@@ -28,6 +30,18 @@ class _MyPortfolioScreenState extends State<MyPortfolioScreen> {
       statusBarIconBrightness: Brightness.dark,
     ));
     super.initState();
+  }
+
+  double getCurrentInvestment(BuyPortfolioModel data) {
+    return (data.buyPrice * data.quantity);
+  }
+
+  double getCurrentPrice(BuyPortfolioModel data) {
+    return (data.chartData[data.chartData.length - 1].y * data.quantity);
+  }
+
+  double calulateProfitorLoss(BuyPortfolioModel data) {
+    return (getCurrentPrice(data) - getCurrentInvestment(data));
   }
 
   @override
@@ -77,7 +91,6 @@ class _MyPortfolioScreenState extends State<MyPortfolioScreen> {
               ),
               const HeightWidget(kDefaultFontSize),
               CustomContainer(
-                // backgroundColor: kScafoldColor,
                 child: SizedBox(
                   width: double.infinity,
                   child: Column(
@@ -109,70 +122,86 @@ class _MyPortfolioScreenState extends State<MyPortfolioScreen> {
                   ),
                 ),
               ),
+
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: BuyPortfolioListModel.fromStorage()!
+                    .buyPortfolioList
+                    .length,
+                itemBuilder: (BuildContext context, int index) {
+                  final BuyPortfolioModel data =
+                      BuyPortfolioListModel.fromStorage()!
+                          .buyPortfolioList[index];
+                  return ShowUpTransition(
+                    duration: Duration(milliseconds: 300 * (index + 1)),
+                    forward: true,
+                    slideSide: SlideFromSlide.RIGHT,
+                    child: CustomContainer(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              NormalText(
+                                data.stock!.symbol,
+                                fontSize: kDefaultFontSize + 4,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              const HeightWidget(8.0),
+                              NormalText(
+                                "Gain/ Loss",
+                                fontSize: kDefaultFontSize - 2,
+                                fontWeight: FontWeight.w500,
+                                color: kGreyColor.withOpacity(0.8),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CompanyChartWidget(
+                                height: 40.0,
+                                width: 80,
+                                data: data.chartData,
+                                isDecreasing: calulateProfitorLoss(data)
+                                    .toString()
+                                    .contains("-"),
+                              ),
+                              const HeightWidget(16.0),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              NormalText(
+                                "₹ ${getCurrentInvestment(data)}",
+                                fontSize: kDefaultFontSize + 4,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              const HeightWidget(8.0),
+                              NormalText(
+                                // "+ Rs. 250.54 1.39%",
+                                "₹${getCurrentPrice(data) - getCurrentInvestment(data)}  / ${((getCurrentPrice(data) - getCurrentInvestment(data)) / getCurrentInvestment(data) * 100).toStringAsFixed(2)}%",
+                                fontSize: kDefaultFontSize,
+                                color: calulateProfitorLoss(data)
+                                        .toString()
+                                        .contains("-")
+                                    ? Colors.red
+                                    : const Color(0xFF57e07d),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )
               // faefaefaec
-              CustomContainer(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const NormalText(
-                          "SFCL",
-                          fontSize: kDefaultFontSize + 4,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        const HeightWidget(8.0),
-                        NormalText(
-                          "Gain/ Loss",
-                          fontSize: kDefaultFontSize - 2,
-                          fontWeight: FontWeight.w500,
-                          color: kGreyColor.withOpacity(0.8),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CompanyChartWidget(
-                          height: 40.0,
-                          width: 80,
-                          data: [
-                            ChartData(x: DateTime.utc(1999), y: 10),
-                            ChartData(x: DateTime.utc(2000), y: 12),
-                            ChartData(x: DateTime.utc(2001), y: 32),
-                            ChartData(x: DateTime.utc(2002), y: 15),
-                            ChartData(x: DateTime.utc(2003), y: 33),
-                            ChartData(x: DateTime.utc(2004), y: 32),
-                            ChartData(x: DateTime.utc(2005), y: 35),
-                          ],
-                          isDecreasing: false,
-                        ),
-                        const HeightWidget(16.0),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const [
-                        NormalText(
-                          "Rs. 7,599",
-                          fontSize: kDefaultFontSize + 4,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        HeightWidget(8.0),
-                        NormalText(
-                          "+ Rs. 250.54 1.39%",
-                          fontSize: kDefaultFontSize,
-                          color: Color(0xFF57e07d),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

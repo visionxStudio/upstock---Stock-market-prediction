@@ -1,15 +1,27 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:formz/formz.dart';
+import 'package:upstock/src/features/portfolio/database/buy_portfolio/buy_portfolio_model.dart';
+import 'package:upstock/src/features/portfolio/database/buy_portfolio_list_model/buy_portfolio_list_model.dart';
 import 'package:upstock/src/features/stock_details/models/company_model.dart';
 
+import '../../../common/service/exceptions/network_exceptions.dart';
+import '../../homepage/models/chart_data/chart_data.dart';
+import '../../homepage/models/nepse_stock_model.dart';
+import '../../watchlist/repo/watchlist_repository.dart';
 import '../models/portfolio_model.dart';
 
 final portfolioStateProvider =
     StateNotifierProvider.autoDispose<PortfolioStateNotifier, PortfolioState>(
-  (ref) => PortfolioStateNotifier(),
+  (ref) => PortfolioStateNotifier(ref.watch(watchlistRepoProvider)),
 );
 
 class PortfolioStateNotifier extends StateNotifier<PortfolioState> {
-  PortfolioStateNotifier() : super(PortfolioState.initial());
+  PortfolioStateNotifier(this._watchListRepo) : super(PortfolioState.initial());
+  final WatchListRepository _watchListRepo;
+
+  List<BuyPortfolioModel> _tempBuyPortfolioList = [];
+  final List<ChartData> chartData = [];
 
   void stockSymbolChanged(CompanyModel stock) {
     state = state.copyWith(stock: stock);
@@ -35,5 +47,71 @@ class PortfolioStateNotifier extends StateNotifier<PortfolioState> {
     state = state.copyWith(buyPrice: double.parse(value));
   }
 
-  void addToPortfolio() {}
+  DateTime convertToDateTime(int timestamp) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return date;
+  }
+
+  List<ChartData> getCompanyChartData(NepseStockModel data) {
+    chartData.clear();
+
+    for (int i = data.time.length - 15; i < data.time.length; i++) {
+      chartData.add(ChartData(
+        y: double.parse(data.closingPrice[i]),
+        x: convertToDateTime(data.time[i]),
+      ));
+    }
+    return chartData;
+  }
+
+  Future<NepseStockModel?> getCompanyDetails({
+    required String stock,
+  }) async {
+    try {
+      final data = await _watchListRepo.getCompanyDetails(stockName: stock);
+      return data;
+    } on NetworkExceptions catch (err) {
+      debugPrint(err.toString());
+      return null;
+    }
+  }
+
+  Future<void> addToPortfolio() async {
+    if (state.buyPrice == null ||
+        state.quantity == null ||
+        state.stock == null) {
+      return;
+    }
+    state = state.copyWith(status: FormzStatus.submissionInProgress);
+    final NepseStockModel? data =
+        await getCompanyDetails(stock: state.stock!.symbol);
+    if (data == null) {
+      state = state.copyWith(status: FormzStatus.submissionFailure);
+
+      // show error message
+      return;
+    }
+
+    if (BuyPortfolioListModel.fromStorage() != null) {
+      _tempBuyPortfolioList =
+          BuyPortfolioListModel.fromStorage()!.buyPortfolioList;
+    }
+
+    _tempBuyPortfolioList.add(BuyPortfolioModel(
+      stock: state.stock,
+      quantity: state.quantity!,
+      purchasedDate: state.purchasedDate!,
+      buyPrice: state.buyPrice!,
+      ipoType: state.ipoType,
+      chartData: getCompanyChartData(data),
+    ));
+
+    BuyPortfolioListModel.toStorage(BuyPortfolioListModel(
+      buyPortfolioList: _tempBuyPortfolioList,
+    ));
+
+    state = state.copyWith(status: FormzStatus.submissionSuccess);
+
+    print(BuyPortfolioListModel.fromStorage());
+  }
 }

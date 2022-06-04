@@ -21,6 +21,7 @@ class _$PortfolioStateTearOff {
       {required FormzStatus status,
       CompanyModel? stock,
       int? quantity,
+      List<ChartData>? chartData,
       DateTime? purchasedDate,
       DateTime? sellDate,
       double? buyPrice,
@@ -30,6 +31,7 @@ class _$PortfolioStateTearOff {
       status: status,
       stock: stock,
       quantity: quantity,
+      chartData: chartData,
       purchasedDate: purchasedDate,
       sellDate: sellDate,
       buyPrice: buyPrice,
@@ -47,6 +49,7 @@ mixin _$PortfolioState {
   FormzStatus get status => throw _privateConstructorUsedError;
   CompanyModel? get stock => throw _privateConstructorUsedError;
   int? get quantity => throw _privateConstructorUsedError;
+  List<ChartData>? get chartData => throw _privateConstructorUsedError;
   DateTime? get purchasedDate => throw _privateConstructorUsedError;
   DateTime? get sellDate => throw _privateConstructorUsedError;
   double? get buyPrice => throw _privateConstructorUsedError;
@@ -67,6 +70,7 @@ abstract class $PortfolioStateCopyWith<$Res> {
       {FormzStatus status,
       CompanyModel? stock,
       int? quantity,
+      List<ChartData>? chartData,
       DateTime? purchasedDate,
       DateTime? sellDate,
       double? buyPrice,
@@ -90,6 +94,7 @@ class _$PortfolioStateCopyWithImpl<$Res>
     Object? status = freezed,
     Object? stock = freezed,
     Object? quantity = freezed,
+    Object? chartData = freezed,
     Object? purchasedDate = freezed,
     Object? sellDate = freezed,
     Object? buyPrice = freezed,
@@ -109,6 +114,10 @@ class _$PortfolioStateCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int?,
+      chartData: chartData == freezed
+          ? _value.chartData
+          : chartData // ignore: cast_nullable_to_non_nullable
+              as List<ChartData>?,
       purchasedDate: purchasedDate == freezed
           ? _value.purchasedDate
           : purchasedDate // ignore: cast_nullable_to_non_nullable
@@ -155,6 +164,7 @@ abstract class _$PortfolioStateCopyWith<$Res>
       {FormzStatus status,
       CompanyModel? stock,
       int? quantity,
+      List<ChartData>? chartData,
       DateTime? purchasedDate,
       DateTime? sellDate,
       double? buyPrice,
@@ -181,6 +191,7 @@ class __$PortfolioStateCopyWithImpl<$Res>
     Object? status = freezed,
     Object? stock = freezed,
     Object? quantity = freezed,
+    Object? chartData = freezed,
     Object? purchasedDate = freezed,
     Object? sellDate = freezed,
     Object? buyPrice = freezed,
@@ -200,6 +211,10 @@ class __$PortfolioStateCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int?,
+      chartData: chartData == freezed
+          ? _value.chartData
+          : chartData // ignore: cast_nullable_to_non_nullable
+              as List<ChartData>?,
       purchasedDate: purchasedDate == freezed
           ? _value.purchasedDate
           : purchasedDate // ignore: cast_nullable_to_non_nullable
@@ -231,6 +246,7 @@ class _$_PortfolioState implements _PortfolioState {
       {required this.status,
       this.stock,
       this.quantity,
+      this.chartData,
       this.purchasedDate,
       this.sellDate,
       this.buyPrice,
@@ -244,6 +260,8 @@ class _$_PortfolioState implements _PortfolioState {
   @override
   final int? quantity;
   @override
+  final List<ChartData>? chartData;
+  @override
   final DateTime? purchasedDate;
   @override
   final DateTime? sellDate;
@@ -256,7 +274,7 @@ class _$_PortfolioState implements _PortfolioState {
 
   @override
   String toString() {
-    return 'PortfolioState(status: $status, stock: $stock, quantity: $quantity, purchasedDate: $purchasedDate, sellDate: $sellDate, buyPrice: $buyPrice, ipoType: $ipoType, sellPrice: $sellPrice)';
+    return 'PortfolioState(status: $status, stock: $stock, quantity: $quantity, chartData: $chartData, purchasedDate: $purchasedDate, sellDate: $sellDate, buyPrice: $buyPrice, ipoType: $ipoType, sellPrice: $sellPrice)';
   }
 
   @override
@@ -268,6 +286,7 @@ class _$_PortfolioState implements _PortfolioState {
             (identical(other.stock, stock) || other.stock == stock) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
+            const DeepCollectionEquality().equals(other.chartData, chartData) &&
             (identical(other.purchasedDate, purchasedDate) ||
                 other.purchasedDate == purchasedDate) &&
             (identical(other.sellDate, sellDate) ||
@@ -280,8 +299,17 @@ class _$_PortfolioState implements _PortfolioState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, stock, quantity,
-      purchasedDate, sellDate, buyPrice, ipoType, sellPrice);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      stock,
+      quantity,
+      const DeepCollectionEquality().hash(chartData),
+      purchasedDate,
+      sellDate,
+      buyPrice,
+      ipoType,
+      sellPrice);
 
   @JsonKey(ignore: true)
   @override
@@ -294,6 +322,7 @@ abstract class _PortfolioState implements PortfolioState {
       {required FormzStatus status,
       CompanyModel? stock,
       int? quantity,
+      List<ChartData>? chartData,
       DateTime? purchasedDate,
       DateTime? sellDate,
       double? buyPrice,
@@ -306,6 +335,8 @@ abstract class _PortfolioState implements PortfolioState {
   CompanyModel? get stock;
   @override
   int? get quantity;
+  @override
+  List<ChartData>? get chartData;
   @override
   DateTime? get purchasedDate;
   @override

@@ -1,5 +1,6 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:upstock/src/features/homepage/models/chart_data/chart_data.dart';
 
 import '../../stock_details/models/company_model.dart';
 part 'portfolio_model.freezed.dart';
@@ -10,6 +11,7 @@ class PortfolioState with _$PortfolioState {
     required FormzStatus status,
     CompanyModel? stock,
     int? quantity,
+    List<ChartData>? chartData,
     DateTime? purchasedDate,
     DateTime? sellDate,
     double? buyPrice,

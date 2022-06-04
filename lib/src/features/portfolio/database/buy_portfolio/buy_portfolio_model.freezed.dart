@@ -26,13 +26,15 @@ class _$BuyPortfolioModelTearOff {
       required int quantity,
       required DateTime purchasedDate,
       required double buyPrice,
-      required String ipoType}) {
+      required String ipoType,
+      required List<ChartData> chartData}) {
     return BuyePortfolioModel(
       stock: stock,
       quantity: quantity,
       purchasedDate: purchasedDate,
       buyPrice: buyPrice,
       ipoType: ipoType,
+      chartData: chartData,
     );
   }
 
@@ -51,6 +53,7 @@ mixin _$BuyPortfolioModel {
   DateTime get purchasedDate => throw _privateConstructorUsedError;
   double get buyPrice => throw _privateConstructorUsedError;
   String get ipoType => throw _privateConstructorUsedError;
+  List<ChartData> get chartData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -68,7 +71,8 @@ abstract class $BuyPortfolioModelCopyWith<$Res> {
       int quantity,
       DateTime purchasedDate,
       double buyPrice,
-      String ipoType});
+      String ipoType,
+      List<ChartData> chartData});
 
   $CompanyModelCopyWith<$Res>? get stock;
 }
@@ -89,6 +93,7 @@ class _$BuyPortfolioModelCopyWithImpl<$Res>
     Object? purchasedDate = freezed,
     Object? buyPrice = freezed,
     Object? ipoType = freezed,
+    Object? chartData = freezed,
   }) {
     return _then(_value.copyWith(
       stock: stock == freezed
@@ -111,6 +116,10 @@ class _$BuyPortfolioModelCopyWithImpl<$Res>
           ? _value.ipoType
           : ipoType // ignore: cast_nullable_to_non_nullable
               as String,
+      chartData: chartData == freezed
+          ? _value.chartData
+          : chartData // ignore: cast_nullable_to_non_nullable
+              as List<ChartData>,
     ));
   }
 
@@ -138,7 +147,8 @@ abstract class $BuyePortfolioModelCopyWith<$Res>
       int quantity,
       DateTime purchasedDate,
       double buyPrice,
-      String ipoType});
+      String ipoType,
+      List<ChartData> chartData});
 
   @override
   $CompanyModelCopyWith<$Res>? get stock;
@@ -162,6 +172,7 @@ class _$BuyePortfolioModelCopyWithImpl<$Res>
     Object? purchasedDate = freezed,
     Object? buyPrice = freezed,
     Object? ipoType = freezed,
+    Object? chartData = freezed,
   }) {
     return _then(BuyePortfolioModel(
       stock: stock == freezed
@@ -184,6 +195,10 @@ class _$BuyePortfolioModelCopyWithImpl<$Res>
           ? _value.ipoType
           : ipoType // ignore: cast_nullable_to_non_nullable
               as String,
+      chartData: chartData == freezed
+          ? _value.chartData
+          : chartData // ignore: cast_nullable_to_non_nullable
+              as List<ChartData>,
     ));
   }
 }
@@ -196,7 +211,8 @@ class _$BuyePortfolioModel implements BuyePortfolioModel {
       required this.quantity,
       required this.purchasedDate,
       required this.buyPrice,
-      required this.ipoType});
+      required this.ipoType,
+      required this.chartData});
 
   factory _$BuyePortfolioModel.fromJson(Map<String, dynamic> json) =>
       _$$BuyePortfolioModelFromJson(json);
@@ -211,10 +227,12 @@ class _$BuyePortfolioModel implements BuyePortfolioModel {
   final double buyPrice;
   @override
   final String ipoType;
+  @override
+  final List<ChartData> chartData;
 
   @override
   String toString() {
-    return 'BuyPortfolioModel(stock: $stock, quantity: $quantity, purchasedDate: $purchasedDate, buyPrice: $buyPrice, ipoType: $ipoType)';
+    return 'BuyPortfolioModel(stock: $stock, quantity: $quantity, purchasedDate: $purchasedDate, buyPrice: $buyPrice, ipoType: $ipoType, chartData: $chartData)';
   }
 
   @override
@@ -229,12 +247,13 @@ class _$BuyePortfolioModel implements BuyePortfolioModel {
                 other.purchasedDate == purchasedDate) &&
             (identical(other.buyPrice, buyPrice) ||
                 other.buyPrice == buyPrice) &&
-            (identical(other.ipoType, ipoType) || other.ipoType == ipoType));
+            (identical(other.ipoType, ipoType) || other.ipoType == ipoType) &&
+            const DeepCollectionEquality().equals(other.chartData, chartData));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, stock, quantity, purchasedDate, buyPrice, ipoType);
+  int get hashCode => Object.hash(runtimeType, stock, quantity, purchasedDate,
+      buyPrice, ipoType, const DeepCollectionEquality().hash(chartData));
 
   @JsonKey(ignore: true)
   @override
@@ -253,7 +272,8 @@ abstract class BuyePortfolioModel implements BuyPortfolioModel {
       required int quantity,
       required DateTime purchasedDate,
       required double buyPrice,
-      required String ipoType}) = _$BuyePortfolioModel;
+      required String ipoType,
+      required List<ChartData> chartData}) = _$BuyePortfolioModel;
 
   factory BuyePortfolioModel.fromJson(Map<String, dynamic> json) =
       _$BuyePortfolioModel.fromJson;
@@ -268,6 +288,8 @@ abstract class BuyePortfolioModel implements BuyPortfolioModel {
   double get buyPrice;
   @override
   String get ipoType;
+  @override
+  List<ChartData> get chartData;
   @override
   @JsonKey(ignore: true)
   $BuyePortfolioModelCopyWith<BuyePortfolioModel> get copyWith =>

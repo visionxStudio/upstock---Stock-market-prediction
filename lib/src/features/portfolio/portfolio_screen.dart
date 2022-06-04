@@ -6,9 +6,11 @@ import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/homepage/models/chart_data/chart_data.dart';
+import 'package:upstock/src/features/portfolio/widgets/portfolio_add_widget.dart';
 import 'package:upstock/src/features/portfolio/widgets/portfolio_card_widget.dart';
 
 import '../../common/appbar/appbar.dart';
+import '../../common/utils/app_size_utils.dart';
 import '../watchlist/widgets/company_chart.dart';
 
 class MyPortfolioScreen extends StatefulWidget {
@@ -37,7 +39,29 @@ class _MyPortfolioScreenState extends State<MyPortfolioScreen> {
         child: Appbar(
           showPrice: false,
           showProfileImage: false,
-          onTap: () {},
+          onTap: () {
+            showModalBottomSheet(
+              clipBehavior: Clip.hardEdge,
+              isScrollControlled: true,
+              barrierColor: kLightGrey.withOpacity(0.6),
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              context: context,
+              builder: (context) {
+                return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  return Container(
+                    height: SizeConfig.screenHeight * 0.66,
+                    padding: const EdgeInsets.all(16.0),
+                    color: kWhiteColor,
+                    child: const PortfolioAddWidget(),
+                  );
+                });
+              },
+            );
+          },
         ),
       ),
       body: SingleChildScrollView(

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:upstock/src/features/stock_details/models/company_list_model.dart';
+import 'package:lottie/lottie.dart';
 
-import '../../features/watchlist/widgets/company_search_list_widget.dart';
 import '../constants/constants.dart';
-import '../utils/app_size_utils.dart';
 import '../widgets/size/custom_size_widget.dart';
 import '../widgets/text/custom_normal_text_widget.dart';
 
@@ -60,14 +58,12 @@ class _AppbarState extends ConsumerState<Appbar> {
                   ),
                   const Spacer(),
                   !widget.showProfileImage
-                      ? Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: kChatButtonColor.withOpacity(0.5),
-                          ),
-                          child: IconButton(
-                            icon: const Icon(FlutterRemix.add_line),
-                            onPressed: widget.onTap,
+                      ? GestureDetector(
+                          onTap: widget.onTap,
+                          child: LottieBuilder.asset(
+                            "assets/lottie/add.json",
+                            height: 50.0,
+                            width: 50.0,
                           ),
                         )
                       : Container(

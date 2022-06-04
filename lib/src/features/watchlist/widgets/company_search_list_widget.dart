@@ -17,6 +17,7 @@ class CompanySearchListWidget extends StatefulWidget {
   final bool autoFocus;
   final bool? showFlags;
   final bool? useEmoji;
+  final bool isFromPortfolio;
 
   const CompanySearchListWidget(this.countries,
       {Key? key,
@@ -24,6 +25,7 @@ class CompanySearchListWidget extends StatefulWidget {
       this.scrollController,
       this.showFlags,
       this.useEmoji,
+      this.isFromPortfolio = false,
       this.autoFocus = false})
       : super(key: key);
 
@@ -111,9 +113,12 @@ class _CompanySearchListWidgetState extends State<CompanySearchListWidget> {
               return Consumer(builder: (context, ref, child) {
                 return InkWell(
                   onTap: () {
-                    ref
-                        .read(watchlistNotifierProvider)
-                        .getCompanyDetails(stock: stock, isRefresh: false);
+                    if (widget.isFromPortfolio) {
+                    } else {
+                      ref
+                          .read(watchlistNotifierProvider)
+                          .getCompanyDetails(stock: stock, isRefresh: false);
+                    }
 
                     context.router.pop();
                   },

@@ -5,8 +5,10 @@ import 'dart:io' show Platform;
 import 'package:flutter_remix/flutter_remix.dart';
 
 import 'package:upstock/src/features/homepage/homepage.dart';
+import 'package:upstock/src/features/navbar/bloc/navbar_provider.dart';
 import 'package:upstock/src/features/profile/profile_screen.dart';
 import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
+import 'package:upstock/src/features/stock_predicton/prediction_screen.dart';
 import 'package:upstock/src/features/watchlist/watchlist_screen.dart';
 
 import '../../common/constants/constants.dart';
@@ -100,7 +102,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   case NavBarPage.watchlist:
                     return const WatchListScreen();
                   case NavBarPage.market:
-                    return const StockAnalysis();
+                    return const StockPredictionScreen();
                   case NavBarPage.home:
                     return const HomeScreen();
                   case NavBarPage.portfolio:
@@ -132,9 +134,12 @@ class _NavBarState extends ConsumerState<NavBar> {
                     .map(
                       (e) => _NavBarButton(
                           index: e.index,
-                          onTap: () => setState(() {
-                                activeNavPage = e;
-                              }),
+                          onTap: () {
+                            ref.read(navbarProvider).indexChanged(e.index);
+                            setState(() {
+                              activeNavPage = e;
+                            });
+                          },
                           active: activeNavPage == e,
                           asset: e.getAsset()),
                     )

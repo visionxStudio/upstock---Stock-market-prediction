@@ -12,11 +12,13 @@ class Appbar extends ConsumerStatefulWidget {
     this.showProfileImage = true,
     this.showPrice = true,
     required this.onTap,
+    this.showPrimaryColor = false,
   }) : super(key: key);
 
   final bool showProfileImage;
   final bool showPrice;
   final VoidCallback onTap;
+  final bool showPrimaryColor;
 
   @override
   _AppbarState createState() => _AppbarState();
@@ -26,83 +28,93 @@ class _AppbarState extends ConsumerState<Appbar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.asset(
-                    "assets/images/logo.png",
-                    color: kBlackColor,
-                  ),
-                  const WidthWidget(4.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      NormalText(
-                        "UPSTOCK",
-                        fontSize: kDefaultFontSize + 6,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      NormalText(
-                        "Learn, Invest & Grow",
-                        fontSize: kDefaultFontSize - 2,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  !widget.showProfileImage
-                      ? GestureDetector(
-                          onTap: widget.onTap,
-                          child: LottieBuilder.asset(
-                            "assets/lottie/add.json",
-                            height: 50.0,
-                            width: 50.0,
-                          ),
-                        )
-                      : Container(
-                          height: 45.0,
-                          width: 45.0,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFBFDBFE),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Image.asset(
-                              "assets/images/placeholder.png",
-                            ),
-                          ),
-                        ),
-                ],
-              ),
-            ),
-            !widget.showPrice
-                ? const SizedBox()
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: const [
+      child: Container(
+        color: widget.showPrimaryColor ? kPrimaryColor2 : kWhiteColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      "assets/images/logo.png",
+                      color:
+                          widget.showPrimaryColor ? kWhiteColor : kBlackColor,
+                    ),
+                    const WidthWidget(4.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         NormalText(
-                          "₹98,509.75",
-                          fontSize: kDefaultFontSize + 8,
+                          "UPSTOCK",
+                          fontSize: kDefaultFontSize + 6,
                           fontWeight: FontWeight.bold,
+                          color: widget.showPrimaryColor
+                              ? kWhiteColor
+                              : kBlackColor,
                         ),
-                        WidthWidget(16.0),
                         NormalText(
-                          "+ 1700.254 (9.77%)",
-                          color: kProfitColor,
-                          fontSize: kDefaultFontSize + 2,
-                          fontWeight: FontWeight.bold,
+                          "Learn, Invest & Grow",
+                          fontSize: kDefaultFontSize - 2,
+                          fontWeight: FontWeight.w500,
+                          color: widget.showPrimaryColor
+                              ? kWhiteColor
+                              : kBlackColor,
                         ),
                       ],
                     ),
-                  )
-          ],
+                    const Spacer(),
+                    !widget.showProfileImage
+                        ? GestureDetector(
+                            onTap: widget.onTap,
+                            child: LottieBuilder.asset(
+                              "assets/lottie/add.json",
+                              height: 50.0,
+                              width: 50.0,
+                            ),
+                          )
+                        : Container(
+                            height: 45.0,
+                            width: 45.0,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFBFDBFE),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                "assets/images/placeholder.png",
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+              !widget.showPrice
+                  ? const SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: const [
+                          NormalText(
+                            "₹98,509.75",
+                            fontSize: kDefaultFontSize + 8,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          WidthWidget(16.0),
+                          NormalText(
+                            "+ 1700.254 (9.77%)",
+                            color: kProfitColor,
+                            fontSize: kDefaultFontSize + 2,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
+                    )
+            ],
+          ),
         ),
       ),
     );

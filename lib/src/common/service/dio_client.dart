@@ -73,6 +73,7 @@ class DioClient {
     CancelToken? cancelToken,
   }) async {
     try {
+      print(uri);
       final response = await _dio.post(
         uri,
         data: data,

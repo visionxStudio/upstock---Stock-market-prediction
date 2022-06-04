@@ -13,6 +13,7 @@ import 'package:upstock/src/features/watchlist/watchlist_screen.dart';
 
 import '../../common/constants/constants.dart';
 import '../portfolio/portfolio_screen.dart';
+import '../stock_details/models/company_list_model.dart';
 
 enum NavBarPage {
   /// Home for Coach/Studtent

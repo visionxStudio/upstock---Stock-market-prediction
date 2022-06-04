@@ -70,7 +70,7 @@ class _MyPortfolioScreenState extends ConsumerState<MyPortfolioScreen> {
                 return StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
                   return Container(
-                    height: SizeConfig.screenHeight * 0.66,
+                    height: SizeConfig.screenHeight * 0.68,
                     padding: const EdgeInsets.all(16.0),
                     color: kWhiteColor,
                     child: const PortfolioAddWidget(),

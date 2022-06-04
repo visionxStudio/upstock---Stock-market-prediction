@@ -7,6 +7,7 @@ import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/stock_predicton/bloc/stock_prediction_notifier.dart';
+import 'package:upstock/src/features/stock_predicton/repo/stock_prediction_repo.dart';
 import 'package:upstock/src/features/stock_predicton/widgets/search_input_fiel_widget.dart';
 
 import '../../common/appbar/appbar.dart';
@@ -62,6 +63,33 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
                         SearchStockWidget(
                             searchController: _searchController, ref: ref),
                         const HeightWidget(16.0),
+                        ref.watch(stockPredictionProvider).isLoading
+                            ? SizedBox(
+                                height: SizeConfig.screenHeight * 0.4,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Center(
+                                      child: LottieBuilder.asset(
+                                        "assets/lottie/waiting.json",
+                                        frameRate: FrameRate(60),
+                                        height: 150.0,
+                                        width: 150.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ref
+                                        .read(stockPredictionProvider)
+                                        .predictedStockData ==
+                                    null
+                                ? const SizedBox()
+                                : NormalText(ref
+                                    .watch(stockPredictionProvider)
+                                    .predictedStockData!
+                                    .payload[0]
+                                    .toString()),
                         ref.watch(stockPredictionProvider).isSearching
                             ? Lottie.asset("assets/lottie/search.json")
                             : ref
@@ -125,8 +153,8 @@ class SingleStockWidget extends StatelessWidget {
         return InkWell(
           onTap: () {
             // print(stock.symbol);
-            // textEditingController!.text = "";
-            // ref.read(stockPredictionProvider).resetIsSearching();
+            textEditingController!.text = "";
+            ref.read(stockPredictionProvider).resetIsSearching();
             ref
                 .read(stockPredictionProvider)
                 .getStockPredictionData(symbol: stock.symbol);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/common/service/exceptions/network_exceptions.dart';
 import 'package:upstock/src/features/stock_details/models/company_list_model.dart';
+import 'package:upstock/src/features/stock_predicton/models/predicted_stock_model.dart';
 import 'package:upstock/src/features/stock_predicton/repo/stock_prediction_repo.dart';
 
 import '../../stock_details/models/company_model.dart';
@@ -17,6 +18,8 @@ class StockPredictionNotifier extends ChangeNotifier {
   List<CompanyModel> filteredStocks = [];
   Timer? searchOnStoppedTyping;
   bool isSearching = false;
+  PredictedStockModel? predictedStockData;
+  bool isLoading = false;
 
   void startSearch(value) {
     isSearching = true;
@@ -65,9 +68,18 @@ class StockPredictionNotifier extends ChangeNotifier {
 
   Future<void> getStockPredictionData({required String symbol}) async {
     try {
-      await _stockPredictionRepo.getStockPredictionData(symbol: symbol);
+      isLoading = true;
       notifyListeners();
+      await _stockPredictionRepo
+          .getStockPredictionData(symbol: symbol)
+          .then((PredictedStockModel data) {
+        predictedStockData = data;
+        isLoading = false;
+        notifyListeners();
+      });
     } on NetworkExceptions catch (e) {
+      isLoading = false;
+      notifyListeners();
       print(e);
     }
   }

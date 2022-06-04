@@ -23,8 +23,9 @@ class _PortfolioAddWidgetState extends ConsumerState<PortfolioAddWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
@@ -211,6 +212,7 @@ class _PortfolioAddWidgetState extends ConsumerState<PortfolioAddWidget> {
                   MinimalInputField(
                     hintText: "Price",
                     backgroundColor: kScafoldColor,
+                    textInputType: TextInputType.number,
                     onChanged: ref
                         .read(portfolioStateProvider.notifier)
                         .buyPriceChanged,

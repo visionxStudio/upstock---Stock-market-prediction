@@ -35,7 +35,5 @@ class PortfolioStateNotifier extends StateNotifier<PortfolioState> {
     state = state.copyWith(buyPrice: double.parse(value));
   }
 
-  void addToPortfolio() {
-    print(state);
-  }
+  void addToPortfolio() {}
 }

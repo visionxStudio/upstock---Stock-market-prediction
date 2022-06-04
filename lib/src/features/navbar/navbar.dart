@@ -5,9 +5,14 @@ import 'dart:io' show Platform;
 import 'package:flutter_remix/flutter_remix.dart';
 
 import 'package:upstock/src/features/homepage/homepage.dart';
+import 'package:upstock/src/features/navbar/bloc/navbar_provider.dart';
+import 'package:upstock/src/features/profile/profile_screen.dart';
+import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
+import 'package:upstock/src/features/stock_predicton/prediction_screen.dart';
 import 'package:upstock/src/features/watchlist/watchlist_screen.dart';
 
 import '../../common/constants/constants.dart';
+import '../portfolio/portfolio_screen.dart';
 
 enum NavBarPage {
   /// Home for Coach/Studtent
@@ -38,7 +43,7 @@ extension NavBarPageX on NavBarPage {
       case NavBarPage.portfolio:
         return FlutterRemix.pie_chart_line;
       case NavBarPage.profile:
-        return FlutterRemix.a_b;
+        return FlutterRemix.account_circle_line;
     }
   }
 }
@@ -48,6 +53,7 @@ List<IconData> activeIcon = [
   FlutterRemix.stock_fill,
   FlutterRemix.home_3_fill,
   FlutterRemix.pie_chart_fill,
+  FlutterRemix.account_circle_fill,
 ];
 
 class NavBar extends ConsumerStatefulWidget {
@@ -96,13 +102,13 @@ class _NavBarState extends ConsumerState<NavBar> {
                   case NavBarPage.watchlist:
                     return const WatchListScreen();
                   case NavBarPage.market:
-                    return const HomeScreen();
+                    return const StockPredictionScreen();
                   case NavBarPage.home:
                     return const HomeScreen();
                   case NavBarPage.portfolio:
-                    return const HomeScreen();
+                    return const MyPortfolioScreen();
                   case NavBarPage.profile:
-                    return const HomeScreen();
+                    return const ProfilePage();
                 }
               },
             ),
@@ -128,9 +134,12 @@ class _NavBarState extends ConsumerState<NavBar> {
                     .map(
                       (e) => _NavBarButton(
                           index: e.index,
-                          onTap: () => setState(() {
-                                activeNavPage = e;
-                              }),
+                          onTap: () {
+                            ref.read(navbarProvider).indexChanged(e.index);
+                            setState(() {
+                              activeNavPage = e;
+                            });
+                          },
                           active: activeNavPage == e,
                           asset: e.getAsset()),
                     )
@@ -151,6 +160,7 @@ class _NavBarButton extends StatelessWidget {
     required this.onTap,
     required this.active,
     required this.asset,
+    // ignore: unused_element
     this.center = false,
   }) : super(key: key);
 
@@ -173,86 +183,86 @@ class _NavBarButton extends StatelessWidget {
             color: active ? kNavBarBackgroundColor : kWhiteColor,
             shape: BoxShape.circle,
           ),
-          child: index == 4
-              ? const SizedBox()
-              :
-              // ? Center(
-              //     child: Stack(
-              //       children: [
-              //         Consumer(
-              //           builder: (BuildContext context, WidgetRef ref,
-              //               Widget? child) {
-              //             final userState = ref.watch(userNotifierProvider);
-              //             return userState.userData == null
-              //                 ? const CircleAvatar(
-              //                     radius: 23,
-              //                     backgroundImage: AssetImage(
-              //                       ImageAsset.placeholderimage,
-              //                     ),
-              //                   )
-              //                 : userState.userData!.image != null
-              //                     ? ClipRRect(
-              //                         borderRadius: BorderRadius.circular(50.0),
-              //                         child: CachedNetworkImage(
-              //                           imageUrl: ref
-              //                               .read(userNotifierProvider)
-              //                               .userData!
-              //                               .image!,
-              //                           fit: BoxFit.cover,
-              //                           height: 60.0,
-              //                           width: 60.0,
-              //                           errorWidget: (context, url, error) {
-              //                             return ClipRRect(
-              //                               borderRadius:
-              //                                   BorderRadius.circular(50.0),
-              //                               child: Image.asset(
-              //                                 ImageAsset.placeholderimage,
-              //                                 height: 60.0,
-              //                                 width: 60.0,
-              //                               ),
-              //                             );
-              //                           },
-              //                           placeholder: (context, url) {
-              //                             return ClipRRect(
-              //                               borderRadius:
-              //                                   BorderRadius.circular(50.0),
-              //                               child: Image.asset(
-              //                                 ImageAsset.placeholderimage,
-              //                                 height: 60.0,
-              //                                 width: 60.0,
-              //                               ),
-              //                             );
-              //                           },
-              //                         ),
-              //                       )
-              //                     : const CircleAvatar(
-              //                         radius: 23,
-              //                         backgroundImage: AssetImage(
-              //                           ImageAsset.placeholderimage,
-              //                         ),
-              //                       );
-              //           },
-              //         ),
-              //       ],
-              //     ),
-              //   )
-              // : Center(
-              Center(
-                  child: Stack(
-                    children: [
-                      Icon(
-                        active ? activeIcon[index] : asset,
-                        color: active ? kPrimaryColor2 : knavbarInactiveColor,
-                      )
-                      // Image.asset(
-                      //   asset,
-                      //   height: center ? 50.0 : 35.0,
-                      //   color:
-                      //       active ? kNavBackgroundColor : knavbarInactiveColor,
-                      // ),
-                    ],
-                  ),
-                ),
+          // child: index == 4
+          //     ? const SizedBox()
+          //     :
+          // ? Center(
+          //     child: Stack(
+          //       children: [
+          //         Consumer(
+          //           builder: (BuildContext context, WidgetRef ref,
+          //               Widget? child) {
+          //             final userState = ref.watch(userNotifierProvider);
+          //             return userState.userData == null
+          //                 ? const CircleAvatar(
+          //                     radius: 23,
+          //                     backgroundImage: AssetImage(
+          //                       ImageAsset.placeholderimage,
+          //                     ),
+          //                   )
+          //                 : userState.userData!.image != null
+          //                     ? ClipRRect(
+          //                         borderRadius: BorderRadius.circular(50.0),
+          //                         child: CachedNetworkImage(
+          //                           imageUrl: ref
+          //                               .read(userNotifierProvider)
+          //                               .userData!
+          //                               .image!,
+          //                           fit: BoxFit.cover,
+          //                           height: 60.0,
+          //                           width: 60.0,
+          //                           errorWidget: (context, url, error) {
+          //                             return ClipRRect(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(50.0),
+          //                               child: Image.asset(
+          //                                 ImageAsset.placeholderimage,
+          //                                 height: 60.0,
+          //                                 width: 60.0,
+          //                               ),
+          //                             );
+          //                           },
+          //                           placeholder: (context, url) {
+          //                             return ClipRRect(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(50.0),
+          //                               child: Image.asset(
+          //                                 ImageAsset.placeholderimage,
+          //                                 height: 60.0,
+          //                                 width: 60.0,
+          //                               ),
+          //                             );
+          //                           },
+          //                         ),
+          //                       )
+          //                     : const CircleAvatar(
+          //                         radius: 23,
+          //                         backgroundImage: AssetImage(
+          //                           ImageAsset.placeholderimage,
+          //                         ),
+          //                       );
+          //           },
+          //         ),
+          //       ],
+          //     ),
+          //   )
+          // : Center(
+          child: Center(
+            child: Stack(
+              children: [
+                Icon(
+                  active ? activeIcon[index] : asset,
+                  color: active ? kPrimaryColor2 : knavbarInactiveColor,
+                )
+                // Image.asset(
+                //   asset,
+                //   height: center ? 50.0 : 35.0,
+                //   color:
+                //       active ? kNavBackgroundColor : knavbarInactiveColor,
+                // ),
+              ],
+            ),
+          ),
         ),
       ),
     );

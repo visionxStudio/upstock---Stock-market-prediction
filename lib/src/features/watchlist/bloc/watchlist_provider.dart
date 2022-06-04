@@ -62,13 +62,21 @@ class WatchlistNotifier extends ChangeNotifier {
     }
   }
 
+  DateTime convertToDateTime(int timestamp) {
+    // DateFormat dateFormat = DateFormat("MMMd");
+    // String date = dateFormat
+    //     .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return date;
+  }
+
   List<ChartData> getCompanyChartData(NepseStockModel data) {
     chartData.clear();
 
     for (int i = data.time.length - 15; i < data.time.length; i++) {
       chartData.add(ChartData(
         y: double.parse(data.closingPrice[i]),
-        x: i.toString(),
+        x: convertToDateTime(data.time[i]),
       ));
     }
     return chartData;

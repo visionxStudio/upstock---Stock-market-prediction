@@ -9,7 +9,7 @@ part 'chart_data.g.dart';
 @freezed
 class ChartData with _$ChartData {
   const factory ChartData({
-    required String x,
+    required DateTime x,
     required double y,
   }) = _ChartData;
 

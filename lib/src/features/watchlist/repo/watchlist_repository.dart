@@ -31,7 +31,6 @@ class WatchListRepository extends Repo implements IWatchListRepository {
   Future<NepseStockModel> getCompanyDetails({required String stockName}) async {
     try {
       final int endDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-      print(endDate);
       final response = await client.get(
           "https://www.nepsealpha.com/trading/1/history?symbol=$stockName&resolution=1D&to=$endDate&pass=ok&force=28418&currencyCode=NRS");
       final NepseStockModel companyDetail = NepseStockModel.fromJson(response);

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:upstock/src/features/stock_details/models/company_list_model.dart';
+import 'package:lottie/lottie.dart';
 
-import '../../features/watchlist/widgets/company_search_list_widget.dart';
 import '../constants/constants.dart';
-import '../utils/app_size_utils.dart';
 import '../widgets/size/custom_size_widget.dart';
 import '../widgets/text/custom_normal_text_widget.dart';
 
 class Appbar extends ConsumerStatefulWidget {
   const Appbar({
     Key? key,
-    this.showStockLearning = true,
+    this.showProfileImage = true,
+    this.showPrice = true,
+    required this.onTap,
   }) : super(key: key);
 
-  final bool showStockLearning;
+  final bool showProfileImage;
+  final bool showPrice;
+  final VoidCallback onTap;
 
   @override
   _AppbarState createState() => _AppbarState();
@@ -55,40 +56,13 @@ class _AppbarState extends ConsumerState<Appbar> {
                     ],
                   ),
                   const Spacer(),
-                  !widget.showStockLearning
-                      ? Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: kChatButtonColor.withOpacity(0.5),
-                          ),
-                          child: IconButton(
-                            icon: const Icon(FlutterRemix.add_line),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                clipBehavior: Clip.hardEdge,
-                                isScrollControlled: true,
-                                barrierColor: kLightGrey.withOpacity(0.6),
-                                backgroundColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                context: context,
-                                builder: (context) {
-                                  return StatefulBuilder(builder:
-                                      (BuildContext context,
-                                          StateSetter setState) {
-                                    return Container(
-                                      height: SizeConfig.screenHeight * 0.6,
-                                      padding: const EdgeInsets.all(16.0),
-                                      color: kWhiteColor,
-                                      child: CompanySearchListWidget(
-                                        CompanyListModel.fromStorage()!.data,
-                                      ),
-                                    );
-                                  });
-                                },
-                              );
-                            },
+                  !widget.showProfileImage
+                      ? GestureDetector(
+                          onTap: widget.onTap,
+                          child: LottieBuilder.asset(
+                            "assets/lottie/add.json",
+                            height: 50.0,
+                            width: 50.0,
                           ),
                         )
                       : Container(
@@ -107,25 +81,27 @@ class _AppbarState extends ConsumerState<Appbar> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: const [
-                  NormalText(
-                    "₹98,509.75",
-                    fontSize: kDefaultFontSize + 8,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  WidthWidget(16.0),
-                  NormalText(
-                    "+ 1700.254 (9.77%)",
-                    color: kProfitColor,
-                    fontSize: kDefaultFontSize + 2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ],
-              ),
-            )
+            !widget.showPrice
+                ? const SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      children: const [
+                        NormalText(
+                          "₹98,509.75",
+                          fontSize: kDefaultFontSize + 8,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        WidthWidget(16.0),
+                        NormalText(
+                          "+ 1700.254 (9.77%)",
+                          color: kProfitColor,
+                          fontSize: kDefaultFontSize + 2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  )
           ],
         ),
       ),

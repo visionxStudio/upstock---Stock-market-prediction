@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/features/homepage/models/nepse/nepse_trading_menu/nepse_trading_menu.dart';
 import 'package:upstock/src/features/homepage/repo/home_repository.dart';
-import 'package:intl/intl.dart';
 import '../models/chart_data/chart_data.dart';
 import '../models/nepse_stock_model.dart';
 
@@ -57,10 +56,11 @@ class NepseHomePageNotifier extends ChangeNotifier {
     );
   }
 
-  String convertToDateTime(int timestamp) {
-    DateFormat dateFormat = DateFormat("MMMd");
-    String date = dateFormat
-        .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
+  DateTime convertToDateTime(int timestamp) {
+    // DateFormat dateFormat = DateFormat("MMMd");
+    // String date = dateFormat
+    //     .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     return date;
   }
 

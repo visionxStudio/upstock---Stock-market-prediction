@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:upstock/src/common/constants/constants.dart';
 import 'package:upstock/src/common/show_up_animations.dart';
 import 'package:upstock/src/common/widgets/custom_container.dart';
@@ -141,7 +142,23 @@ class _MyPortfolioScreenState extends ConsumerState<MyPortfolioScreen> {
                     ),
 
               ref.watch(portfolioStateProvider).buyPortfolioList == null
-                  ? const SizedBox()
+                  ? CustomContainer(
+                      child: SizedBox(
+                          height: SizeConfig.screenHeight * 0.5,
+                          child: Column(
+                            children: [
+                              Center(
+                                child:
+                                    Lottie.asset("assets/lottie/no_data.json"),
+                              ),
+                              const NormalText(
+                                "No Stocks added to portfolio",
+                                fontSize: kDefaultFontSize + 4,
+                                fontWeight: FontWeight.bold,
+                              )
+                            ],
+                          )),
+                    )
                   : ListView.builder(
                       shrinkWrap: true,
                       itemCount: ref

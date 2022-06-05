@@ -111,7 +111,7 @@ class StockPredictionNotifier extends ChangeNotifier {
       notifyListeners();
     }
 
-    for (int i = 0; i < data.time.length; i++) {
+    for (int i = data.time.length - 100; i < data.time.length; i++) {
       salesData.add(SalesData(
         DateTime.fromMillisecondsSinceEpoch(data.time[i] * 1000),
         double.parse(data.oopeningPrice[i]),

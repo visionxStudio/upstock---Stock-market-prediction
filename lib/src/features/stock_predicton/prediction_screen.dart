@@ -37,6 +37,8 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
       statusBarColor: kScafoldColor, // status bar
       statusBarIconBrightness: Brightness.dark,
     ));
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     super.initState();
   }
 

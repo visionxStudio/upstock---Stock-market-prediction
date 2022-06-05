@@ -10,6 +10,8 @@ import 'package:upstock/src/features/watchlist/repo/watchlist_repository.dart';
 
 import '../../homepage/models/chart_data/chart_data.dart';
 import '../../homepage/models/nepse_stock_model.dart';
+import '../../stock_details/models/company_list_model.dart';
+import '../../stock_predicton/models/predicted_stock_model.dart';
 
 final watchlistNotifierProvider = ChangeNotifierProvider(
     (ref) => WatchlistNotifier(ref.watch(watchlistRepoProvider)));
@@ -21,7 +23,11 @@ class WatchlistNotifier extends ChangeNotifier {
   final WatchListRepository _watchListRepo;
   final List<ChartData> chartData = [];
   final List<WatchlistModel> tempWatchlist = [];
-
+  // searching option
+  List<CompanyModel> filteredStocks = [];
+  bool isSearching = false;
+  PredictedStockModel? predictedStockData;
+  Timer? searchOnStoppedTyping;
   WatchListCollectionModel? watchLists;
 
   void getWatchlistCollection() {
@@ -147,5 +153,52 @@ class WatchlistNotifier extends ChangeNotifier {
     } on NetworkExceptions catch (err) {
       debugPrint(err.toString());
     }
+  }
+
+  // searching only when user stops typing
+  void startSearch(value) {
+    predictedStockData = null;
+    isSearching = true;
+    notifyListeners();
+    const duration = Duration(milliseconds: 800);
+    if (searchOnStoppedTyping != null) {
+      searchOnStoppedTyping!.cancel();
+    }
+    searchOnStoppedTyping = Timer(
+      duration,
+      () => filterStocks(value),
+    );
+  }
+
+  void filterStocks(String value) {
+    if (value.isNotEmpty) {
+      filteredStocks = CompanyListModel.fromStorage()!
+          .data
+          .where(
+            (CompanyModel stock) =>
+                stock.symbol.toLowerCase().contains(value.toLowerCase()) ||
+                getstockName(stock)!
+                    .toLowerCase()
+                    .contains(value.toLowerCase()) ||
+                stock.description.contains(value.toLowerCase()),
+          )
+          .toList();
+      isSearching = false;
+      notifyListeners();
+    } else {
+      filteredStocks.clear();
+      isSearching = false;
+      notifyListeners();
+    }
+  }
+
+  String? getstockName(CompanyModel stock) {
+    return stock.symbol;
+  }
+
+  void resetIsSearching() {
+    filteredStocks.clear();
+    isSearching = false;
+    notifyListeners();
   }
 }

@@ -3,18 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:statusbarz/statusbarz.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
 import 'package:upstock/src/common/widgets/button/custom_elevated_button.dart';
 import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
-import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
 import 'package:upstock/src/features/stock_predicton/bloc/stock_prediction_notifier.dart';
 import 'package:upstock/src/features/stock_predicton/widgets/search_input_fiel_widget.dart';
+import 'package:upstock/src/features/watchlist/bloc/watchlist_provider.dart';
 
-import '../../common/appbar/appbar.dart';
 import '../../common/constants/constants.dart';
 import '../../routes/app_router.gr.dart';
 import '../homepage/models/chart_data/chart_data.dart';
@@ -50,8 +48,44 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            PredictionTopBar(searchController: _searchController, ref: ref),
+            PredictionTopBar(
+              searchController: _searchController,
+              ref: ref,
+              title: "Stock Market Prediction",
+              isFromPredictionScreen: true,
+            ),
             // const HeightWidget(8.0),
+            ref.watch(stockPredictionProvider).isSearching ||
+                    ref
+                        .watch(stockPredictionProvider)
+                        .filteredStocks
+                        .isNotEmpty ||
+                    ref.watch(stockPredictionProvider).isLoading ||
+                    ref.watch(stockPredictionProvider).predictedStockData !=
+                        null
+                ? const SizedBox()
+                : SizedBox(
+                    height: SizeConfig.screenHeight * 0.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Lottie.asset(
+                            "assets/lottie/lets_go.json",
+                            height: 250.0,
+                          ),
+                        ),
+                        const NormalText(
+                          "Search and select stock to predict",
+                          fontSize: kDefaultFontSize + 4,
+                          color: kBlackColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  ),
+
             ref.watch(stockPredictionProvider).isLoading
                 ? SizedBox(
                     height: SizeConfig.screenHeight * 0.4,
@@ -60,7 +94,7 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
                       children: [
                         Center(
                           child: LottieBuilder.asset(
-                            "assets/lottie/waiting.json",
+                            "assets/lottie/loading.json",
                             frameRate: FrameRate(60),
                             height: 150.0,
                             width: 150.0,
@@ -149,6 +183,19 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
                                   return SingleStockWidget(
                                     stock: stock,
                                     textEditingController: _searchController,
+                                    onTap: () {
+                                      ref
+                                          .read(stockPredictionProvider)
+                                          .searchCompanyChanged(stock);
+                                      _searchController.text = "";
+                                      ref
+                                          .read(stockPredictionProvider)
+                                          .resetIsSearching();
+                                      ref
+                                          .read(stockPredictionProvider)
+                                          .getStockPredictionData(
+                                              symbol: stock.symbol);
+                                    },
                                   );
                                 },
                               ),
@@ -160,156 +207,23 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
         ),
       ),
     );
-    return Scaffold(
-      backgroundColor: kScafoldColor,
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, kToolbarHeight * 1.3),
-        child: Appbar(
-          showPrice: false,
-          showProfileImage: true,
-          onTap: () {},
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const HeightWidget(4.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: SizedBox(
-                height: SizeConfig.screenHeight * 0.8,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomContainer(
-                        child: SearchStockWidget(
-                            searchController: _searchController, ref: ref),
-                      ),
-                      const HeightWidget(8.0),
-                      ref.watch(stockPredictionProvider).isLoading
-                          ? SizedBox(
-                              height: SizeConfig.screenHeight * 0.4,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Center(
-                                    child: LottieBuilder.asset(
-                                      "assets/lottie/waiting.json",
-                                      frameRate: FrameRate(60),
-                                      height: 150.0,
-                                      width: 150.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ref
-                                          .watch(stockPredictionProvider)
-                                          .predictedStockData ==
-                                      null ||
-                                  ref.watch(stockPredictionProvider).isSearching
-                              ? const SizedBox()
-                              : Column(
-                                  children: [
-                                    PredictedWidget(ref: ref),
-                                    CustomContainer(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const NormalText(
-                                            "Predicted Stock Price",
-                                            fontSize: kDefaultFontSize + 4,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          const HeightWidget(16.0),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: NormalText(
-                                                  "The predicted price after 30 days:-  ₹ ${(ref.watch(stockPredictionProvider).predictedStockData!.payload[ref.watch(stockPredictionProvider).predictedStockData!.payload.length - 1]).toStringAsFixed(2)}",
-                                                  fontSize: kDefaultFontSize,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const HeightWidget(16.0),
-                                          CustomElevatedButton(
-                                            backgroundColor: kPrimaryColor2,
-                                            text: "Analyze Stock",
-                                            onTap: () {
-                                              context.router.push(
-                                                StockAnalysisRoute(
-                                                  chartData: ref
-                                                      .read(
-                                                          stockPredictionProvider)
-                                                      .salesData,
-                                                ),
-                                              );
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                      ref.watch(stockPredictionProvider).isSearching
-                          ? Lottie.asset("assets/lottie/search.json")
-                          : ref
-                                  .watch(stockPredictionProvider)
-                                  .filteredStocks
-                                  .isEmpty
-                              ? const SizedBox()
-                              : Column(
-                                  children: [
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.zero,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: ref
-                                          .watch(stockPredictionProvider)
-                                          .filteredStocks
-                                          .length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        CompanyModel stock = ref
-                                            .watch(stockPredictionProvider)
-                                            .filteredStocks[index];
-
-                                        return SingleStockWidget(
-                                          stock: stock,
-                                          textEditingController:
-                                              _searchController,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
 
 class PredictionTopBar extends StatelessWidget {
-  const PredictionTopBar({
-    Key? key,
-    required TextEditingController searchController,
-    required this.ref,
-  })  : _searchController = searchController,
+  const PredictionTopBar(
+      {Key? key,
+      required TextEditingController searchController,
+      required this.ref,
+      required this.isFromPredictionScreen,
+      required this.title})
+      : _searchController = searchController,
         super(key: key);
 
   final TextEditingController _searchController;
   final WidgetRef ref;
+  final String title;
+  final bool isFromPredictionScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +246,11 @@ class PredictionTopBar extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SearchStockWidget(
-                      searchController: _searchController, ref: ref),
+                    searchController: _searchController,
+                    isFromPredictionScreen: isFromPredictionScreen,
+                    ref: ref,
+                    title: title,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -505,24 +423,19 @@ class SingleStockWidget extends StatelessWidget {
     Key? key,
     required this.stock,
     this.textEditingController,
+    required this.onTap,
   }) : super(key: key);
 
   final TextEditingController? textEditingController;
   final CompanyModel stock;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
         return InkWell(
-          onTap: () {
-            ref.read(stockPredictionProvider).searchCompanyChanged(stock);
-            textEditingController!.text = "";
-            ref.read(stockPredictionProvider).resetIsSearching();
-            ref
-                .read(stockPredictionProvider)
-                .getStockPredictionData(symbol: stock.symbol);
-          },
+          onTap: onTap,
           child: SizedBox(
             height: 50.0,
             child: Row(
@@ -566,24 +479,29 @@ class SingleStockWidget extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class SearchStockWidget extends StatelessWidget {
-  const SearchStockWidget({
+  SearchStockWidget({
     Key? key,
     required TextEditingController searchController,
     required this.ref,
+    required this.title,
+    required this.isFromPredictionScreen,
   })  : _searchController = searchController,
         super(key: key);
 
   final TextEditingController _searchController;
   final WidgetRef ref;
+  final String title;
+  bool isFromPredictionScreen;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const NormalText(
-          "Stock Market Prediction",
+        NormalText(
+          title,
           fontSize: kDefaultFontSize + 6,
           fontWeight: FontWeight.bold,
           color: kWhiteColor,
@@ -593,7 +511,11 @@ class SearchStockWidget extends StatelessWidget {
           hasFilter: false,
           searchcontroller: _searchController,
           onChanged: (String value) {
-            ref.read(stockPredictionProvider).startSearch(value);
+            if (!isFromPredictionScreen) {
+              ref.read(watchlistNotifierProvider).startSearch(value);
+            } else {
+              ref.read(stockPredictionProvider).startSearch(value);
+            }
           },
         ),
       ],

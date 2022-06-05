@@ -109,7 +109,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                   case NavBarPage.portfolio:
                     return const MyPortfolioScreen();
                   case NavBarPage.profile:
-                    return const ProfilePage();
+                    return const ProfileScreen();
                 }
               },
             ),

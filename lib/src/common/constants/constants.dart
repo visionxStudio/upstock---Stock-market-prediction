@@ -109,3 +109,4 @@ const Color kBlackText = Color(0xFF363B46);
 const Color kbluePrimaryColor = Color(0xFF0063F5);
 const Color kgreyTextColor = Color(0xFF6C757D);
 const Color kscheduleTextColor = Color(0xFF485585);
+const Color kSettingslistColor = Color(0xFFf3f7fb);

@@ -128,6 +128,7 @@ class NepseHomePageNotifier extends ChangeNotifier {
         // secondIndex += 1;
       }
     }
+    print(chartData);
   }
 
   Future<void> getNepseTradingData() async {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:upstock/src/common/service/exceptions/network_exceptions.dart';
+import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
 import 'package:upstock/src/features/stock_details/models/company_list_model.dart';
 import 'package:upstock/src/features/stock_predicton/models/predicted_stock_model.dart';
 import 'package:upstock/src/features/stock_predicton/repo/stock_prediction_repo.dart';
@@ -27,7 +28,7 @@ class StockPredictionNotifier extends ChangeNotifier {
   PredictedStockModel? predictedStockData;
   bool isLoading = false;
   final List<ChartData> chartData = [];
-
+  final List<SalesData> salesData = [];
   // searching only when user stops typing
   void startSearch(value) {
     predictedStockData = null;
@@ -101,13 +102,24 @@ class StockPredictionNotifier extends ChangeNotifier {
 
   void setChartData(NepseStockModel data) {
     chartData.clear();
-
+    salesData.clear();
     for (int i = data.time.length - 120; i < data.time.length; i++) {
       chartData.add(ChartData(
         y: double.parse(data.closingPrice[i]),
         x: convertToDateTime(data.time[i]),
       ));
       notifyListeners();
+    }
+
+    for (int i = 0; i < data.time.length; i++) {
+      salesData.add(SalesData(
+        DateTime.fromMillisecondsSinceEpoch(data.time[i] * 1000),
+        double.parse(data.oopeningPrice[i]),
+        double.parse(data.dayHighPrice[i]),
+        double.parse(data.dayLowPrice[i]),
+        double.parse(data.closingPrice[i]),
+        double.parse(data.volumeTraded[i]),
+      ));
     }
   }
 
@@ -135,7 +147,6 @@ class StockPredictionNotifier extends ChangeNotifier {
       chartData.clear();
       final data = await _watchListRepo.getCompanyDetails(stockName: stock);
       setChartData(data);
-      print(chartData);
     } on NetworkExceptions catch (err) {
       debugPrint(err.toString());
       return null;

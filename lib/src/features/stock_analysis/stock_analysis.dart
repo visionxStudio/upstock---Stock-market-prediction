@@ -6,17 +6,16 @@ import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 
 import '../../common/constants/constants.dart';
-import '../homepage/models/nepse_stock_model.dart';
 
 class StockAnalysis extends StatefulWidget {
-  const StockAnalysis({Key? key}) : super(key: key);
+  const StockAnalysis({Key? key, required this.chartData}) : super(key: key);
+  final List<SalesData> chartData;
 
   @override
   State<StockAnalysis> createState() => _StockAnalysisState();
 }
 
 class _StockAnalysisState extends State<StockAnalysis> {
-  final List<SalesData> data = [];
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
 
@@ -33,30 +32,12 @@ class _StockAnalysisState extends State<StockAnalysis> {
       enableSelectionZooming: true,
       enableDoubleTapZooming: true,
     );
-    initializeData();
     super.initState();
-  }
-
-  void initializeData() {
-    if (NepseStockModel.fromStorage() != null) {
-      for (int i = NepseStockModel.fromStorage()!.time.length - 60;
-          i < NepseStockModel.fromStorage()!.time.length;
-          i++) {
-        data.add(SalesData(
-          DateTime.fromMillisecondsSinceEpoch(
-              NepseStockModel.fromStorage()!.time[i] * 1000),
-          double.parse(NepseStockModel.fromStorage()!.oopeningPrice[i]),
-          double.parse(NepseStockModel.fromStorage()!.dayHighPrice[i]),
-          double.parse(NepseStockModel.fromStorage()!.dayLowPrice[i]),
-          double.parse(NepseStockModel.fromStorage()!.closingPrice[i]),
-          double.parse(NepseStockModel.fromStorage()!.volumeTraded[i]),
-        ));
-      }
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.chartData);
     return Scaffold(
       backgroundColor: kWhiteColor,
       appBar: AppBar(
@@ -115,7 +96,7 @@ class _StockAnalysisState extends State<StockAnalysis> {
               child: SfCartesianChart(
                 zoomPanBehavior: _zoomPanBehavior,
                 primaryXAxis: DateTimeAxis(),
-                primaryYAxis: NumericAxis(minimum: 1600, maximum: 3200),
+                // primaryYAxis: NumericAxis(minimum: 1600, maximum: 3200),
                 tooltipBehavior: _tooltipBehavior,
                 margin: EdgeInsets.zero,
                 backgroundColor: kWhiteColor,
@@ -149,7 +130,7 @@ class _StockAnalysisState extends State<StockAnalysis> {
                 series: <ChartSeries>[
                   HiloOpenCloseSeries<SalesData, dynamic>(
                     enableTooltip: true,
-                    dataSource: data,
+                    dataSource: widget.chartData,
                     xValueMapper: (SalesData sales, _) => sales.x,
                     lowValueMapper: (SalesData sales, _) => sales.low,
                     highValueMapper: (SalesData sales, _) => sales.high,

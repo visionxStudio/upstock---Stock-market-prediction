@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,11 +9,13 @@ import 'package:upstock/src/common/widgets/button/custom_elevated_button.dart';
 import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
+import 'package:upstock/src/features/stock_analysis/stock_analysis.dart';
 import 'package:upstock/src/features/stock_predicton/bloc/stock_prediction_notifier.dart';
 import 'package:upstock/src/features/stock_predicton/widgets/search_input_fiel_widget.dart';
 
 import '../../common/appbar/appbar.dart';
 import '../../common/constants/constants.dart';
+import '../../routes/app_router.gr.dart';
 import '../homepage/models/chart_data/chart_data.dart';
 import '../stock_details/models/company_model.dart';
 
@@ -118,7 +121,16 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
                                           CustomElevatedButton(
                                             backgroundColor: kPrimaryColor2,
                                             text: "Analyze Stock",
-                                            onTap: () {},
+                                            onTap: () {
+                                              context.router.push(
+                                                StockAnalysisRoute(
+                                                  chartData: ref
+                                                      .read(
+                                                          stockPredictionProvider)
+                                                      .salesData,
+                                                ),
+                                              );
+                                            },
                                           )
                                         ],
                                       ),

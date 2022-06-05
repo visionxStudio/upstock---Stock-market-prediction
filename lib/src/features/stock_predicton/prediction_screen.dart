@@ -1,12 +1,10 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
+import 'package:upstock/src/common/widgets/button/custom_elevated_button.dart';
 import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
@@ -33,7 +31,7 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: kWhiteColor, // status bar
+      statusBarColor: kScafoldColor, // status bar
       statusBarIconBrightness: Brightness.dark,
     ));
     super.initState();
@@ -59,75 +57,108 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: SizedBox(
                 height: SizeConfig.screenHeight * 0.8,
-                child: CustomContainer(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SearchStockWidget(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomContainer(
+                        child: SearchStockWidget(
                             searchController: _searchController, ref: ref),
-                        const HeightWidget(16.0),
-                        ref.watch(stockPredictionProvider).isLoading
-                            ? SizedBox(
-                                height: SizeConfig.screenHeight * 0.4,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                      const HeightWidget(8.0),
+                      ref.watch(stockPredictionProvider).isLoading
+                          ? SizedBox(
+                              height: SizeConfig.screenHeight * 0.4,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: LottieBuilder.asset(
+                                      "assets/lottie/waiting.json",
+                                      frameRate: FrameRate(60),
+                                      height: 150.0,
+                                      width: 150.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : ref
+                                          .watch(stockPredictionProvider)
+                                          .predictedStockData ==
+                                      null ||
+                                  ref.watch(stockPredictionProvider).isSearching
+                              ? const SizedBox()
+                              : Column(
                                   children: [
-                                    Center(
-                                      child: LottieBuilder.asset(
-                                        "assets/lottie/waiting.json",
-                                        frameRate: FrameRate(60),
-                                        height: 150.0,
-                                        width: 150.0,
+                                    PredictedWidget(ref: ref),
+                                    CustomContainer(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const NormalText(
+                                            "Predicted Stock Price",
+                                            fontSize: kDefaultFontSize + 4,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          const HeightWidget(16.0),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: NormalText(
+                                                  "The predicted price after 30 days:-  ₹ ${(ref.watch(stockPredictionProvider).predictedStockData!.payload[ref.watch(stockPredictionProvider).predictedStockData!.payload.length - 1]).toStringAsFixed(2)}",
+                                                  fontSize: kDefaultFontSize,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const HeightWidget(16.0),
+                                          CustomElevatedButton(
+                                            backgroundColor: kPrimaryColor2,
+                                            text: "Analyze Stock",
+                                            onTap: () {},
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              )
-                            : ref
+                      ref.watch(stockPredictionProvider).isSearching
+                          ? Lottie.asset("assets/lottie/search.json")
+                          : ref
+                                  .watch(stockPredictionProvider)
+                                  .filteredStocks
+                                  .isEmpty
+                              ? const SizedBox()
+                              : Column(
+                                  children: [
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.zero,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: ref
+                                          .watch(stockPredictionProvider)
+                                          .filteredStocks
+                                          .length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        CompanyModel stock = ref
                                             .watch(stockPredictionProvider)
-                                            .predictedStockData ==
-                                        null ||
-                                    ref
-                                        .watch(stockPredictionProvider)
-                                        .isSearching
-                                ? const SizedBox()
-                                : PredictedWidget(ref: ref),
-                        ref.watch(stockPredictionProvider).isSearching
-                            ? Lottie.asset("assets/lottie/search.json")
-                            : ref
-                                    .watch(stockPredictionProvider)
-                                    .filteredStocks
-                                    .isEmpty
-                                ? const SizedBox()
-                                : Column(
-                                    children: [
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        padding: EdgeInsets.zero,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: ref
-                                            .watch(stockPredictionProvider)
-                                            .filteredStocks
-                                            .length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          CompanyModel stock = ref
-                                              .watch(stockPredictionProvider)
-                                              .filteredStocks[index];
+                                            .filteredStocks[index];
 
-                                          return SingleStockWidget(
-                                            stock: stock,
-                                            textEditingController:
-                                                _searchController,
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                      ],
-                    ),
+                                        return SingleStockWidget(
+                                          stock: stock,
+                                          textEditingController:
+                                              _searchController,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                    ],
                   ),
                 ),
               ),
@@ -139,7 +170,7 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
   }
 }
 
-class PredictedWidget extends StatelessWidget {
+class PredictedWidget extends StatefulWidget {
   const PredictedWidget({
     Key? key,
     required this.ref,
@@ -148,62 +179,85 @@ class PredictedWidget extends StatelessWidget {
   final WidgetRef ref;
 
   @override
+  State<PredictedWidget> createState() => _PredictedWidgetState();
+}
+
+class _PredictedWidgetState extends State<PredictedWidget> {
+  late TooltipBehavior _tooltipBehavior;
+  late ZoomPanBehavior _zoomPanBehavior;
+
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      color: kGreyColor.withOpacity(0.5),
+      format: 'point.y',
+    );
+    _zoomPanBehavior = ZoomPanBehavior(
+      enablePinching: true,
+      enablePanning: true,
+      enableSelectionZooming: true,
+      enableDoubleTapZooming: true,
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // NormalText(),
-        SizedBox(
-          height: 200.0,
-          child: SfCartesianChart(
-            enableAxisAnimation: true,
-            // tooltipBehavior: _tooltipBehavior,
-            enableMultiSelection: true,
-            plotAreaBorderWidth: 0,
-            margin: EdgeInsets.zero,
-            backgroundColor: kWhiteColor,
-            primaryXAxis: DateTimeAxis(
-              intervalType: DateTimeIntervalType.days,
-              interval: 7,
-              isVisible: true,
-              labelStyle: const TextStyle(
-                fontSize: kDefaultFontSize - 8,
-              ),
-              edgeLabelPlacement: EdgeLabelPlacement.shift,
-              majorGridLines: const MajorGridLines(width: 0),
-              axisLine: const AxisLine(width: 0),
-              majorTickLines: const MajorTickLines(
-                size: 8,
-                width: 1,
-                color: Color(0xFFDFE2E4),
-              ),
-            ),
-            primaryYAxis: NumericAxis(
-              isVisible: false,
-              majorGridLines: const MajorGridLines(width: 0),
-              axisLine: const AxisLine(width: 0),
-            ),
-            series: <ChartSeries>[
-              SplineAreaSeries<ChartData, dynamic>(
-                gradient: LinearGradient(
-                  colors: [
-                    kPrimaryColor2,
-                    kPrimaryColor2.withOpacity(0.4),
-                    kWhiteColor.withOpacity(0.1),
-                  ],
-                  stops: const [0.0, 0.5, 1.0],
-                  end: Alignment.bottomCenter,
-                  begin: Alignment.topCenter,
-                ),
-                color: kPrimaryColor2,
-                dataSource: ref.watch(stockPredictionProvider).chartData,
-                enableTooltip: true,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y,
-              )
-            ],
+    return CustomContainer(
+      child: Column(
+        children: [
+          NormalText(
+            widget.ref.watch(stockPredictionProvider).searchingCompany!.symbol +
+                " Trading Chart",
+            fontSize: kDefaultFontSize + 2,
+            fontWeight: FontWeight.bold,
+            hasUnderline: true,
           ),
-        ),
-      ],
+          SizedBox(
+            height: 200.0,
+            child: SfCartesianChart(
+              enableAxisAnimation: true,
+              zoomPanBehavior: _zoomPanBehavior,
+              tooltipBehavior: _tooltipBehavior,
+              enableMultiSelection: true,
+              plotAreaBorderWidth: 0,
+              margin: EdgeInsets.zero,
+              backgroundColor: kWhiteColor,
+              primaryXAxis: DateTimeAxis(
+                intervalType: DateTimeIntervalType.days,
+                isVisible: true,
+                labelStyle: const TextStyle(
+                  fontSize: kDefaultFontSize - 8,
+                ),
+                edgeLabelPlacement: EdgeLabelPlacement.shift,
+                majorGridLines: const MajorGridLines(width: 0),
+                axisLine: const AxisLine(width: 1),
+                majorTickLines: const MajorTickLines(
+                  size: 8,
+                  width: 1,
+                  color: Color(0xFFDFE2E4),
+                ),
+              ),
+              primaryYAxis: NumericAxis(
+                isVisible: false,
+                majorGridLines: const MajorGridLines(width: 0),
+                axisLine: const AxisLine(width: 0),
+              ),
+              series: <ChartSeries>[
+                FastLineSeries<ChartData, dynamic>(
+                  color: kPrimaryColor2,
+                  dataSource:
+                      widget.ref.watch(stockPredictionProvider).chartData,
+                  enableTooltip: true,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

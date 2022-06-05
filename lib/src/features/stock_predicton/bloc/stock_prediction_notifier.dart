@@ -102,7 +102,7 @@ class StockPredictionNotifier extends ChangeNotifier {
   void setChartData(NepseStockModel data) {
     chartData.clear();
 
-    for (int i = data.time.length - 60; i < data.time.length; i++) {
+    for (int i = data.time.length - 120; i < data.time.length; i++) {
       chartData.add(ChartData(
         y: double.parse(data.closingPrice[i]),
         x: convertToDateTime(data.time[i]),

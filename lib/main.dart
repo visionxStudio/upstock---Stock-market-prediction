@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:statusbarz/statusbarz.dart';
 import 'package:upstock/src/common/service/shared_pref_provider.dart';
 
 import 'package:upstock/src/routes/app_router.gr.dart';
@@ -58,12 +59,14 @@ class MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: AutoRouterDelegate(appRouter),
-      routeInformationParser: appRouter.defaultRouteParser(),
-      title: "UPSTOCK",
-      debugShowCheckedModeBanner: false,
-      theme: Themes.light,
+    return StatusbarzCapturer(
+      child: MaterialApp.router(
+        routerDelegate: AutoRouterDelegate(appRouter),
+        routeInformationParser: appRouter.defaultRouteParser(),
+        title: "UPSTOCK",
+        debugShowCheckedModeBanner: false,
+        theme: Themes.light,
+      ),
     );
   }
 }

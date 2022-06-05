@@ -29,10 +29,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // status bar
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    //   statusBarColor: Colors.white, // status bar
+    //   statusBarIconBrightness: Brightness.dark,
+    // ));
     scheduleMicrotask(
         () => ref.read(watchlistNotifierProvider).getCompanyData());
     super.initState();

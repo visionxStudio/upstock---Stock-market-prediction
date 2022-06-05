@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:statusbarz/statusbarz.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
 import 'package:upstock/src/common/widgets/button/custom_elevated_button.dart';
@@ -33,10 +34,10 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
 
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: kScafoldColor, // status bar
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    //   statusBarColor: kScafoldColor, // status bar
+    //   statusBarIconBrightness: Brightness.dark,
+    // ));
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     super.initState();
@@ -44,6 +45,121 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kScafoldColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            PredictionTopBar(searchController: _searchController, ref: ref),
+            // const HeightWidget(8.0),
+            ref.watch(stockPredictionProvider).isLoading
+                ? SizedBox(
+                    height: SizeConfig.screenHeight * 0.4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: LottieBuilder.asset(
+                            "assets/lottie/waiting.json",
+                            frameRate: FrameRate(60),
+                            height: 150.0,
+                            width: 150.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ref.watch(stockPredictionProvider).predictedStockData ==
+                            null ||
+                        ref.watch(stockPredictionProvider).isSearching
+                    ? const SizedBox()
+                    : Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: PredictedWidget(ref: ref),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: CustomContainer(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const NormalText(
+                                    "Predicted Stock Price",
+                                    fontSize: kDefaultFontSize + 4,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  const HeightWidget(16.0),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: NormalText(
+                                          "The predicted price after 10 days:-  ₹ ${(ref.watch(stockPredictionProvider).predictedStockData!.payload[ref.watch(stockPredictionProvider).predictedStockData!.payload.length - 1]).toStringAsFixed(2)}",
+                                          fontSize: kDefaultFontSize,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const HeightWidget(16.0),
+                                  CustomElevatedButton(
+                                    backgroundColor: kPrimaryColor2,
+                                    text: "Analyze Stock",
+                                    onTap: () {
+                                      context.router.push(
+                                        StockAnalysisRoute(
+                                          chartData: ref
+                                              .read(stockPredictionProvider)
+                                              .salesData,
+                                        ),
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+            ref.watch(stockPredictionProvider).isSearching
+                ? Lottie.asset("assets/lottie/search.json")
+                : ref.watch(stockPredictionProvider).filteredStocks.isEmpty
+                    ? const SizedBox()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CustomContainer(
+                          child: Column(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: ref
+                                    .watch(stockPredictionProvider)
+                                    .filteredStocks
+                                    .length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  CompanyModel stock = ref
+                                      .watch(stockPredictionProvider)
+                                      .filteredStocks[index];
+
+                                  return SingleStockWidget(
+                                    stock: stock,
+                                    textEditingController: _searchController,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+          ],
+        ),
+      ),
+    );
     return Scaffold(
       backgroundColor: kScafoldColor,
       appBar: PreferredSize(
@@ -179,6 +295,114 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PredictionTopBar extends StatelessWidget {
+  const PredictionTopBar({
+    Key? key,
+    required TextEditingController searchController,
+    required this.ref,
+  })  : _searchController = searchController,
+        super(key: key);
+
+  final TextEditingController _searchController;
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: 250.0,
+          width: double.infinity,
+          decoration: const BoxDecoration(color: kPrimaryColor2),
+        ),
+        SizedBox(
+          // height: 280,
+          width: double.infinity,
+          child: SafeArea(
+            child: Column(
+              children: [
+                const HeightWidget(8.0),
+                const PredictionAppBar(),
+                const HeightWidget(16.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SearchStockWidget(
+                      searchController: _searchController, ref: ref),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: const [
+                        NormalText(
+                          "Note:- stock market are subjected to market risk.",
+                          color: kWhiteColor,
+                          fontSize: kDefaultFontSize - 2,
+                          fontWeight: FontWeight.bold,
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PredictionAppBar extends StatelessWidget {
+  const PredictionAppBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: [
+          Image.asset(
+            "assets/images/logo.png",
+            color: kWhiteColor,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              NormalText("UPSTOCK",
+                  fontSize: kDefaultFontSize + 6,
+                  fontWeight: FontWeight.bold,
+                  color: kWhiteColor),
+              NormalText("Learn, Invest & Grow",
+                  fontSize: kDefaultFontSize - 2,
+                  fontWeight: FontWeight.w500,
+                  color: kWhiteColor),
+            ],
+          ),
+          const Spacer(),
+          Container(
+            height: 45.0,
+            width: 45.0,
+            decoration: const BoxDecoration(
+              color: Color(0xFFBFDBFE),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Image.asset(
+                "assets/images/placeholder.png",
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -362,8 +586,9 @@ class SearchStockWidget extends StatelessWidget {
           "Stock Market Prediction",
           fontSize: kDefaultFontSize + 6,
           fontWeight: FontWeight.bold,
+          color: kWhiteColor,
         ),
-        const HeightWidget(16.0),
+        const HeightWidget(8.0),
         SearchInputFieldWidget(
           hasFilter: false,
           searchcontroller: _searchController,

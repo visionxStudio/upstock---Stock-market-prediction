@@ -26,10 +26,10 @@ class WatchListScreen extends ConsumerStatefulWidget {
 class _WatchListScreenState extends ConsumerState<WatchListScreen> {
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: kScafoldColor, // status bar
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    //   statusBarColor: kScafoldColor, // status bar
+    //   statusBarIconBrightness: Brightness.dark,
+    // ));
     scheduleMicrotask(
         () => ref.read(watchlistNotifierProvider).getCompanyData());
     super.initState();

@@ -27,10 +27,10 @@ class MyPortfolioScreen extends ConsumerStatefulWidget {
 class _MyPortfolioScreenState extends ConsumerState<MyPortfolioScreen> {
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: kScafoldColor, // status bar
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    //   statusBarColor: kScafoldColor, // status bar
+    //   statusBarIconBrightness: Brightness.dark,
+    // ));
     ref.read(portfolioStateProvider.notifier).getPortfolioList();
     super.initState();
   }

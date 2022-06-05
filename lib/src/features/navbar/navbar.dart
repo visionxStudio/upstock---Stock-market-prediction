@@ -72,10 +72,10 @@ class _NavBarState extends ConsumerState<NavBar> {
   late NavBarPage activeNavPage;
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // status bar
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    //   statusBarColor: Colors.white, // status bar
+    //   statusBarIconBrightness: Brightness.dark,
+    // ));
     activeNavPage = NavBarPage.home;
 
     super.initState();

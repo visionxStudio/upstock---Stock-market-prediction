@@ -41,7 +41,7 @@ class _SearchInputFieldWidgetState
               Flexible(
                 child: InputField(
                   controller: widget.searchcontroller,
-                  borderRadius: 8.0,
+                  borderRadius: 32.0,
                   hintText: "Search Stock",
                   focusNode: searchFocusNode,
                   onChanged: widget.onChanged,

@@ -158,68 +158,97 @@ class _MyPortfolioScreenState extends ConsumerState<MyPortfolioScreen> {
                           duration: Duration(milliseconds: 300 * (index + 1)),
                           forward: true,
                           slideSide: SlideFromSlide.RIGHT,
-                          child: CustomContainer(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    NormalText(
-                                      data.stock!.symbol,
-                                      fontSize: kDefaultFontSize + 4,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    const HeightWidget(8.0),
-                                    NormalText(
-                                      "Gain/ Loss",
-                                      fontSize: kDefaultFontSize - 2,
-                                      fontWeight: FontWeight.w500,
-                                      color: kGreyColor.withOpacity(0.8),
-                                    ),
-                                  ],
+                          child: GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                clipBehavior: Clip.hardEdge,
+                                isScrollControlled: true,
+                                barrierColor: kLightGrey.withOpacity(0.6),
+                                backgroundColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
                                 ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    CompanyChartWidget(
-                                      height: 40.0,
-                                      width: 80,
-                                      data: data.chartData,
-                                      isDecreasing: calulateProfitorLoss(data)
-                                          .toString()
-                                          .contains("-"),
-                                    ),
-                                    const HeightWidget(16.0),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    NormalText(
-                                      "₹ ${getCurrentInvestment(data)}",
-                                      fontSize: kDefaultFontSize + 4,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    const HeightWidget(8.0),
-                                    NormalText(
-                                      // "+ Rs. 250.54 1.39%",
-                                      "₹${getCurrentPrice(data) - getCurrentInvestment(data)}  / ${((getCurrentPrice(data) - getCurrentInvestment(data)) / getCurrentInvestment(data) * 100).toStringAsFixed(2)}%",
-                                      fontSize: kDefaultFontSize,
-                                      color: calulateProfitorLoss(data)
-                                              .toString()
-                                              .contains("-")
-                                          ? Colors.red
-                                          : const Color(0xFF57e07d),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                context: context,
+                                builder: (context) {
+                                  return StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return Container(
+                                        height: SizeConfig.screenHeight * 0.6,
+                                        padding: const EdgeInsets.all(16.0),
+                                        color: kWhiteColor,
+                                        child: Column(
+                                          children: [],
+                                        ));
+                                  });
+                                },
+                              );
+                            },
+                            child: CustomContainer(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      NormalText(
+                                        data.stock!.symbol,
+                                        fontSize: kDefaultFontSize + 4,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      const HeightWidget(8.0),
+                                      NormalText(
+                                        "Gain/ Loss",
+                                        fontSize: kDefaultFontSize - 2,
+                                        fontWeight: FontWeight.w500,
+                                        color: kGreyColor.withOpacity(0.8),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CompanyChartWidget(
+                                        height: 40.0,
+                                        width: 80,
+                                        data: data.chartData,
+                                        isDecreasing: calulateProfitorLoss(data)
+                                            .toString()
+                                            .contains("-"),
+                                      ),
+                                      const HeightWidget(16.0),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      NormalText(
+                                        "₹ ${getCurrentInvestment(data)}",
+                                        fontSize: kDefaultFontSize + 4,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      const HeightWidget(8.0),
+                                      NormalText(
+                                        // "+ Rs. 250.54 1.39%",
+                                        "₹${getCurrentPrice(data) - getCurrentInvestment(data)}  / ${((getCurrentPrice(data) - getCurrentInvestment(data)) / getCurrentInvestment(data) * 100).toStringAsFixed(2)}%",
+                                        fontSize: kDefaultFontSize,
+                                        color: calulateProfitorLoss(data)
+                                                .toString()
+                                                .contains("-")
+                                            ? Colors.red
+                                            : const Color(0xFF57e07d),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

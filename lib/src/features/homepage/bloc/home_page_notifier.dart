@@ -80,8 +80,6 @@ class NepseHomePageNotifier extends ChangeNotifier {
     }
   }
 
-  void refreshChartData() {}
-
   void setChartData(NepseStockModel data) {
     chartData.clear();
     if (NepseStockModel.fromStorage() == null) {

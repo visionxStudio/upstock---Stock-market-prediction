@@ -1,17 +1,21 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:upstock/src/common/utils/app_size_utils.dart';
 import 'package:upstock/src/common/widgets/custom_container.dart';
 import 'package:upstock/src/common/widgets/size/custom_size_widget.dart';
 import 'package:upstock/src/common/widgets/text/custom_normal_text_widget.dart';
 import 'package:upstock/src/features/stock_predicton/bloc/stock_prediction_notifier.dart';
-import 'package:upstock/src/features/stock_predicton/repo/stock_prediction_repo.dart';
 import 'package:upstock/src/features/stock_predicton/widgets/search_input_fiel_widget.dart';
 
 import '../../common/appbar/appbar.dart';
 import '../../common/constants/constants.dart';
+import '../homepage/models/chart_data/chart_data.dart';
 import '../stock_details/models/company_model.dart';
 
 class StockPredictionScreen extends ConsumerStatefulWidget {
@@ -81,15 +85,14 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
                                 ),
                               )
                             : ref
-                                        .read(stockPredictionProvider)
-                                        .predictedStockData ==
-                                    null
+                                            .watch(stockPredictionProvider)
+                                            .predictedStockData ==
+                                        null ||
+                                    ref
+                                        .watch(stockPredictionProvider)
+                                        .isSearching
                                 ? const SizedBox()
-                                : NormalText(ref
-                                    .watch(stockPredictionProvider)
-                                    .predictedStockData!
-                                    .payload[0]
-                                    .toString()),
+                                : PredictedWidget(ref: ref),
                         ref.watch(stockPredictionProvider).isSearching
                             ? Lottie.asset("assets/lottie/search.json")
                             : ref
@@ -136,6 +139,75 @@ class _StockPredictionScreenState extends ConsumerState<StockPredictionScreen> {
   }
 }
 
+class PredictedWidget extends StatelessWidget {
+  const PredictedWidget({
+    Key? key,
+    required this.ref,
+  }) : super(key: key);
+
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // NormalText(),
+        SizedBox(
+          height: 200.0,
+          child: SfCartesianChart(
+            enableAxisAnimation: true,
+            // tooltipBehavior: _tooltipBehavior,
+            enableMultiSelection: true,
+            plotAreaBorderWidth: 0,
+            margin: EdgeInsets.zero,
+            backgroundColor: kWhiteColor,
+            primaryXAxis: DateTimeAxis(
+              intervalType: DateTimeIntervalType.days,
+              interval: 7,
+              isVisible: true,
+              labelStyle: const TextStyle(
+                fontSize: kDefaultFontSize - 8,
+              ),
+              edgeLabelPlacement: EdgeLabelPlacement.shift,
+              majorGridLines: const MajorGridLines(width: 0),
+              axisLine: const AxisLine(width: 0),
+              majorTickLines: const MajorTickLines(
+                size: 8,
+                width: 1,
+                color: Color(0xFFDFE2E4),
+              ),
+            ),
+            primaryYAxis: NumericAxis(
+              isVisible: false,
+              majorGridLines: const MajorGridLines(width: 0),
+              axisLine: const AxisLine(width: 0),
+            ),
+            series: <ChartSeries>[
+              SplineAreaSeries<ChartData, dynamic>(
+                gradient: LinearGradient(
+                  colors: [
+                    kPrimaryColor2,
+                    kPrimaryColor2.withOpacity(0.4),
+                    kWhiteColor.withOpacity(0.1),
+                  ],
+                  stops: const [0.0, 0.5, 1.0],
+                  end: Alignment.bottomCenter,
+                  begin: Alignment.topCenter,
+                ),
+                color: kPrimaryColor2,
+                dataSource: ref.watch(stockPredictionProvider).chartData,
+                enableTooltip: true,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y,
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class SingleStockWidget extends StatelessWidget {
   const SingleStockWidget({
     Key? key,
@@ -152,7 +224,7 @@ class SingleStockWidget extends StatelessWidget {
       builder: (context, ref, child) {
         return InkWell(
           onTap: () {
-            // print(stock.symbol);
+            ref.read(stockPredictionProvider).searchCompanyChanged(stock);
             textEditingController!.text = "";
             ref.read(stockPredictionProvider).resetIsSearching();
             ref
@@ -230,19 +302,6 @@ class SearchStockWidget extends StatelessWidget {
           onChanged: (String value) {
             ref.read(stockPredictionProvider).startSearch(value);
           },
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: const [
-              NormalText(
-                "* Stock market are subjected to market risks.",
-                fontSize: kDefaultFontSize - 4,
-                color: Colors.red,
-              ),
-            ],
-          ),
         ),
       ],
     );

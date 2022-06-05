@@ -7,21 +7,30 @@ import 'package:upstock/src/features/stock_details/models/company_list_model.dar
 import 'package:upstock/src/features/stock_predicton/models/predicted_stock_model.dart';
 import 'package:upstock/src/features/stock_predicton/repo/stock_prediction_repo.dart';
 
+import '../../homepage/models/chart_data/chart_data.dart';
+import '../../homepage/models/nepse_stock_model.dart';
 import '../../stock_details/models/company_model.dart';
+import '../../watchlist/repo/watchlist_repository.dart';
 
-final stockPredictionProvider = ChangeNotifierProvider(
-    (ref) => StockPredictionNotifier(ref.watch(predictionProvider)));
+final stockPredictionProvider = ChangeNotifierProvider((ref) =>
+    StockPredictionNotifier(
+        ref.watch(predictionProvider), ref.watch(watchlistRepoProvider)));
 
 class StockPredictionNotifier extends ChangeNotifier {
-  StockPredictionNotifier(this._stockPredictionRepo);
+  StockPredictionNotifier(this._stockPredictionRepo, this._watchListRepo);
   final StockPredictionRepository _stockPredictionRepo;
+  final WatchListRepository _watchListRepo;
+  CompanyModel? searchingCompany;
   List<CompanyModel> filteredStocks = [];
   Timer? searchOnStoppedTyping;
   bool isSearching = false;
   PredictedStockModel? predictedStockData;
   bool isLoading = false;
+  final List<ChartData> chartData = [];
 
+  // searching only when user stops typing
   void startSearch(value) {
+    predictedStockData = null;
     isSearching = true;
     notifyListeners();
     const duration = Duration(milliseconds: 800);
@@ -32,6 +41,11 @@ class StockPredictionNotifier extends ChangeNotifier {
       duration,
       () => filterStocks(value),
     );
+  }
+
+  void searchCompanyChanged(CompanyModel stock) {
+    searchingCompany = stock;
+    notifyListeners();
   }
 
   void filterStocks(String value) {
@@ -70,9 +84,10 @@ class StockPredictionNotifier extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
+      getCompanyDetails(stock: symbol);
       await _stockPredictionRepo
           .getStockPredictionData(symbol: symbol)
-          .then((PredictedStockModel data) {
+          .then((PredictedStockModel data) async {
         predictedStockData = data;
         isLoading = false;
         notifyListeners();
@@ -81,6 +96,49 @@ class StockPredictionNotifier extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       print(e);
+    }
+  }
+
+  void setChartData(NepseStockModel data) {
+    chartData.clear();
+
+    for (int i = data.time.length - 60; i < data.time.length; i++) {
+      chartData.add(ChartData(
+        y: double.parse(data.closingPrice[i]),
+        x: convertToDateTime(data.time[i]),
+      ));
+      notifyListeners();
+    }
+  }
+
+  DateTime convertToDateTime(int timestamp) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return date;
+  }
+
+  List<ChartData> getCompanyChartData(NepseStockModel data) {
+    chartData.clear();
+
+    for (int i = 0; i < data.time.length; i++) {
+      chartData.add(ChartData(
+        y: double.parse(data.closingPrice[i]),
+        x: convertToDateTime(data.time[i]),
+      ));
+    }
+    return chartData;
+  }
+
+  Future<void> getCompanyDetails({
+    required String stock,
+  }) async {
+    try {
+      chartData.clear();
+      final data = await _watchListRepo.getCompanyDetails(stockName: stock);
+      setChartData(data);
+      print(chartData);
+    } on NetworkExceptions catch (err) {
+      debugPrint(err.toString());
+      return null;
     }
   }
 }
